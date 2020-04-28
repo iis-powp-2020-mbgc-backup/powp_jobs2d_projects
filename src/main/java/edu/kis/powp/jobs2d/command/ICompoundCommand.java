@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface ICompoundCommand extends DriverCommand {
 
-    public Iterator<DriverCommand> iterator();
+	public Iterator<DriverCommand> iterator();
 
-    public void setCommands(List<DriverCommand> collect);
+	public void setCommands(List<DriverCommand> collect);
 }
