@@ -5,7 +5,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
  */
-public class OperateToCommand implements DriverCommand, Visitable {
+public class OperateToCommand implements DriverCommand {
 
 	private int posX, posY;
 

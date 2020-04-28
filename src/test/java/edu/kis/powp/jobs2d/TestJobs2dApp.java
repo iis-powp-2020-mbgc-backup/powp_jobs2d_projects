@@ -2,7 +2,6 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -55,12 +54,29 @@ public class TestJobs2dApp {
 
 		application.addTest("Visitor test DriverCommand", event -> {
 			DriverCommand command = new OperateToCommand(0, 0);
-			Visitor visitor = new DriverCommandVisitor();
-			((OperateToCommand) command).accept(visitor);
+			Visitor visitor = new DriverCommandCallCounterVisitor();
+			command.accept(visitor);
 		});
 		application.addTest("Visitor test ICompoundCommand", event -> {
-			TestCompoudCommand command = new TestCompoudCommand();
-			Visitor visitor = new DriverCommandVisitor();
+			ICompoundCommand command = new ICompoundCommand() {
+				private List<DriverCommand> commands = Arrays.asList(new SetPositionCommand(0,0), new SetPositionCommand(0,0), new SetPositionCommand(0,0));
+
+				@Override
+				public Iterator<DriverCommand> iterator() {
+					return commands.iterator();
+				}
+
+				@Override
+				public void execute(Job2dDriver driver) {
+
+				}
+
+				@Override
+				public void accept(Visitor visitor) {
+					commands.forEach(command -> command.accept(visitor));
+				}
+			};
+			Visitor visitor = new DriverCommandCallCounterVisitor();
 			command.accept(visitor);
 		});
 	}

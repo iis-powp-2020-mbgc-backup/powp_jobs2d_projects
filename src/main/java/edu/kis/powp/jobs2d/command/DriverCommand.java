@@ -14,4 +14,11 @@ public interface DriverCommand {
 	 */
 	public void execute(Job2dDriver driver);
 
+	/**
+	 * Accept object using visitor.
+	 *
+	 * @param visitor visitor
+	 */
+	void accept(Visitor visitor);
+
 }
