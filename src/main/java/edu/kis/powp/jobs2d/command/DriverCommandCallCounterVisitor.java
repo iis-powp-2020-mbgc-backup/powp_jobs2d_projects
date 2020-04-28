@@ -16,6 +16,5 @@ public class DriverCommandCallCounterVisitor implements Visitor {
 	@Override
 	public void visit(DriverCommand driverCommand) {
 	    counter++;
-		System.out.println("Counter: " + this.getCounter());
 	}
 }

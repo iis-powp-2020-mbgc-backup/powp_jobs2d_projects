@@ -54,8 +54,9 @@ public class TestJobs2dApp {
 
 		application.addTest("Visitor test DriverCommand", event -> {
 			DriverCommand command = new OperateToCommand(0, 0);
-			Visitor visitor = new DriverCommandCallCounterVisitor();
+			DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
 			command.accept(visitor);
+			System.out.println("Counter: " + visitor.getCounter());
 		});
 		application.addTest("Visitor test ICompoundCommand", event -> {
 			ICompoundCommand command = new ICompoundCommand() {
@@ -76,8 +77,9 @@ public class TestJobs2dApp {
 					commands.forEach(command -> command.accept(visitor));
 				}
 			};
-			Visitor visitor = new DriverCommandCallCounterVisitor();
+			DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
 			command.accept(visitor);
+			System.out.println("Counter: " + visitor.getCounter());
 		});
 	}
 
