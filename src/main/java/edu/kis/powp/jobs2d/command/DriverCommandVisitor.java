@@ -1,12 +1,11 @@
 package edu.kis.powp.jobs2d.command;
 
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.Visitor;
-
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
 
+
+/**
+ * Visitor class for driver commands.
+ */
 public class DriverCommandVisitor implements Visitor {
     private int counter = 0;
 
