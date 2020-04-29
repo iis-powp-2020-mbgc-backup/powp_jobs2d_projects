@@ -52,35 +52,15 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Visitor test DriverCommand", event -> {
+		application.addTest("DriverCommandVisitor test DriverCommand", event -> {
+			Logger logger = Logger.getLogger("global");
+			logger.info("Testing visitor for driver command.");
 			DriverCommand command = new OperateToCommand(0, 0);
 			DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
 			command.accept(visitor);
-			System.out.println("Counter: " + visitor.getCounter());
+			logger.info("Counter: " + visitor.getCounter());
 		});
-		application.addTest("Visitor test ICompoundCommand", event -> {
-			ICompoundCommand command = new ICompoundCommand() {
-				private List<DriverCommand> commands = Arrays.asList(new SetPositionCommand(0,0), new SetPositionCommand(0,0), new SetPositionCommand(0,0));
-
-				@Override
-				public Iterator<DriverCommand> iterator() {
-					return commands.iterator();
-				}
-
-				@Override
-				public void execute(Job2dDriver driver) {
-
-				}
-
-				@Override
-				public void accept(Visitor visitor) {
-					commands.forEach(command -> command.accept(visitor));
-				}
-			};
-			DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
-			command.accept(visitor);
-			System.out.println("Counter: " + visitor.getCounter());
-		});
+		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCommandVisitorTestListener());
 	}
 
 	/**

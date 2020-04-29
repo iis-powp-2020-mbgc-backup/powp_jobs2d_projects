@@ -19,6 +19,6 @@ public interface DriverCommand {
 	 *
 	 * @param visitor visitor
 	 */
-	void accept(Visitor visitor);
+	void accept(DriverCommandVisitor visitor);
 
 }

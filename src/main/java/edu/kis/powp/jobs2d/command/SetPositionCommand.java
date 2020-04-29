@@ -21,7 +21,7 @@ public class SetPositionCommand implements DriverCommand {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
+	public void accept(DriverCommandVisitor visitor) {
 		visitor.visit(this);
 	}
 }

@@ -1,12 +1,10 @@
 package edu.kis.powp.jobs2d.command;
 
-import java.util.Iterator;
-
 
 /**
- * Visitor class for driver commands.
+ * DriverCommandVisitor class for driver commands.
  */
-public class DriverCommandCallCounterVisitor implements Visitor {
+public class DriverCommandCallCounterVisitor implements DriverCommandVisitor {
 	private int counter = 0;
 
 	public int getCounter(){
@@ -14,7 +12,17 @@ public class DriverCommandCallCounterVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit(DriverCommand driverCommand) {
-	    counter++;
+	public void visit(ICompoundCommand driverCommand) {
+		counter++;
+	}
+
+	@Override
+	public void visit(OperateToCommand driverCommand) {
+		counter++;
+	}
+
+	@Override
+	public void visit(SetPositionCommand driverCommand) {
+		counter++;
 	}
 }
