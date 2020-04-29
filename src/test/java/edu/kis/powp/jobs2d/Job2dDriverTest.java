@@ -30,6 +30,4 @@ public class Job2dDriverTest {
             System.out.println("Driver setPosition action...");
         }
     }
-
-    ;
 }
