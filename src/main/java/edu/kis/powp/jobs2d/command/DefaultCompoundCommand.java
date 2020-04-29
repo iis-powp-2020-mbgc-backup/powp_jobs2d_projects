@@ -22,4 +22,9 @@ public class DefaultCompoundCommand implements ICompoundCommand {
 	public Iterator<DriverCommand> iterator() {
 		return driverCommands.iterator();
 	}
+
+	@Override
+	public DriverCommand clone() throws CloneNotSupportedException {
+		return ICompoundCommand.super.clone();
+	}
 }

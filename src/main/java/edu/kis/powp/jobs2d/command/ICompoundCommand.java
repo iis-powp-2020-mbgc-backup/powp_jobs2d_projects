@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,7 +9,15 @@ import java.util.List;
  */
 public interface ICompoundCommand extends DriverCommand {
 
-	public Iterator<DriverCommand> iterator();
+	Iterator<DriverCommand> iterator();
 
-	public void setCommands(List<DriverCommand> collect);
+	@Override
+	default DriverCommand clone() throws CloneNotSupportedException {
+		List<DriverCommand> commands = new ArrayList<>();
+		Iterator<DriverCommand> iter = iterator();
+		while (iter.hasNext()) {
+			commands.add(iter.next().clone());
+		}
+		return new DefaultCompoundCommand(commands);
+	}
 }
