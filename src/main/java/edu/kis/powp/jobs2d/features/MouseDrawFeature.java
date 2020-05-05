@@ -13,8 +13,8 @@ public class MouseDrawFeature {
         application.getFreePanel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                int x = mouseEvent.getX();
-                int y = mouseEvent.getY();
+                int x = mouseEvent.getX() - 268;
+                int y = mouseEvent.getY() - 226;
                 System.out.println("X: " + x + ",  Y: " + y);
                 Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
                 driver.operateTo(x, y);
