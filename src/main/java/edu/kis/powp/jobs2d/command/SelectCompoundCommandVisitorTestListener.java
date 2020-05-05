@@ -42,6 +42,11 @@ public class SelectCompoundCommandVisitorTestListener implements ActionListener 
 			public void execute(Job2dDriver driver) {
 
 			}
+
+			@Override
+			public DriverCommand clone() throws CloneNotSupportedException {
+				throw new CloneNotSupportedException();
+			}
 		};
 		commands.add(embeddedCompoundCommand);
 		ICompoundCommand command = new ICompoundCommand() {
@@ -53,6 +58,11 @@ public class SelectCompoundCommandVisitorTestListener implements ActionListener 
 			@Override
 			public void execute(Job2dDriver driver) {
 
+			}
+
+			@Override
+			public DriverCommand clone() throws CloneNotSupportedException {
+				throw new CloneNotSupportedException();
 			}
 		};
 		DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
