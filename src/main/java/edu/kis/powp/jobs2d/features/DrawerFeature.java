@@ -21,6 +21,7 @@ public class DrawerFeature {
 		application.addComponentMenuElement(DrawPanelController.class, "Clear Panel", selectClearPanelOptionListener);
 
 		drawerController.initialize(application.getFreePanel());
+		MouseDrawFeature.SetMouseListener(application);
 	}
 
 	/**
