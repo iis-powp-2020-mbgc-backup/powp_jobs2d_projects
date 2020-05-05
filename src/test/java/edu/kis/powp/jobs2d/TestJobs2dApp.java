@@ -2,9 +2,6 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,15 +49,8 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("DriverCommandVisitor test DriverCommand", event -> {
-			Logger logger = Logger.getLogger("global");
-			logger.info("Testing visitor for driver command.");
-			DriverCommand command = new OperateToCommand(0, 0);
-			DriverCommandCallCounterVisitor visitor = new DriverCommandCallCounterVisitor();
-			command.accept(visitor);
-			logger.info("Counter: " + visitor.getCounter());
-		});
-		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCommandVisitorTestListener());
+		application.addTest("DriverCommandVisitor test DriverCommand", new SelectSingleCommandVisitorTestListener());
+		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());
 	}
 
 	/**

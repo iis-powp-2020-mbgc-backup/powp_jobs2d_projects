@@ -15,23 +15,18 @@ public class DriverCommandCallCounterVisitor implements DriverCommandVisitor {
 
 	@Override
 	public void visit(ICompoundCommand driverCommand) {
-		Iterator<DriverCommand> commandsIterator = driverCommand.iterator();
-		while (commandsIterator.hasNext()) {
-			DriverCommand partOfCompoundCommand = commandsIterator.next();
-			if (partOfCompoundCommand instanceof ICompoundCommand) {
-				this.visit((ICompoundCommand)partOfCompoundCommand);
-			}
-			this.counter++;
+		for (DriverCommand partOfCompoundCommand : driverCommand) {
+			partOfCompoundCommand.accept(this);
 		}
 	}
 
 	@Override
 	public void visit(OperateToCommand driverCommand) {
-		counter++;
+		this.counter++;
 	}
 
 	@Override
 	public void visit(SetPositionCommand driverCommand) {
-		counter++;
+		this.counter++;
 	}
 }
