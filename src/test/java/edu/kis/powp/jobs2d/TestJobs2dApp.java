@@ -42,12 +42,7 @@ public class TestJobs2dApp {
 	 * 
 	 * @param application Application context.
 	 */
-	private static void setupCommandTests(Application application) {
-		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
-
-	}
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
@@ -110,7 +105,6 @@ public class TestJobs2dApp {
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
-				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
 
