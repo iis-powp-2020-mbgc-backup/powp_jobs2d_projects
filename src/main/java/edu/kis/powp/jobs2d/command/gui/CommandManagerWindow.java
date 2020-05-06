@@ -11,7 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -87,8 +91,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
     private void runCommand() {
-        commandManager.clearCurrentCommand();
-        updateCurrentCommandField();
+		DriverManager driverManager = DriverFeature.getDriverManager();
+		DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
+		command.execute(driverManager.getCurrentDriver());
     }
 
 	public void updateCurrentCommandField() {
