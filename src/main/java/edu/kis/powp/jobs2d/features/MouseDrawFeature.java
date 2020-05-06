@@ -15,14 +15,16 @@ public class MouseDrawFeature {
         application.getFreePanel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
+                int x = mouseEvent.getX() - Width;
+                int y = mouseEvent.getY() - Height;
+                Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
                 if(SwingUtilities.isLeftMouseButton(mouseEvent))
                 {
-                    int x = mouseEvent.getX() - Width;
-                    int y = mouseEvent.getY() - Height;
-                    Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
                     driver.operateTo(x, y);
-                    driver.setPosition(x, y);
 
+                }else if(SwingUtilities.isRightMouseButton(mouseEvent))
+                {
+                    driver.setPosition(x, y);
                 }
             }
         });
