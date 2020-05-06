@@ -6,16 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -76,8 +72,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.weighty = 1;
 		content.add(btnClearCommand, c);
 
-		JButton btnClearObservers = new JButton("Delete observers");
-		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
+		JToggleButton btnClearObservers = new JToggleButton("Delete observers");
+		btnClearObservers.addActionListener(this::deleteObservers);
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -91,18 +87,24 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
     private void runCommand() {
-		DriverManager driverManager = DriverFeature.getDriverManager();
-		DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
-		command.execute(driverManager.getCurrentDriver());
+		commandManager.getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver());
     }
 
 	public void updateCurrentCommandField() {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
 
-	public void deleteObservers() {
-		commandManager.getChangePublisher().clearObservers();
-		this.updateObserverListField();
+	public void deleteObservers(ActionEvent e) {
+		JToggleButton button = (JToggleButton) e.getSource();
+		Publisher publisher = commandManager.getChangePublisher();
+		if(button.isSelected()) {
+			publisher.clearObservers();
+			this.updateObserverListField();
+			button.setText("Reset observers");
+		} else {
+			updateObserverListField();
+			button.setText("Delete observers");
+		}
 	}
 
 	private void updateObserverListField() {
