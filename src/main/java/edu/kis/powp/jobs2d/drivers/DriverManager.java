@@ -16,7 +16,6 @@ public class DriverManager {
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
 		currentDriver = driver;
-
 	}
 
 	/**
@@ -24,6 +23,5 @@ public class DriverManager {
 	 */
 	public synchronized Job2dDriver getCurrentDriver() {
 		return currentDriver;
-
 	}
 }
