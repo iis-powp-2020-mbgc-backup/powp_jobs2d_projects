@@ -112,7 +112,7 @@ public class TestJobs2dApp {
 			public void run() {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
-				MouseDrawFeature.SetMouseListener(app);
+				MouseDrawFeature.SetMouseListener(app.getFreePanel());
 				CommandsFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);

@@ -8,15 +8,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MouseDrawFeature {
-    private static final int Width = 268;
-    private static final int Height = 226;
+    private static final int WIDTH = 268;
+    private static final int HEIGHT = 226;
 
-    public static void SetMouseListener(Application application) {
-        application.getFreePanel().addMouseListener(new MouseAdapter() {
+    public static void SetMouseListener(JPanel panel) {
+        panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                int x = mouseEvent.getX() - Width;
-                int y = mouseEvent.getY() - Height;
+                int x = mouseEvent.getX() - WIDTH;
+                int y = mouseEvent.getY() - HEIGHT;
                 Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
                 if(SwingUtilities.isLeftMouseButton(mouseEvent))
                 {
