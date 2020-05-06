@@ -11,7 +11,6 @@ import javax.swing.*;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -96,10 +95,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	public void deleteObservers(ActionEvent e) {
 		JToggleButton button = (JToggleButton) e.getSource();
-		Publisher publisher = commandManager.getChangePublisher();
 		if(button.isSelected()) {
-			publisher.clearObservers();
-			this.updateObserverListField();
+			commandManager.getChangePublisher().clearObservers();
+			updateObserverListField();
 			button.setText("Reset observers");
 		} else {
 			updateObserverListField();
