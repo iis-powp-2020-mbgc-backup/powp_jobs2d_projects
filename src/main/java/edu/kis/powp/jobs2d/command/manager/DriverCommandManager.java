@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command.manager;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class DriverCommandManager {
 			@Override
 			public void execute(Job2dDriver driver) {
 				driverCommands.forEach((c) -> c.execute(driver));
+			}
+
+			@Override // ToDo
+			public ICompoundCommand clone() throws CloneNotSupportedException {
+				return null;
 			}
 
 			@Override
