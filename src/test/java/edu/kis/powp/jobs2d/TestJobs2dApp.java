@@ -12,6 +12,7 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MouseDrawFeature;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -111,6 +112,7 @@ public class TestJobs2dApp {
 			public void run() {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
+				MouseDrawFeature.SetMouseListener(app.getFreePanel());
 				CommandsFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);
