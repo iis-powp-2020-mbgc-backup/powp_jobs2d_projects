@@ -24,10 +24,8 @@ public class ImmutableCompoundCommand implements ICompoundCommand {
         this.driverCommands.forEach(c -> c.execute(driver));
     }
 
-
-
     @Override
     public DriverCommand clone() throws CloneNotSupportedException {
-        return (DriverCommand) super.clone();
+        return ICompoundCommand.super.clone();
     }
 }
