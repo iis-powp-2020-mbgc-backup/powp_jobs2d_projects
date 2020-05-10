@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,9 @@ public class ImmutableCompoundCommand implements ICompoundCommand {
     private List<DriverCommand> driverCommands = null;
 
     public ImmutableCompoundCommand(List<DriverCommand> driverCommands) {
-        this.driverCommands = Collections.unmodifiableList(driverCommands);
+        this.driverCommands = new ArrayList<>();
+        this.driverCommands.addAll(driverCommands);
+        this.driverCommands = Collections.unmodifiableList(this.driverCommands);
     }
 
     @Override

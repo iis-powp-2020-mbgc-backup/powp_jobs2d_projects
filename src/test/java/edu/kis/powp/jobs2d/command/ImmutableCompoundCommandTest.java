@@ -14,20 +14,26 @@ class ImmutableCompoundCommandTest {
     void iterator() {
 
         List<DriverCommand> dcList = new ArrayList<>();
-        dcList.add(new SetPositionCommand(10, 10));
+        SetPositionCommand spc = new SetPositionCommand(10, 10);
+        dcList.add(spc);
         dcList.add(new OperateToCommand(10, 10));
         dcList.add(new SetPositionCommand(10, 10));
         dcList.add(new OperateToCommand(10, 10));
 
         ImmutableCompoundCommand icc = new ImmutableCompoundCommand(dcList);
+        spc = new SetPositionCommand(99, 99);
+        dcList.add(spc);
 
         Iterator<DriverCommand> iter = icc.iterator();
+        int i = 0;
         while(iter.hasNext()){
             DriverCommand dc = iter.next();
+            i++;
             Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
                 iter.remove();
             });
         }
+        assertEquals(i, 4);
 
     }
 
