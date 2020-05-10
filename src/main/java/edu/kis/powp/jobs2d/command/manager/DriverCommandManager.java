@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICommandVisitor;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
 
@@ -50,6 +51,11 @@ public class DriverCommandManager {
             @Override
             public String toString() {
                 return name;
+            }
+
+            @Override
+            public void accept(ICommandVisitor commandVisitor) {
+                commandVisitor.visit(this);
             }
         });
 
