@@ -9,10 +9,10 @@ public class CommandsFeature {
 	private static DriverCommandManager commandManager;
 
 	public static void setupCommandManager() {
-		commandManager = new DriverCommandManager();
+		commandManager = new DriverCommandManager(DriverFeature.getDriverManager());
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
-		commandManager.getChangePublisher().addSubscriber(loggerObserver);
+		commandManager.addObserver(loggerObserver);
 	}
 
 	/**
