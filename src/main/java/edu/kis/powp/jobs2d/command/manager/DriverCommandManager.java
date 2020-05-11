@@ -92,8 +92,7 @@ public class DriverCommandManager {
 	public synchronized void resetObservers(){
 		if(cache != null && cache.size() > 0){
 			cache.forEach(cached -> changePublisher.addSubscriber(cached));
-			cache.clear();
-			cache = null;
+			clearCache();
 		}
 	}
 
@@ -105,11 +104,17 @@ public class DriverCommandManager {
 	public synchronized void addObserver(Subscriber subscriber){
 		if(subscriber != null){
 			changePublisher.addSubscriber(subscriber);
+		}
+	}
 
-			if(cache != null && cache.size() > 0){
-				cache.clear();
-				cache = null;
-			}
+
+	/**
+	 * Clears any stored cache in DriverCommandManager.
+	 */
+	public synchronized void clearCache(){
+		if(cache != null && cache.size() > 0){
+			cache.clear();
+			cache = null;
 		}
 	}
 
@@ -118,7 +123,16 @@ public class DriverCommandManager {
 	 * @param subscribers list to append.
 	 */
 	public synchronized void addObservers(List<Subscriber> subscribers){
+		if(subscribers != null){
 
+			subscribers.forEach(subscriber -> {
+				if(subscriber != null){
+					changePublisher.addSubscriber(subscriber);
+				}
+			});
+
+			clearCache();
+		}
 	}
 
 	public Publisher getChangePublisher() {
