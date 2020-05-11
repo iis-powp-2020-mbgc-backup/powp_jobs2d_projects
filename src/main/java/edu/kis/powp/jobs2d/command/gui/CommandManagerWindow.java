@@ -87,6 +87,21 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		this.updateObserverListField();
 	}
 
+	/**
+	 * Invokes method of <code>DriverCommandManager</code> that runs stored command, if set.
+	 */
+	public void runCommand(){
+		commandManager.runCurrentCommand();
+	}
+
+	/**
+	 * Restores observers from cache of <code>DriverCommandManager</code>.
+	 */
+	public void resetObservers(){
+		commandManager.resetObservers();
+		this.updateObserverListField();
+	}
+
 	private void updateObserverListField() {
 		observerListString = "";
 		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
