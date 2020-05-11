@@ -2,17 +2,17 @@ package edu.kis.powp.jobs2d.features;
 
 
 import edu.kis.powp.jobs2d.command.manager.LoggerCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.manager.MacroCommandManager;
+import edu.kis.powp.jobs2d.drivers.MacroDriver;
 
 public class MacroFeature {
 
-    private static MacroCommandManager macroManager;
+    private static MacroDriver macroManager;
 
     public static void setupMacroManager() {
-        macroManager = new MacroCommandManager();
+        macroManager = new MacroDriver();
 
         LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
-        macroManager.getChangePublisher().addSubscriber(loggerObserver);
+
     }
 
     /**
@@ -20,7 +20,7 @@ public class MacroFeature {
      *
      * @return plotterCommandManager.
      */
-    public static MacroCommandManager getDriverCommandManager() {
+    public static MacroDriver getDriverCommandManager() {
         return macroManager;
     }
 }
