@@ -4,7 +4,10 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -120,7 +123,19 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     public void resetObservers() {
+        List<Subscriber> tmp = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
+        this.commandManager.getChangePublisher().clearObservers();
 
+        this.addObservers(tmp);
+        this.updateObserverListField();
+    }
+
+    private void addObservers(List<Subscriber> observers) {
+        if (observers != null) {
+            for (Subscriber observer : observers) {
+                this.commandManager.getChangePublisher().addSubscriber(observer);
+            }
+        }
     }
 
     @Override
