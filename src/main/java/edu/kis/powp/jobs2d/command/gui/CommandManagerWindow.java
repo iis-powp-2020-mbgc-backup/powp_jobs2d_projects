@@ -95,6 +95,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             button.setText("Reset observers");
         }
 
+        this.updateObserverListField();
         this.isDeleted = !this.isDeleted;
     }
 
@@ -115,7 +116,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     public void deleteObservers() {
         this.observers = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
         commandManager.getChangePublisher().clearObservers();
-        this.updateObserverListField();
     }
 
     private void updateObserverListField() {
@@ -134,7 +134,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         if (this.observers != null && this.observers.size() > 0) {
             this.commandManager.getChangePublisher().clearObservers();
             this.addObservers(this.observers);
-            this.updateObserverListField();
         }
     }
 
