@@ -7,6 +7,8 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ public class DriverCommandManager {
 	private DriverCommand currentCommand = null;
 
 	private Publisher changePublisher = new Publisher();
+
+	private Collection<Subscriber> cache = null;
 
 	/**
 	 * Set current command.
@@ -71,7 +75,12 @@ public class DriverCommandManager {
 	 */
 
 	public synchronized void deleteCurrentObservers(){
+		
+		if(changePublisher.getSubscribers().size() > 0){
+			cache = new ArrayList<>(changePublisher.getSubscribers());
+		}
 
+		changePublisher.clearObservers();
 	}
 
 	/**
