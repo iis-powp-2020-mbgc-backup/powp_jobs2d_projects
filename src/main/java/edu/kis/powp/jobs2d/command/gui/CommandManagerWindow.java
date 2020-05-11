@@ -22,6 +22,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private String observerListString;
 	private JTextArea observerListField;
+	private JButton btnRunCommand;
 
 	/**
 	 * 
@@ -37,60 +38,55 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		this.commandManager = commandManager;
 
 		GridBagConstraints c = new GridBagConstraints();
-
-		observerListField = new JTextArea("");
-		observerListField.setEditable(false);
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
 		c.weighty = 1;
+
+		observerListField = new JTextArea("");
+		observerListField.setEditable(false);
 		content.add(observerListField, c);
 		updateObserverListField();
 
 		currentCommandField = new JTextArea("");
 		currentCommandField.setEditable(false);
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
 		JButton btnClearCommand = new JButton("Clear command");
-		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+
+		btnClearCommand.addActionListener((ActionEvent e) -> {
+			this.clearCommand();
+			btnRunCommand.setEnabled(false);
+		});
+
 		content.add(btnClearCommand, c);
 
-		JButton btnRunCommand = new JButton("Run command");
+		btnRunCommand = new JButton("Run command");
+		btnRunCommand.setEnabled(false);
 		btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
 		content.add(btnRunCommand, c);
 
 		JButton btnClearObservers = new JButton("Delete observers");
 		JButton btnResetObservers = new JButton("Reset observers");
 		btnResetObservers.setEnabled(false);
+
 		btnResetObservers.addActionListener(e -> {
 			this.resetObservers();
 			btnClearObservers.setEnabled(true);
 			btnResetObservers.setEnabled(false);
 		});
+
 		btnClearObservers.addActionListener((ActionEvent e) -> {
 			this.deleteObservers();
 			btnClearObservers.setEnabled(false);
 			btnResetObservers.setEnabled(true);
 		});
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+
 		content.add(btnClearObservers, c);
 		content.add(btnResetObservers, c);
+
+		this.commandManager.addObserver(() -> btnRunCommand.setEnabled(true));
 	}
 
 	private void clearCommand() {
