@@ -26,9 +26,9 @@ public class MouseClickDrawListener implements MouseListener {
         Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
 
         if (e.getButton() == MouseEvent.BUTTON1) {
-            new OperateToCommand(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2).execute(job2dDriver);
+            job2dDriver.operateTo(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            new SetPositionCommand(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2).execute(job2dDriver);
+            job2dDriver.setPosition(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
         }
     }
 
