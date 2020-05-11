@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.DriverCommandVisitor;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
+import edu.kis.powp.observer.Subscriber;
 
 import java.util.List;
 
@@ -80,6 +81,23 @@ public class DriverCommandManager {
 	 */
 
 	public synchronized void resetObservers(){
+
+	}
+
+	/**
+	 * Add new observer for list of subscribers that belongs to <code>changePublisher</code>
+	 * It should clear cache, if exists.
+	 * @param subscriber new observer to add.
+	 */
+	public synchronized void addObserver(Subscriber subscriber){
+
+	}
+
+	/**
+	 * Add observers to existing collection of subscribers.
+	 * @param subscribers list to append.
+	 */
+	public synchronized void addObservers(List<Subscriber> subscribers){
 
 	}
 
