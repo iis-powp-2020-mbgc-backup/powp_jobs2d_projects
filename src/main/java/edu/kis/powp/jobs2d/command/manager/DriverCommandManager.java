@@ -56,6 +56,33 @@ public class DriverCommandManager {
 			return getCurrentCommand().toString();
 	}
 
+	/**
+	 * Run current command, if set.
+	 *
+	 */
+
+	public synchronized void runCurrentCommand(){
+
+	}
+
+	/**
+	 * Delete observers and move observers collection to cache
+	 */
+
+	public synchronized void deleteCurrentObservers(){
+
+	}
+
+	/**
+	 * Restores observers from cache
+	 * NOTE:
+	 * It's probable if addObserver/s feature would be implemented, the cache should be empty
+	 */
+
+	public synchronized void resetObservers(){
+
+	}
+
 	public Publisher getChangePublisher() {
 		return changePublisher;
 	}
