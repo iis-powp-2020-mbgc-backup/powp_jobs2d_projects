@@ -16,14 +16,7 @@ import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
-
-
-
-
-
-
     private DriverCommandManager commandManager;
-
     private JTextArea currentCommandField;
 
     private String observerListString;
@@ -85,6 +78,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.gridx = 0;
         c.weighty = 1;
         content.add(btnClearObservers, c);
+
+        JButton btnResetObservers = new JButton("Reset observers");
+        btnResetObservers.addActionListener((ActionEvent e) -> this.resetObservers());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnResetObservers, c);
     }
 
     private void clearCommand() {
@@ -116,6 +117,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             observerListString = "No observers loaded";
 
         observerListField.setText(observerListString);
+    }
+
+    public void resetObservers() {
+
     }
 
     @Override
