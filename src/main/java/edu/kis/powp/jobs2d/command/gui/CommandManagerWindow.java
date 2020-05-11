@@ -83,7 +83,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void deleteObservers() {
-		commandManager.getChangePublisher().clearObservers();
+		commandManager.deleteCurrentObservers();
 		this.updateObserverListField();
 	}
 
