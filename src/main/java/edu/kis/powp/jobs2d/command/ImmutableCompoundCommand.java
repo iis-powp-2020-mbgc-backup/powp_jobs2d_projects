@@ -12,9 +12,23 @@ public class ImmutableCompoundCommand implements ICompoundCommand {
     private List<DriverCommand> driverCommands = null;
 
     public ImmutableCompoundCommand(List<DriverCommand> driverCommands) {
+
         this.driverCommands = new ArrayList<>();
-        this.driverCommands.addAll(driverCommands);
+        for (Object object : driverCommands) {
+            if (object instanceof DefaultCompoundCommand) {
+                List<DriverCommand> dc = new ArrayList<>();
+                for (DriverCommand command : (DefaultCompoundCommand) object) {
+                    dc.add(command);
+                }
+                ImmutableCompoundCommand icc = new ImmutableCompoundCommand(dc);
+                this.driverCommands.add(icc);
+
+            }else{
+                this.driverCommands.add((DriverCommand) object);
+            }
+        }
         this.driverCommands = Collections.unmodifiableList(this.driverCommands);
+
     }
 
     @Override
