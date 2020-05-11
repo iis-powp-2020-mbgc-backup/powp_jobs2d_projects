@@ -13,6 +13,7 @@ import edu.kis.powp.observer.Publisher;
  */
 public class DriverCommandManager {
 	private DriverCommand currentCommand = null;
+	private Job2dDriver job2dDriver = null;
 
 	private Publisher changePublisher = new Publisher();
 
@@ -67,6 +68,10 @@ public class DriverCommandManager {
 	public synchronized void clearCurrentCommand() {
 		currentCommand = null;
 	}
+
+	public synchronized void runCurrentCommand() { currentCommand.execute(job2dDriver); }
+
+	public synchronized void setCurrentDriver(Job2dDriver job2dDriver) { this.job2dDriver = job2dDriver; }
 
 	public synchronized String getCurrentCommandString() {
 		if (getCurrentCommand() == null) {
