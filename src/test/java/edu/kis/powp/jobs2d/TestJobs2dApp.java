@@ -18,6 +18,9 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
+import javax.crypto.Mac;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -65,6 +68,9 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		DriverFeature.addDriver("Macro Driver", MacroFeature.getMacroDriver());
+		MacroFeature.getMacroDriver().setDriver(driver);
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -106,6 +112,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+				MacroFeature.setMacroDriver();
 
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
