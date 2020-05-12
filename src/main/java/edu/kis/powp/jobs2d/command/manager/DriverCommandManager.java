@@ -7,7 +7,6 @@ import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class DriverCommandManager {
 
 	private Publisher changePublisher = new Publisher();
 	private DriverManager driverManager;
-	private Collection<Subscriber> cache = null;
+	private List<Subscriber> cache = null;
 
 	/**
 	 * Constructor of driver command manager, I had to choose whether keep accessing static method of DriverFeature or assign reference only one time
@@ -99,23 +98,8 @@ public class DriverCommandManager {
 	 */
 
 	public synchronized void resetObservers(){
-		if(cache != null && cache.size() > 0){
-			cache.forEach(cached -> changePublisher.addSubscriber(cached));
-			clearCache();
-		}
+		addObservers(cache);
 	}
-
-	/**
-	 * Add new observer for list of subscribers that belongs to <code>changePublisher</code>
-	 * It should clear cache, if exists.
-	 * @param subscriber new observer to add.
-	 */
-	public synchronized void addObserver(Subscriber subscriber){
-		if(subscriber != null){
-			changePublisher.addSubscriber(subscriber);
-		}
-	}
-
 
 	/**
 	 * Clears any stored cache in DriverCommandManager.
@@ -128,7 +112,7 @@ public class DriverCommandManager {
 	}
 
 	/**
-	 * Add observers to existing collection of subscribers.
+	 * Add observers to existing collection of subscribers. Clears cache.
 	 * @param subscribers list to append.
 	 */
 	public synchronized void addObservers(List<Subscriber> subscribers){

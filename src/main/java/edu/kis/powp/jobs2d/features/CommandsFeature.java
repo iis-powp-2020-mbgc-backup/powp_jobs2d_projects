@@ -12,7 +12,7 @@ public class CommandsFeature {
 		commandManager = new DriverCommandManager(DriverFeature.getDriverManager());
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
-		commandManager.addObserver(loggerObserver);
+		commandManager.getChangePublisher().addSubscriber(loggerObserver);
 	}
 
 	/**

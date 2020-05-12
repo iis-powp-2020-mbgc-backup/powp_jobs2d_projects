@@ -85,7 +85,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearObservers, c);
 		content.add(btnResetObservers, c);
 
-		this.commandManager.addObserver(() -> btnRunCommand.setEnabled(true));
+		this.commandManager.getChangePublisher().addSubscriber(() -> btnRunCommand.setEnabled(true));
 	}
 
 	private void clearCommand() {
