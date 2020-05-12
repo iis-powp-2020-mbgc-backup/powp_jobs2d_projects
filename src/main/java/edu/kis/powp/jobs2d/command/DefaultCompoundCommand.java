@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DefaultCompoundCommand implements ICompoundCommand {
 
-    private List<DriverCommand> listOfDriverCommand = null;
+    private List<DriverCommand> listOfDriverCommand;
 
     public DefaultCompoundCommand(List<DriverCommand> collection) {
         this.listOfDriverCommand = collection;
