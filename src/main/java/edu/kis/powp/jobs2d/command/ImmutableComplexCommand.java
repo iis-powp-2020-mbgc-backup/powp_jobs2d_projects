@@ -11,10 +11,20 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 public class ImmutableComplexCommand implements ICompoundCommand {
     private final List<DriverCommand> driverCommands;
     
+    /**
+     * Creates immutable complex command from passed DriverCommands
+     * 
+     * @param commands - List containing DriverCommands
+     */
     public ImmutableComplexCommand(List<DriverCommand> commands) {
         driverCommands = Collections.unmodifiableList(new ArrayList<DriverCommand>(commands));
     }
     
+    /**
+     * Creates immutable complex command from passed DriverCommands
+     * 
+     * @param commands - comma separated DriverCommands
+     */
     public ImmutableComplexCommand(DriverCommand ... commands) {
         this(Arrays.asList(commands));
     }
