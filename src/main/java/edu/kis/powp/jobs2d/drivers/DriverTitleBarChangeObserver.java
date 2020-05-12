@@ -11,6 +11,6 @@ public class DriverTitleBarChangeObserver implements Subscriber {
     }
 
     public String toString() {
-        return "Driver Observer";
+        return "Driver Title Bar Change Observer";
     }
 }
