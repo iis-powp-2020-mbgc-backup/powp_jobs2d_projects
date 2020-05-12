@@ -22,7 +22,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private String observerListString;
 	private JTextArea observerListField;
-	private JButton btnRunCommand;
 
 	/**
 	 * 
@@ -54,6 +53,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		updateCurrentCommandField();
 
 		JButton btnClearCommand = new JButton("Clear command");
+		JButton btnRunCommand = new JButton("Run command");
 
 		btnClearCommand.addActionListener((ActionEvent e) -> {
 			this.clearCommand();
@@ -62,7 +62,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		content.add(btnClearCommand, c);
 
-		btnRunCommand = new JButton("Run command");
 		btnRunCommand.setEnabled(false);
 		btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
 		content.add(btnRunCommand, c);
