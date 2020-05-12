@@ -5,22 +5,26 @@ import java.awt.event.ActionListener;
 
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.drivers.MacroDriver;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.MacroFeature;
 
 public class SelectExecuteMacro implements ActionListener {
 
     private DriverManager driverManager;
-
-    public  SelectExecuteMacro(DriverManager driverManager) {
+    private MacroDriver macroDriver;
+    private DriverCommandManager driverCommandManager;
+    public  SelectExecuteMacro(DriverManager driverManager, MacroDriver macroDriver, DriverCommandManager driverCommandManager) {
         this.driverManager = driverManager;
+        this.macroDriver = macroDriver;
+        this.driverCommandManager=driverCommandManager;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        CommandsFeature.getDriverCommandManager().setCurrentCommand(MacroFeature.getDriverCommandManager().getCommands(), "Macro");
-        MacroFeature.getDriverCommandManager().reverseDriver();
+        driverCommandManager.setCurrentCommand(macroDriver.getCommands(), "Macro");
+        macroDriver.reverseDriver();
         DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
         command.execute(driverManager.getCurrentDriver());
     }

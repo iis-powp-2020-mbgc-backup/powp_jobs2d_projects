@@ -6,10 +6,10 @@ import edu.kis.powp.jobs2d.drivers.MacroDriver;
 
 public class MacroFeature {
 
-    private static MacroDriver macroManager;
+    private static MacroDriver macroDriver= new MacroDriver();
 
     public static void setupMacroManager() {
-        macroManager = new MacroDriver();
+
 
         LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
 
@@ -20,7 +20,7 @@ public class MacroFeature {
      *
      * @return plotterCommandManager.
      */
-    public static MacroDriver getDriverCommandManager() {
-        return macroManager;
+    public static MacroDriver getMacroDriver() {
+        return macroDriver;
     }
 }

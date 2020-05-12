@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class SelectClearMacro implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-        MacroDriver manager = MacroFeature.getDriverCommandManager();
+        MacroDriver manager = MacroFeature.getMacroDriver();
         manager.clearMacro();
     }
 }

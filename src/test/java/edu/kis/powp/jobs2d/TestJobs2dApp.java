@@ -53,7 +53,7 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Execute macro", new SelectExecuteMacro(DriverFeature.getDriverManager()));
+		application.addTest("Execute macro", new SelectExecuteMacro(DriverFeature.getDriverManager(), MacroFeature.getMacroDriver(), CommandsFeature.getDriverCommandManager()));
 		application.addTest("Clear macro", new SelectClearMacro());
 	}
 
@@ -64,7 +64,7 @@ public class TestJobs2dApp {
 	 */
 	private static void setupDrivers(Application application) {
 
-		DriverFeature.addDriver("Macro", MacroFeature.getDriverCommandManager());
+		DriverFeature.addDriver("Macro", MacroFeature.getMacroDriver());
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
@@ -74,7 +74,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
 
-		MacroFeature.getDriverCommandManager().setLineDriver(driver);
+		MacroFeature.getMacroDriver().setLineDriver(driver);
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
