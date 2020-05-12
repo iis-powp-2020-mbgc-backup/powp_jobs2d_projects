@@ -12,6 +12,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
+import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -42,7 +43,11 @@ public class TestJobs2dApp {
      *
      * @param application Application context.
      */
-    private static void setupCommandTests(Application application) { application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener()); }
+    private static void setupCommandTests(Application application) {
+        application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
+
+        application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+    }
 
     /**
      * Setup driver manager, and set default Job2dDriver for application.
