@@ -9,26 +9,19 @@ import java.util.List;
 
 public class ImmutableCompoundCommand implements ICompoundCommand {
 
-    private List<DriverCommand> driverCommands = null;
+    private List<DriverCommand> driverCommands;
 
     public ImmutableCompoundCommand(List<DriverCommand> driverCommands) {
 
         this.driverCommands = new ArrayList<>();
-        for (Object object : driverCommands) {
-            if (object instanceof DefaultCompoundCommand) {
-                List<DriverCommand> dc = new ArrayList<>();
-                for (DriverCommand command : (DefaultCompoundCommand) object) {
-                    dc.add(command);
-                }
-                ImmutableCompoundCommand icc = new ImmutableCompoundCommand(dc);
-                this.driverCommands.add(icc);
-
-            }else{
-                this.driverCommands.add((DriverCommand) object);
+        for (DriverCommand command : driverCommands) {
+            try {
+                this.driverCommands.add(command.clone());
+            }catch (CloneNotSupportedException e){
+                this.driverCommands.add(command);
             }
         }
         this.driverCommands = Collections.unmodifiableList(this.driverCommands);
-
     }
 
     @Override
