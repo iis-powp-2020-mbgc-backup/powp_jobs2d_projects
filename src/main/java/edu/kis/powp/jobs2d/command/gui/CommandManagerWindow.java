@@ -17,6 +17,7 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private DriverCommandManager commandManager;
+
     private JTextArea currentCommandField;
 
     private String observerListString;
@@ -151,4 +152,5 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             this.setVisible(true);
         }
     }
+    
 }
