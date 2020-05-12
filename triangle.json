@@ -1,0 +1,22 @@
+{
+  "1": {
+    "command": "setPosition",
+    "x": "-125",
+    "y": "100"
+  },
+  "2": {
+    "command": "operateTo",
+    "x": "125",
+    "y": "100"
+  },
+  "3": {
+    "command": "operateTo",
+    "x": "0",
+    "y": "-100"
+  },
+  "4": {
+    "command": "operateTo",
+    "x": "-125",
+    "y": "100"
+  }
+}

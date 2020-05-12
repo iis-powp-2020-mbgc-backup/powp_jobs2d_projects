@@ -1,0 +1,78 @@
+{
+   "1": {
+         "command": "setPosition",
+		 "x": "-20",
+		 "y": "-50"
+    },
+    "2": {
+         "command": "operateTo",
+		 "x": "-20",
+		 "y": "-50"
+	},
+	"3": {
+         "command": "setPosition",
+		 "x": "-20",
+		"y": "-40"      
+    },
+	"4": {
+         "command": "operateTo",
+		 "x": "-20",
+		 "y": "50" 
+    },
+	"5": {
+         "command": "setPosition",
+		 "x": "0",
+		 "y": "-50"
+    },
+	"6": {
+         "command": "operateTo",
+		 "x": "0",
+		 "y": "-50"
+    },
+	"7": {
+         "command": "setPosition", 
+		 "x": "0",
+		 "y": "-40"
+    },
+	"8": {
+		"command": "operateTo",
+		"x": "0",
+		"y": "50"
+    },
+	"9": {
+         "command": "setPosition", 
+		 "x": "70",
+		 "y": "-50"
+    },
+	"10": {
+         "command": "operateTo",
+		 "x": "20",
+		 "y": "-50"
+    },
+	"11": {
+         "command": "operateTo",
+		 "x": "20",
+		 "y": "0"
+    },
+	
+	"12": {
+         "command": "operateTo",
+		 "x": "70",
+		 "y": "0"
+    },
+	"13": {
+         "command": "operateTo",
+		 "x": "70",
+		 "y": "0"
+    },
+	"14": {
+         "command": "operateTo",
+		 "x": "70",
+		 "y": "50"
+    },
+	"15": {
+         "command": "operateTo",
+		 "x": "20",
+		 "y": "50"
+    }
+}

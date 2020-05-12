@@ -9,10 +9,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.MouseDrawFeature;
+import edu.kis.powp.jobs2d.features.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -45,7 +42,7 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-
+		application.addTest("Load from Json", new SelectOpenFromJsonOptionListener());
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("DriverCommandVisitor test DriverCommand", new SelectSingleCommandVisitorTestListener());
 		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());
