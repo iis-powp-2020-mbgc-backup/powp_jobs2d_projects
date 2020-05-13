@@ -32,6 +32,8 @@ public class CopyCommandListener implements ActionListener {
         commands.add(new OperateToCommand(70, 50));
         commands.add(new OperateToCommand(20, 50));
         DriverCommand driverCommand = CommandsFeature.deepCopyDriverCommand(new DefaultCompoundCommand(commands));
+        commands.clear();
+        commands.add(driverCommand);
 
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         manager.setCurrentCommand(commands, "CopiedDeepCommand");
