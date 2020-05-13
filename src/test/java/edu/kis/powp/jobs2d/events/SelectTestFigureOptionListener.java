@@ -19,3 +19,4 @@ public class SelectTestFigureOptionListener implements ActionListener {
 		FiguresJoe.figureScript1(driverManager.getCurrentDriver());
 	}
 }
+
