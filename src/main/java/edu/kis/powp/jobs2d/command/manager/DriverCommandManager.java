@@ -74,7 +74,7 @@ public class DriverCommandManager {
         currentCommand.execute(driverManager.getCurrentDriver());
     }
 
-    public synchronized void setCurrentDriver(DriverManager driverManager) {
+    public synchronized void setDriverManager(DriverManager driverManager) {
         this.driverManager = driverManager;
     }
 
