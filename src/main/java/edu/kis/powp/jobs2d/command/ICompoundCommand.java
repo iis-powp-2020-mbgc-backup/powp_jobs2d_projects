@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand> {
 
-    public Iterator<DriverCommand> iterator();
+    Iterator<DriverCommand> iterator();
 
     @Override
     default DriverCommand clone(){
         List<DriverCommand> commands = new ArrayList<>();
         for (DriverCommand command : this) {
-            commands.add(command);
+            command.clone();
         }
         return new DefaultCompoundCommand(commands);
     }
