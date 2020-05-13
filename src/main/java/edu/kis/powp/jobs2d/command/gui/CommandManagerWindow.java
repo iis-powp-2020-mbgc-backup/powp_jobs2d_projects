@@ -1,18 +1,13 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
@@ -22,6 +17,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private String observerListString;
     private JTextArea observerListField;
+    private JTextArea InputCommandsField;
 
     /**
      *
@@ -56,6 +52,16 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(currentCommandField, c);
         updateCurrentCommandField();
 
+        InputCommandsField = new JTextArea("");
+        InputCommandsField.setEditable(true);
+        InputCommandsField.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsField.setLineWrap(true);
+        content.add(InputCommandsField,c);
+
+        JButton btnLoadCommand = new JButton("Load commands");
+        btnLoadCommand.addActionListener((ActionEvent e) -> this.loadCommands());
+        content.add(btnLoadCommand,c);
+
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -71,6 +77,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.gridx = 0;
         c.weighty = 1;
         content.add(btnClearObservers, c);
+    }
+
+    private void loadCommands() {
+        commandManager.loadCommands(InputCommandsField.getText().trim());
     }
 
     private void clearCommand() {

@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "SetPositionCommand",
+    "posX": -20,
+    "posY": -50
+  },
+  {
+    "operation": "OperateToCommand",
+    "posX": -20,
+    "posY": -50
+  }
+]
