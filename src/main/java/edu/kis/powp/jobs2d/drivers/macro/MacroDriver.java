@@ -4,7 +4,6 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.features.DriverFeature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 
 public class MacroDriver implements Job2dDriver {
     private List<DriverCommand> driverCommandList;
+
     private Job2dDriver driver;
 
     public MacroDriver() {
@@ -34,8 +34,8 @@ public class MacroDriver implements Job2dDriver {
         return driverCommandList;
     }
 
-    public void setDriverFeatureCurrentDriver() {
-        DriverFeature.getDriverManager().setCurrentDriver(driver);
+    public Job2dDriver getDriver() {
+        return driver;
     }
 
     @Override
