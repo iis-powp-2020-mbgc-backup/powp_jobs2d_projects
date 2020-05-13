@@ -17,7 +17,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private String observerListString;
     private JTextArea observerListField;
-    private JTextArea InputCommandsField;
+    private JTextArea InputCommandsTextArea;
 
     /**
      *
@@ -52,10 +52,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(currentCommandField, c);
         updateCurrentCommandField();
 
-        InputCommandsField = new JTextArea("");
-        InputCommandsField.setEditable(true);
-        InputCommandsField.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        InputCommandsField.setLineWrap(true);
+        InputCommandsTextArea = new JTextArea("");
+        InputCommandsTextArea.setEditable(true);
+        InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsTextArea.setLineWrap(true);
+
+        JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
         content.add(InputCommandsField,c);
 
         JButton btnLoadCommand = new JButton("Load commands");
@@ -80,7 +82,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     private void loadCommands() {
-        commandManager.loadCommands(InputCommandsField.getText().trim());
+        commandManager.loadCommands(InputCommandsTextArea.getText().trim());
     }
 
     private void clearCommand() {
