@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MacroDriver implements Job2dDriver {
+public class MacroDriverAdapter implements Job2dDriver {
     private List<DriverCommand> driverCommandList;
 
     private Job2dDriver driver;
 
-    public MacroDriver() {
+    public MacroDriverAdapter() {
         this.driverCommandList = new ArrayList<>();
     }
 
-    public MacroDriver(List<DriverCommand> driverCommandList) {
+    public MacroDriverAdapter(List<DriverCommand> driverCommandList) {
         this.driverCommandList = driverCommandList;
     }
 
@@ -50,6 +50,6 @@ public class MacroDriver implements Job2dDriver {
 
     @Override
     public String toString() {
-        return "MacroDriver";
+        return "MacroDriverAdapter";
     }
 }

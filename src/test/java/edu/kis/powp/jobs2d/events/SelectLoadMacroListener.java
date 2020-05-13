@@ -17,10 +17,10 @@ public class SelectLoadMacroListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        CommandsFeature.getDriverCommandManager().setCurrentCommand(MacroFeature.getMacroDriver().getDriverCommandList(), "Macro");
-        driverManager.setCurrentDriver(MacroFeature.getMacroDriver().getDriver());
+        CommandsFeature.getDriverCommandManager().setCurrentCommand(MacroFeature.getMacroDriverAdapter().getDriverCommandList(), "Macro");
+        driverManager.setCurrentDriver(MacroFeature.getMacroDriverAdapter().getDriver());
         DriverCommand driverCommand = CommandsFeature.getDriverCommandManager().getCurrentCommand();
         driverCommand.execute(driverManager.getCurrentDriver());
-        MacroFeature.getMacroDriver().clearCommandSet();
+        MacroFeature.getMacroDriverAdapter().clearCommandSet();
     }
 }
