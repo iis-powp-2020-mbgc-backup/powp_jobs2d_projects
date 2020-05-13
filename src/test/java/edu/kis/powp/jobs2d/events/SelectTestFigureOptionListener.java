@@ -1,3 +1,4 @@
+
 package edu.kis.powp.jobs2d.events;
 
 import java.awt.event.ActionEvent;
@@ -19,4 +20,3 @@ public class SelectTestFigureOptionListener implements ActionListener {
 		FiguresJoe.figureScript1(driverManager.getCurrentDriver());
 	}
 }
-
