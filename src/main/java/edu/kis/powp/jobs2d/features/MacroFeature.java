@@ -5,7 +5,7 @@ import edu.kis.powp.jobs2d.drivers.macro.MacroDriver;
 public class MacroFeature {
     private static MacroDriver macroDriver;
 
-    public static void setMacroDriver() {
+    public static void setupMacroDriver() {
         macroDriver = new MacroDriver();
     }
 
