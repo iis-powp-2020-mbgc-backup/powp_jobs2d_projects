@@ -8,10 +8,10 @@ import edu.kis.powp.jobs2d.features.MacroFeature;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SelectRunMacroListener implements ActionListener {
+public class SelectLoadMacroListener implements ActionListener {
     private DriverManager driverManager;
 
-    public SelectRunMacroListener(DriverManager driverManager) {
+    public SelectLoadMacroListener(DriverManager driverManager) {
         this.driverManager = driverManager;
     }
 
