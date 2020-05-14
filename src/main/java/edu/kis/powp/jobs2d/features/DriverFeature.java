@@ -4,11 +4,14 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class DriverFeature {
+public class DriverFeature implements Observer {
 
 	private static DriverManager driverManager = new DriverManager();
 	private static Application app;
+
 
 	public static DriverManager getDriverManager() {
 		return driverManager;
@@ -35,10 +38,20 @@ public class DriverFeature {
 		app.addComponentMenuElement(DriverFeature.class, name, listener);
 	}
 
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		app.updateInfo(driverManager.getCurrentDriver().toString());
+	}
+
 	/**
+	 * @Deprecated
 	 * Update driver info.
 	 */
-	public static void updateDriverInfo() {
+	@Deprecated
+	public static void updateDriverInfo()
+	{
 		app.updateInfo(driverManager.getCurrentDriver().toString());
 	}
 
