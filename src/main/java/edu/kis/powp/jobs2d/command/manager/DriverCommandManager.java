@@ -1,5 +1,7 @@
 package edu.kis.powp.jobs2d.command.manager;
 
+import edu.kis.powp.jobs2d.command.CommandCounterVisitor;
+import edu.kis.powp.jobs2d.command.Visitor;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class DriverCommandManager {
 
 	/**
 	 * Set current command.
-	 * 
+	 *
 	 * @param commandList Set the command as current.
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
@@ -28,7 +30,7 @@ public class DriverCommandManager {
 
 	/**
 	 * Set current command.
-	 * 
+	 *
 	 * @param commandList list of commands representing a compound command.
 	 * @param name        name of the command.
 	 */
@@ -36,9 +38,17 @@ public class DriverCommandManager {
 		setCurrentCommand(new ICompoundCommand() {
 
 			List<DriverCommand> driverCommands = commandList;
+			CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
 
 			@Override
+			public void accept(Visitor visitor) {
+				visitor.visit(this);
+			}
+			
+			@Override
 			public void execute(Job2dDriver driver) {
+				driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
+
 				driverCommands.forEach((c) -> c.execute(driver));
 			}
 
@@ -57,7 +67,7 @@ public class DriverCommandManager {
 
 	/**
 	 * Return current command.
-	 * 
+	 *
 	 * @return Current command.
 	 */
 	public synchronized DriverCommand getCurrentCommand() {
