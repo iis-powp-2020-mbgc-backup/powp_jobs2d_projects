@@ -44,7 +44,7 @@ public class DriverCommandManager {
 			public void accept(Visitor visitor) {
 				visitor.visit(this);
 			}
-			
+
 			@Override
 			public void execute(Job2dDriver driver) {
 				driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
