@@ -1,10 +1,5 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
@@ -18,6 +13,12 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -65,6 +66,13 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
+		DriverFeature.addDriver("Dotted line Simulator", driver);
+
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
+		MacroFeature.getMacroDriverDecorator().setJob2dDriver(driver);
+
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -106,6 +114,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+				DriverFeature.setupDriverPlugin(app);
 
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
