@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class ImmutableComplexCommand implements ICompoundCommand {
     private List<DriverCommand> driverCommandList;
 
     public ImmutableComplexCommand(List<DriverCommand> driverCommandList) {
-        this.driverCommandList = driverCommandList;
+        this.driverCommandList = Collections.unmodifiableList(driverCommandList);
     }
 
     @Override
