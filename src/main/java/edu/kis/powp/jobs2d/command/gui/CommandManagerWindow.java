@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -25,7 +24,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
 
-	public CommandManagerWindow(DriverCommandManager commandManager) {
+	public CommandManagerWindow(CommandManager commandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
 		Container content = this.getContentPane();
