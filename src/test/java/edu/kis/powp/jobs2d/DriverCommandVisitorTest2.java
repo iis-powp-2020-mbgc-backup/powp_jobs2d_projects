@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class CommandCounterVistiorTest2 implements ActionListener {
+public class DriverCommandVisitorTest2 implements ActionListener {
 
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -21,17 +21,19 @@ public class CommandCounterVistiorTest2 implements ActionListener {
         List<DriverCommand> driverCommands = new ArrayList<>();
         int expectedNumberOfSetPositionMethodCall = 1;
         int expectedNumberOfOperateMethodCall = 52;
-
+        int expectedNumberOfAllOperationsCall = 53;
         driverCommands.add(new SetPositionCommand(0, -50));
-        for (int i = 0; i < expectedNumberOfSetPositionMethodCall; i++) {
+        for (int i = 0; i < expectedNumberOfOperateMethodCall; i++) {
             driverCommands.add(new OperateToCommand(-20 + i, -50 + i));
         }
         driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
-        if (expectedNumberOfOperateMethodCall == 52 && expectedNumberOfSetPositionMethodCall == 1) {
-            logger.info("Method call test2 Passed");
+        if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
+            && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandCounter()) {
+            logger.info("Driver Command Visitor test2 Passed");
         } else {
-            logger.info("Method call test2 Failed");
+            logger.info("Driver Command Visitor test2 Failed");
         }
+
     }
 }

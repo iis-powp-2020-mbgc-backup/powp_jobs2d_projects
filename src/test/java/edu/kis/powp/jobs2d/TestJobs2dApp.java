@@ -47,8 +47,9 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("CommandVisitor test1", new CommandCounterVistiorTest1());
-		application.addTest("CommandVisitor test2", new CommandCounterVistiorTest2());
+		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
+		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
+		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
 
 	}
 

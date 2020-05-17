@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 public class CommandCounterVisitor implements Visitor {
-    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private int operateToCommandCounter = 0;
     private int setPositionCommandCounter = 0;
@@ -16,20 +15,19 @@ public class CommandCounterVisitor implements Visitor {
     public int getSetPositionCommandCounter() {
         return setPositionCommandCounter;
     }
+
     public int getAllCommandCounter() {
         return setPositionCommandCounter + operateToCommandCounter;
     }
 
     @Override
     public void visit(OperateToCommand operateToCommand) {
-        setPositionCommandCounter++;
-        logger.info("Invoke OperateToCommand command " + setPositionCommandCounter +" time");
+        operateToCommandCounter++;
     }
 
     @Override
     public void visit(SetPositionCommand setPositionCommand) {
-        operateToCommandCounter++;
-        logger.info("Invoke SetPosition command " + operateToCommandCounter +" time");
+        setPositionCommandCounter++;
     }
 
     @Override
@@ -40,6 +38,5 @@ public class CommandCounterVisitor implements Visitor {
             DriverCommand driverCommand1 = iterator.next();
             driverCommand1.accept(this);
         }
-        logger.info("Invoke all commands " + getAllCommandCounter() +" time");
     }
 }

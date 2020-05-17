@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class CommandCounterVistiorTest1 implements ActionListener {
+public class DriverCommandVisitorTest1 implements ActionListener {
 
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -18,20 +18,25 @@ public class CommandCounterVistiorTest1 implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         logger.info("Testing Command Visitor");
         CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
-        List<DriverCommand> driverCommands = new ArrayList<>();
+
         int expectedNumberOfSetPositionMethodCall = 3;
         int expectedNumberOfOperateMethodCall = 2;
+        int expectedNumberOfAllOperationsCall = 5;
+
+        List<DriverCommand> driverCommands = new ArrayList<>();
         driverCommands.add(new SetPositionCommand(-20, -50));
         driverCommands.add(new OperateToCommand(-20, -50));
         driverCommands.add(new SetPositionCommand(-20, -40));
         driverCommands.add(new OperateToCommand(-20, 50));
         driverCommands.add(new SetPositionCommand(0, -50));
+
         driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
-        if (expectedNumberOfOperateMethodCall == 2 && expectedNumberOfSetPositionMethodCall == 3) {
-            logger.info("Method call test1 Passed");
+        if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
+        && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandCounter()) {
+            logger.info("Driver Command Visitor test1 Passed");
         } else {
-            logger.info("Method call test1 Failed");
+            logger.info("Driver Command Visitor test1 Failed");
         }
     }
 }
