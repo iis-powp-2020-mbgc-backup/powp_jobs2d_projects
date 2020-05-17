@@ -6,8 +6,9 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.manager.ComplexCommand;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MyReader implements Reader {
+public class SimpleFormatReader implements Reader {
 
     @Override
     public ComplexCommand read(String contentToParse) {
@@ -17,7 +18,7 @@ public class MyReader implements Reader {
         // operateTo,10,10;
         // operateTo,100,30;
 
-        ArrayList<DriverCommand> commandList = new ArrayList<>();
+        List<DriverCommand> commandList = new ArrayList<>();
 
         String[] arr = contentToParse.split(";");
 

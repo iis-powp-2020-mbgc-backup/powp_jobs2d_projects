@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.CommandEditorWindow;
+import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -20,8 +20,7 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.CustomCommandManager;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.Readers.JSONReader;
-import edu.kis.powp.jobs2d.features.Readers.MyReader;
+import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -60,6 +59,7 @@ public class TestJobs2dApp {
 	 */
 	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
+		SimpleFormatReader simpleFormatReader = new SimpleFormatReader();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
@@ -70,7 +70,7 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 
-		application.addTest("Custom Command", action -> CustomCommandManager.createComplexCommand(new MyReader())
+		application.addTest("Custom Command", action -> CustomCommandManager.createComplexCommand(simpleFormatReader)
 				.execute(DriverFeature.getDriverManager().getCurrentDriver()));
 
 		DriverFeature.updateDriverInfo();
@@ -81,8 +81,8 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		CommandEditorWindow commandEditorWindow = new CommandEditorWindow();
-		application.addWindowComponent("Edytor", commandEditorWindow);
+		CommandImportWindow commandImportWindow = new CommandImportWindow();
+		application.addWindowComponent("Editor", commandImportWindow);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
