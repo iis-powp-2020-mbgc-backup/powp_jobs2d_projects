@@ -1,24 +1,29 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import java.util.Iterator;
-import java.util.List;
-
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.gui.WindowInterface;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Publisher;
+import edu.kis.powp.observer.Subscriber;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Driver command Manager.
  */
-public class DriverCommandManager {
+public class DriverCommandManager implements WindowInterface {
 	private DriverCommand currentCommand = null;
 
 	private Publisher changePublisher = new Publisher();
 
 	/**
 	 * Set current command.
-	 * 
+	 *
 	 * @param commandList Set the command as current.
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
@@ -77,5 +82,47 @@ public class DriverCommandManager {
 
 	public Publisher getChangePublisher() {
 		return changePublisher;
+	}
+
+	@Override
+	public void clearCommand() {
+		clearCurrentCommand();
+		updateCurrentCommandField();
+	}
+
+	@Override
+	public void runCommand() {
+		getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver());
+	}
+
+	@Override
+	public void updateCurrentCommandField() {
+		currentCommandField.setText(getCurrentCommandString());
+	}
+
+	@Override
+	public void deleteObservers(ActionEvent e) {
+		JToggleButton button = (JToggleButton) e.getSource();
+		if (button.isSelected()) {
+			getChangePublisher().clearObservers();
+			updateObserverListField();
+			button.setText("Reset observers");
+		} else {
+			updateObserverListField();
+			button.setText("Delete observers");
+		}
+	}
+
+	@Override
+	public void updateObserverListField() {
+		String observerListString = "";
+		List<Subscriber> commandChangeSubscribers = getChangePublisher().getSubscribers();
+		for (Subscriber observer : commandChangeSubscribers) {
+			observerListString += observer.toString() + System.lineSeparator();
+		}
+		if (commandChangeSubscribers.isEmpty())
+			observerListString = "No observers loaded";
+
+		observerListField.setText(observerListString);
 	}
 }
