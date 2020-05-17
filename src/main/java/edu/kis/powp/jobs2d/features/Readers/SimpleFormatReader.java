@@ -23,7 +23,6 @@ public class SimpleFormatReader implements Reader {
         String[] arr = contentToParse.split(";");
 
         for(int i=0;i<arr.length;i++) {
-            System.out.println("Komenda:" + arr[i]);
             String[] command = arr[i].trim().replace("\n","").replace("\r","").split(",");
             if(command[0].equals("setPosition")) {
                 commandList.add(new SetPositionCommand(Integer.valueOf(command[1]),Integer.valueOf(command[2])));

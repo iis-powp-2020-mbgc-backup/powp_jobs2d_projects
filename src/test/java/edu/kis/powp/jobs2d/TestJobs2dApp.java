@@ -17,9 +17,9 @@ import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.CustomCommandManager;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.Readers.Reader;
 import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
 
 public class TestJobs2dApp {
@@ -59,7 +59,6 @@ public class TestJobs2dApp {
 	 */
 	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
-		SimpleFormatReader simpleFormatReader = new SimpleFormatReader();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
@@ -69,19 +68,21 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
-
-		application.addTest("Custom Command", action -> CustomCommandManager.createComplexCommand(simpleFormatReader)
-				.execute(DriverFeature.getDriverManager().getCurrentDriver()));
+		
+		application.addTest("Custom Command", action -> CommandsFeature.getDriverCommandManager()
+				.getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver()));
 
 		DriverFeature.updateDriverInfo();
 	}
 
 	private static void setupWindows(Application application) {
+		
+		Reader reader = new SimpleFormatReader();
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		CommandImportWindow commandImportWindow = new CommandImportWindow();
+		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
