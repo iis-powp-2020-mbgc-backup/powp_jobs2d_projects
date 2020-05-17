@@ -10,16 +10,14 @@ import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
-	private DriverCommandManager commandManager;
+	private CommandManager commandManager;
 
 	private JTextArea currentCommandField;
 
-	private String observerListString;
 	private JTextArea observerListField;
 
 	/**
@@ -86,7 +84,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
     private void runCommand() {
-		commandManager.getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver());
+		commandManager.runCommand();
     }
 
 	public void updateCurrentCommandField() {
@@ -106,25 +104,21 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void updateObserverListField() {
-		observerListString = "";
+		StringBuilder observerListString = new StringBuilder();
 		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
 		for (Subscriber observer : commandChangeSubscribers) {
-			observerListString += observer.toString() + System.lineSeparator();
+			observerListString.append(observer.toString()).append(System.lineSeparator());
 		}
 		if (commandChangeSubscribers.isEmpty())
-			observerListString = "No observers loaded";
+			observerListString = new StringBuilder("No observers loaded");
 
-		observerListField.setText(observerListString);
+		observerListField.setText(observerListString.toString());
 	}
 
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();
-		if (this.isVisible()) {
-			this.setVisible(false);
-		} else {
-			this.setVisible(true);
-		}
+		this.setVisible(!this.isVisible());
 	}
 
 }
