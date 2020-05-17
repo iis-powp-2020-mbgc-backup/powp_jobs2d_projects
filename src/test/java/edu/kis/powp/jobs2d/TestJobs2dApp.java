@@ -101,21 +101,19 @@ public class TestJobs2dApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				Application app = new Application("Jobs 2D");
-				DrawerFeature.setupDrawerPlugin(app);
-				CommandsFeature.setupCommandManager();
+		EventQueue.invokeLater(() -> {
+			Application app = new Application("Jobs 2D");
+			DrawerFeature.setupDrawerPlugin(app);
+			CommandsFeature.setupCommandManager();
 
-				DriverFeature.setupDriverPlugin(app);
-				setupDrivers(app);
-				setupPresetTests(app);
-				setupCommandTests(app);
-				setupLogger(app);
-				setupWindows(app);
+			DriverFeature.setupDriverPlugin(app);
+			setupDrivers(app);
+			setupPresetTests(app);
+			setupCommandTests(app);
+			setupLogger(app);
+			setupWindows(app);
 
-				app.setVisibility(true);
-			}
+			app.setVisibility(true);
 		});
 	}
 
