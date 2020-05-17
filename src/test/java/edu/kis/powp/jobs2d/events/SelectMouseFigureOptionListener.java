@@ -17,8 +17,8 @@ import java.util.List;
 
 public class SelectMouseFigureOptionListener implements ActionListener {
 
-	public static final int MOUSE_POSITION_X = 270;
-	public static final int MOUSE_POSITION_Y = 232;
+	private Integer halfWidth;
+	private Integer halfHeight;
 	private DriverManager driverManager;
 	private JPanel drawPanel;
 	private Integer prevX;
@@ -32,8 +32,13 @@ public class SelectMouseFigureOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		halfWidth = drawPanel.getWidth()/2;
+		halfHeight = drawPanel.getHeight()/2;
 
 		List<DriverCommand> commands = new ArrayList<>();
+		DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
+		manager.clearCurrentCommand();
+		manager.setCurrentCommand(commands, "Mouse Command");
 		this.drawPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -42,19 +47,17 @@ public class SelectMouseFigureOptionListener implements ActionListener {
 				}
 
 				commands.add(new SetPositionCommand(prevX, prevY));
-				commands.add(new OperateToCommand(e.getX()- MOUSE_POSITION_X, e.getY()- MOUSE_POSITION_Y));
+				commands.add(new OperateToCommand(e.getX()- halfWidth, e.getY()- halfHeight));
 
 				updatePreviousMousePosition(e);
 
-				commands.forEach(command -> command.execute(driverManager.getCurrentDriver()));
+				manager.getCurrentCommand().execute(driverManager.getCurrentDriver());
 			}
 		});
-		DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
-		manager.setCurrentCommand(commands, "Mouse Command");
 	}
 
 	private void updatePreviousMousePosition(MouseEvent event){
-		prevX = event.getX() - MOUSE_POSITION_X;
-		prevY = event.getY() - MOUSE_POSITION_Y;
+		prevX = event.getX() - halfWidth;
+		prevY = event.getY() - halfHeight;
 	}
 }
