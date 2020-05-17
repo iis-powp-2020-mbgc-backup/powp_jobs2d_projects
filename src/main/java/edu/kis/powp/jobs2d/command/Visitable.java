@@ -1,5 +1,5 @@
 package edu.kis.powp.jobs2d.command;
 
-public class Visitable {
+interface Visitable {
     public double accept(CommandVisitor visitor);
 }
