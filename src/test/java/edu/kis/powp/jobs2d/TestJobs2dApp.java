@@ -15,9 +15,12 @@ import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.events.MouseDrawListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+
+import javax.swing.*;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -114,7 +117,10 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 
-				app.setVisibility(true);
+                JPanel panel = app.getFreePanel();
+                panel.addMouseListener(new MouseDrawListener(panel));
+
+                app.setVisibility(true);
 			}
 		});
 	}
