@@ -112,7 +112,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	public void resetObservers(JButton deleteButton) {
 		commandManager.getChangePublisher().clearObservers();
-		this.updateObserverListField();
 		observersDeleted = false;
 		deleteButton.setText("Delete observers");
 
@@ -121,6 +120,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 				this.commandManager.getChangePublisher().addSubscriber(subscriber);
 			}
 		}
+		this.updateObserverListField();
+
 	}
 
 	private void updateObserverListField() {
