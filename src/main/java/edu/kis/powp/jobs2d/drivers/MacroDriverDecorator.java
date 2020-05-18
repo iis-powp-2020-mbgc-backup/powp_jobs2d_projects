@@ -12,11 +12,11 @@ public class MacroDriverDecorator implements Job2dDriver {
     private List<DriverCommand> driverCommandList = new ArrayList<>();
     private Job2dDriver job2dDriver;
 
-    public void setJob2dDriver(Job2dDriver job2dDriver) {
+    public void setCoreJob2dDriver(Job2dDriver job2dDriver) {
         this.job2dDriver = job2dDriver;
     }
 
-    public Job2dDriver getJob2dDriver() {
+    public Job2dDriver getCoreJob2dDriver() {
         return job2dDriver;
     }
 

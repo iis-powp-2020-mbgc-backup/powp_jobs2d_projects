@@ -11,6 +11,6 @@ public class SelectLoadMacroDriverListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         CommandsFeature.getDriverCommandManager().setCurrentCommand(MacroFeature.getMacroDriverDecorator().getDriverCommandList(), "Macro");
-        DriverFeature.getDriverManager().setCurrentDriver(MacroFeature.getMacroDriverDecorator().getJob2dDriver());
+        DriverFeature.getDriverManager().setCurrentDriver(MacroFeature.getMacroDriverDecorator().getCoreJob2dDriver());
     }
 }
