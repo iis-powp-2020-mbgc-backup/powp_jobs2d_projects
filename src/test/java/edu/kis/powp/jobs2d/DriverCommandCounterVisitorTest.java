@@ -37,13 +37,13 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
         driverCommands.add(new OperateToCommand(-20, 50));
         driverCommands.add(new SetPositionCommand(0, -50));
 
-        //driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
+        driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
         if (expectedOperateToCalls == commandCounterVisitor.getOperateToCounter() && expectedSetPostitionCalls == commandCounterVisitor.getSetPositionCounter()
                 && expectedAllCalls == commandCounterVisitor.getAllCommandsCounter()) {
-            logger.info("Visitor Command Counting test Passed\n Commands counter:" + commandCounterVisitor.getAllCommandsCounter());
+            logger.info("Visitor Command Counting test Passed\n Commands counter: " + commandCounterVisitor.getAllCommandsCounter());
         } else {
-            logger.info("Visitor Command Counting test Failed" + commandCounterVisitor.getAllCommandsCounter());
+            logger.info("Visitor Command Counting test Failed.\n Commands counter: " + commandCounterVisitor.getAllCommandsCounter());
         }
     }
 }
