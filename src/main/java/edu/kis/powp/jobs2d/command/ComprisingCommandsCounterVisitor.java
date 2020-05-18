@@ -7,7 +7,7 @@ public class ComprisingCommandsCounterVisitor implements CommandVisitorInterface
     private Job2dDriver job2dDriver;
     private int operateToCounter = 0;
     private int setPositionCounter = 0;
-    private int iCompoundCounter = 0;
+    private int CompoundCounter = 0;
 
     public int getOperateToCounter()
     {
@@ -19,9 +19,9 @@ public class ComprisingCommandsCounterVisitor implements CommandVisitorInterface
         return setPositionCounter;
     }
 
-    public int getiCompoundCounter()
+    public int getCompoundCounter()
     {
-        return iCompoundCounter;
+        return CompoundCounter;
     }
 
     public ComprisingCommandsCounterVisitor(Job2dDriver driver)
@@ -49,6 +49,6 @@ public class ComprisingCommandsCounterVisitor implements CommandVisitorInterface
 
     public int getAllCommandsCounter()
     {
-        return operateToCounter + setPositionCounter + iCompoundCounter;
+        return operateToCounter + setPositionCounter + CompoundCounter;
     }
 }
