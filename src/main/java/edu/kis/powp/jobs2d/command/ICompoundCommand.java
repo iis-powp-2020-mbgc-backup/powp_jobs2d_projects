@@ -10,6 +10,7 @@ public interface ICompoundCommand extends DriverCommand {
 
 	public Iterator<DriverCommand> iterator();
 
+
 	@Override
 	public ICompoundCommand clone() throws CloneNotSupportedException;
 

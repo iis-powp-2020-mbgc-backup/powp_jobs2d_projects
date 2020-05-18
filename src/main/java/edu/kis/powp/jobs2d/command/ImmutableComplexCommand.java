@@ -25,4 +25,9 @@ public class ImmutableComplexCommand implements ICompoundCommand {
         return driverCommandList.iterator();
     }
 
+    @Override
+    public ICompoundCommand clone() throws CloneNotSupportedException {
+        return null;
+    }
+
 }
