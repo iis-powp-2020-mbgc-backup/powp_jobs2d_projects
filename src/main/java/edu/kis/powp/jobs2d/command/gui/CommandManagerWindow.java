@@ -15,7 +15,8 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
+	private List<Subscriber> observerList;
+	private boolean observersDeleted = false;
 	private DriverCommandManager commandManager;
 
 	private JTextArea currentCommandField;
@@ -65,7 +66,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearCommand, c);
 
 		JButton btnClearObservers = new JButton("Delete observers");
-		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
+		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers(btnClearObservers));
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -95,9 +96,31 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
 
-	public void deleteObservers() {
+	public void deleteObservers(JButton deleteButton) {
+		if(observersDeleted){
+			resetObservers(deleteButton);
+		}
+		else{
+			this.observerList = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
+			commandManager.getChangePublisher().clearObservers();
+			this.updateObserverListField();
+			observersDeleted = true;
+			deleteButton.setText("Reset observers");
+		}
+
+	}
+
+	public void resetObservers(JButton deleteButton) {
 		commandManager.getChangePublisher().clearObservers();
 		this.updateObserverListField();
+		observersDeleted = false;
+		deleteButton.setText("Delete observers");
+
+		if (observerList != null) {
+			for (Subscriber subscriber : observerList) {
+				this.commandManager.getChangePublisher().addSubscriber(subscriber);
+			}
+		}
 	}
 
 	private void updateObserverListField() {
