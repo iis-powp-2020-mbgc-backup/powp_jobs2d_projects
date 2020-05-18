@@ -4,10 +4,25 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 
 public class ComprisingCommandsCounterVisitor implements CommandVisitorInterface
 {
-    Job2dDriver job2dDriver;
-    public int operateToCounter = 0;
-    public int setPositionCounter = 0;
-    public int iCompoundCounter = 0;
+    private Job2dDriver job2dDriver;
+    private int operateToCounter = 0;
+    private int setPositionCounter = 0;
+    private int iCompoundCounter = 0;
+
+    public int getOperateToCounter()
+    {
+        return operateToCounter;
+    }
+
+    public int getSetPositionCounter()
+    {
+        return setPositionCounter;
+    }
+
+    public int getiCompoundCounter()
+    {
+        return iCompoundCounter;
+    }
 
     public ComprisingCommandsCounterVisitor(Job2dDriver driver)
     {
@@ -18,24 +33,22 @@ public class ComprisingCommandsCounterVisitor implements CommandVisitorInterface
     public void visit(OperateToCommand driver)
     {
         operateToCounter++;
-        driver.execute(this.job2dDriver);
     }
 
     @Override
     public void visit(SetPositionCommand driver)
     {
         setPositionCounter++;
-        driver.execute(this.job2dDriver);
     }
 
     @Override
     public void visit(ICompoundCommand driver)
     {
-        driver.execute(this.job2dDriver);
+        driver.iterator().forEachRemaining(c -> c.accept(this));
     }
 
     public int getAllCommandsCounter()
     {
-        return operateToCounter + setPositionCounter;
+        return operateToCounter + setPositionCounter + iCompoundCounter;
     }
 }
