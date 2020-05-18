@@ -8,17 +8,10 @@ public class MacroFeature {
 
     private static MacroDriver macroDriver= new MacroDriver();
 
-    public static void setupMacroManager() {
-
-
-        LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
-
-    }
-
     /**
-     * Get manager of application driver command.
+     * Get manager of application driver macro.
      *
-     * @return plotterCommandManager.
+     * @return macroDriver.
      */
     public static MacroDriver getMacroDriver() {
         return macroDriver;

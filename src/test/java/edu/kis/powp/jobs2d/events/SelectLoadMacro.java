@@ -23,6 +23,6 @@ public class SelectLoadMacro implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         driverCommandManager.setCurrentCommand(macroDriver.getCommands(), "Macro");
-        macroDriver.reverseDriver();
+        driverManager.setCurrentDriver(macroDriver.getPreviousDriver());
     }
 }

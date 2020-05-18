@@ -8,34 +8,31 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
-import edu.kis.powp.jobs2d.features.DriverFeature;
 
 
-/**
- * Driver command Manager.
- */
+
 public class MacroDriver implements Job2dDriver {
 
     List<DriverCommand> commands = new ArrayList<DriverCommand>();
     private Job2dDriver jd;
     public void clearMacro(){
         commands.clear();
-        this.reverseDriver();
     }
-    public void setLineDriver(Job2dDriver jd){
+    public void setPreviousDriver(Job2dDriver jd){
         this.jd=jd;
     }
-    public void reverseDriver(){
-        DriverFeature.getDriverManager().setCurrentDriver(jd);
+    public Job2dDriver getPreviousDriver(){
+        return  jd;
     }
+
     @Override
     public void setPosition(int i, int i1) {
         commands.add(new SetPositionCommand(i, i1));
     }
 
     @Override
-    public void operateTo(int i, int i1) {
-        commands.add(new OperateToCommand(i, i1));
+    public void operateTo(int x, int y) {
+        commands.add(new OperateToCommand(x, y));
     }
 
     public List<DriverCommand> getCommands() {
