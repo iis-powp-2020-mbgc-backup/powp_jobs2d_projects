@@ -2,11 +2,11 @@ package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
-public class CommandVisitor implements CommandVisitorInterface
+public class CommandExecutorVisitor implements CommandVisitorInterface
 {
-    Job2dDriver job2dDriver;
+    private Job2dDriver job2dDriver;
 
-    public CommandVisitor(Job2dDriver driver)
+    public CommandExecutorVisitor(Job2dDriver driver)
     {
         this.job2dDriver = driver;
     }
@@ -26,6 +26,6 @@ public class CommandVisitor implements CommandVisitorInterface
     @Override
     public void visit(ICompoundCommand driver)
     {
-        driver.execute(this.job2dDriver);
+        driver.iterator().forEachRemaining(c -> c.accept(this));;
     }
 }

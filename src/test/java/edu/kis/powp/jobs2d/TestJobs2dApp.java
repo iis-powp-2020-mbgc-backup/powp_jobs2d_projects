@@ -47,7 +47,9 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Visitor Command Counting test", new DriverCommandVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
+		application.addTest("Visitor Command Counting test", new DriverCommandCounterVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
+
+		application.addTest("Visitor Command Executor test", new DriverCommandExecutorVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
 	}
 
 	/**
@@ -102,19 +104,23 @@ public class TestJobs2dApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			Application app = new Application("Jobs 2D");
-			DrawerFeature.setupDrawerPlugin(app);
-			CommandsFeature.setupCommandManager();
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run()
+			{
+				Application app = new Application("Jobs 2D");
+				DrawerFeature.setupDrawerPlugin(app);
+				CommandsFeature.setupCommandManager();
 
-			DriverFeature.setupDriverPlugin(app);
-			setupDrivers(app);
-			setupPresetTests(app);
-			setupCommandTests(app);
-			setupLogger(app);
-			setupWindows(app);
+				DriverFeature.setupDriverPlugin(app);
+				setupDrivers(app);
+				setupPresetTests(app);
+				setupCommandTests(app);
+				setupLogger(app);
+				setupWindows(app);
 
-			app.setVisibility(true);
+				app.setVisibility(true);
+			}
 		});
 	}
 
