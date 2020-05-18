@@ -105,9 +105,7 @@ public class TestJobs2dApp {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run()
-			{
+			public void run() {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
