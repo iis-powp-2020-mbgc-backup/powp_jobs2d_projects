@@ -5,13 +5,14 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 /**
  * DriverCommand interface.
  */
-public interface DriverCommand extends Visitable {
+public interface DriverCommand {
 
 	/**
 	 * Execute command on driver.
 	 * 
 	 * @param driver driver.
 	 */
-	public void execute(Job2dDriver driver);
+	void execute(Job2dDriver driver);
 
+	void accept(CommandVisitorInterface visitor);
 }
