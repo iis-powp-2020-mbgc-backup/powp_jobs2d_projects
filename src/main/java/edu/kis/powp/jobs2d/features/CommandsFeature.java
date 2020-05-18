@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.features;
 
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.LoggerCommandChangeObserver;
 
@@ -21,5 +22,15 @@ public class CommandsFeature {
 	 */
 	public static DriverCommandManager getDriverCommandManager() {
 		return commandManager;
+	}
+
+	/**
+	 *
+	 * @param driverCommand driverCommand to copy
+	 * @return deep copy of driverCommand
+	 * @throws CloneNotSupportedException
+	 */
+	public static DriverCommand deepCommandCopy(DriverCommand driverCommand) throws CloneNotSupportedException{
+		return driverCommand.clone();
 	}
 }
