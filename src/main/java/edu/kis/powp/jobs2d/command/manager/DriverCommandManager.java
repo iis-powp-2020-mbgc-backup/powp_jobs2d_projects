@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.command.CommandVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
@@ -35,11 +34,6 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
 		setCurrentCommand(new ICompoundCommand() {
-
-			@Override
-			public double accept(CommandVisitor visitor) {
-				return 0;
-			}
 
 			List<DriverCommand> driverCommands = commandList;
 
