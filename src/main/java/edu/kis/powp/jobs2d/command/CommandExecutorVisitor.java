@@ -26,6 +26,6 @@ public class CommandExecutorVisitor implements CommandVisitorInterface
     @Override
     public void visit(ICompoundCommand driver)
     {
-        driver.iterator().forEachRemaining(c -> c.accept(this));;
+        driver.iterator().forEachRemaining(c -> c.execute(job2dDriver));;
     }
 }

@@ -36,7 +36,7 @@ public class DriverCommandExecutorVisitorTest implements ActionListener
         driverCommands.add(new OperateToCommand(-20, 50));
         driverCommands.add(new SetPositionCommand(0, -50));
 
-        //driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
+        driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
         logger.info("Visitor Command Executor test");
     }
