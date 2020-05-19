@@ -21,7 +21,7 @@ public class MacroDriverDecorator implements Job2dDriver {
     }
 
     public List<DriverCommand> getDriverCommandList() {
-        return driverCommandList;
+        return new ArrayList<>(driverCommandList);
     }
 
     public void clearMemory() {
