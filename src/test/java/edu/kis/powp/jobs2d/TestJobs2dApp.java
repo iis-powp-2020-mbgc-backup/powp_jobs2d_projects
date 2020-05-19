@@ -103,7 +103,7 @@ public class TestJobs2dApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
-				DrawerFeature.setupDrawerPlugin(app);
+				DrawerFeature.setupDrawerPlugin(app, app.getFreePanel());
 				CommandsFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);

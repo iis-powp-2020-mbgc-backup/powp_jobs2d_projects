@@ -32,6 +32,7 @@ public class SelectMouseFigureOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		setXYnull();
 		halfWidth = drawPanel.getWidth()/2;
 		halfHeight = drawPanel.getHeight()/2;
 
@@ -59,5 +60,10 @@ public class SelectMouseFigureOptionListener implements ActionListener {
 	private void updatePreviousMousePosition(MouseEvent event){
 		prevX = event.getX() - halfWidth;
 		prevY = event.getY() - halfHeight;
+	}
+
+	private void setXYnull(){
+		prevY = null;
+		prevX = null;
 	}
 }
