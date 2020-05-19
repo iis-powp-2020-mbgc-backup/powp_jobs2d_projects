@@ -14,4 +14,5 @@ public interface DriverCommand extends Cloneable {
 	 */
 	public void execute(Job2dDriver driver);
 
+	public DriverCommand clone() throws CloneNotSupportedException;
 }

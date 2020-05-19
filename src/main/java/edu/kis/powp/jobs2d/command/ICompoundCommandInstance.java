@@ -19,7 +19,7 @@ public class ICompoundCommandInstance implements ICompoundCommand {
     }
 
     @Override
-    public DriverCommand clone() throws CloneNotSupportedException {
+    public ICompoundCommandInstance clone() throws CloneNotSupportedException {
         List<DriverCommand> list = List.copyOf(driverCommands);
         return new ICompoundCommandInstance(list);
     }
