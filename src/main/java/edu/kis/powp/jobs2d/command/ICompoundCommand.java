@@ -14,7 +14,10 @@ public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand>
 	@Override
 	default DriverCommand clone() throws CloneNotSupportedException{
 		List<DriverCommand> commands = new ArrayList<>();
-		this.forEach(commands::add);
+
+		for (DriverCommand c : this) {
+			commands.add(c.clone());
+		}
 
 		return new CompoundCommand(commands);
 	}

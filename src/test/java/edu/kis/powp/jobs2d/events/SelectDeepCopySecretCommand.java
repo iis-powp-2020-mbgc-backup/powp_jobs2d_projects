@@ -27,15 +27,18 @@ public class SelectDeepCopySecretCommand implements ActionListener {
             commands.add(new OperateToCommand(0, -50));
             commands.add(new SetPositionCommand(0, -40));
             commands.add(new OperateToCommand(0, 50));
-            commands.add(new SetPositionCommand(70, -50));
-            commands.add(new OperateToCommand(20, -50));
-            commands.add(new OperateToCommand(20, 0));
-            commands.add(new OperateToCommand(70, 0));
-            commands.add(new OperateToCommand(70, 50));
-            commands.add(new OperateToCommand(20, 50));
 
             compoundCommands = new CompoundCommand(commands);
             DriverCommand driverCommand = CommandsFeature.deepCommandCopy(compoundCommands);
+
+            commands.clear();
+            commands.add(new SetPositionCommand(-50, -50));
+            commands.add(new OperateToCommand(-50, -50));
+            commands.add(new SetPositionCommand(-30, -40));
+            commands.add(new OperateToCommand(-20, 50));
+            commands.add(new SetPositionCommand(0, -20));
+            commands.add(new OperateToCommand(20, 50));
+            compoundCommands = new CompoundCommand(commands);
 
             commands.clear();
             commands.add(driverCommand);
