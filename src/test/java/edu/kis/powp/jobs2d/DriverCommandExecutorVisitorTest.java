@@ -26,10 +26,6 @@ public class DriverCommandExecutorVisitorTest implements ActionListener
         logger.info("Testing Command Visitor");
         CommandExecutorVisitor commandCounterVisitor = new CommandExecutorVisitor(this.driver);
 
-        int expectedSetPostitionCalls = 3;
-        int expectedOperateToCalls = 2;
-        int expectedAllCalls = 5;
-
         List<DriverCommand> driverCommands = new ArrayList<>();
         driverCommands.add(new SetPositionCommand(-20, -50));
         driverCommands.add(new OperateToCommand(-20, -50));

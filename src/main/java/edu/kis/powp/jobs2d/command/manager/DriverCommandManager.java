@@ -40,12 +40,6 @@ public class DriverCommandManager {
 			List<DriverCommand> driverCommands = commandList;
 
 			@Override
-			public void accept(CommandVisitorInterface visitor)
-			{
-				visitor.visit(this);
-			}
-
-			@Override
 			public void execute(Job2dDriver driver) {
 				driverCommands.forEach((c) -> c.execute(driver));
 			}

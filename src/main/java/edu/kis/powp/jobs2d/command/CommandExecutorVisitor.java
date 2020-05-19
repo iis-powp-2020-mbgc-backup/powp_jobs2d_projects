@@ -2,6 +2,8 @@ package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
+import java.util.Iterator;
+
 public class CommandExecutorVisitor implements CommandVisitorInterface
 {
     private Job2dDriver job2dDriver;
@@ -26,6 +28,9 @@ public class CommandExecutorVisitor implements CommandVisitorInterface
     @Override
     public void visit(ICompoundCommand driver)
     {
-        driver.iterator().forEachRemaining(c -> c.execute(job2dDriver));;
+        Iterator<DriverCommand> commands = driver.iterator();
+        while(commands.hasNext()) {
+            commands.next().accept(this);
+        }
     }
 }

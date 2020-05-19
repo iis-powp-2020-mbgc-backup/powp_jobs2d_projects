@@ -19,6 +19,10 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
         this.driver = driver;
     }
 
+    public DriverCommandCounterVisitorTest() {
+
+    }
+
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     @Override
