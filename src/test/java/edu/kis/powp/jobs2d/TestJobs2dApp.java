@@ -13,7 +13,7 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.DriverChangeObserver;
+import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,8 +66,8 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
-		DriverChangeObserver driverChangeObserver = new DriverChangeObserver();
-		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverChangeObserver);
+		DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
 		DriverFeature.updateDriverInfo();
 	}
 
