@@ -113,7 +113,7 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 				JPanel panel = app.getFreePanel();
-				panel.addMouseListener(new MouseDrawListener(panel));
+				panel.addMouseListener(new MouseDrawListener(panel, DriverFeature.getDriverManager()));
 
                 app.setVisibility(true);
 			}

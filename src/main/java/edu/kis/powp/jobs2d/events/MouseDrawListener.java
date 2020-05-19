@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.drivers.DriverManager;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -10,14 +10,16 @@ import java.awt.event.MouseListener;
 public class MouseDrawListener implements MouseListener {
 
     private JPanel panel;
+    private DriverManager manager;
 
-    public MouseDrawListener(JPanel panel) {
+    public MouseDrawListener(JPanel panel, DriverManager manager) {
         this.panel = panel;
+        this.manager = manager;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
+        Job2dDriver currentDriver = manager.getCurrentDriver();
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             currentDriver.operateTo(e.getX() - panel.getWidth() / 2, e.getY() - panel.getHeight() / 2);
