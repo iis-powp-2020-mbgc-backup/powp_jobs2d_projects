@@ -4,4 +4,5 @@
 /.project
 .settings
 .idea
-*.iml
+out
+jobs2d.iml
