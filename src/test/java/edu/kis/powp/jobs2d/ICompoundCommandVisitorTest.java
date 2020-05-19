@@ -68,7 +68,7 @@ public class ICompoundCommandVisitorTest implements ActionListener {
 
         iCompoundCommand.execute(job2dStub);
         if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
-            && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandCounter()) {
+            && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
             logger.info("ICompound Command Visitor Test Passed");
         } else {
             logger.info("ICompound Command Visitor TestFailed");

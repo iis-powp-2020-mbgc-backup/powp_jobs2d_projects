@@ -33,7 +33,7 @@ public class DriverCommandVisitorTest1 implements ActionListener {
         driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
         if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
-        && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandCounter()) {
+        && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
             logger.info("Driver Command Visitor test1 Passed");
         } else {
             logger.info("Driver Command Visitor test1 Failed");

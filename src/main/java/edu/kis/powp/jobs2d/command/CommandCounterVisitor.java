@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.command;
 
 import java.util.Iterator;
-import java.util.logging.Logger;
+
 
 public class CommandCounterVisitor implements Visitor {
 
@@ -16,7 +16,7 @@ public class CommandCounterVisitor implements Visitor {
         return setPositionCommandCounter;
     }
 
-    public int getAllCommandCounter() {
+    public int getAllCommandsCounter() {
         return setPositionCommandCounter + operateToCommandCounter;
     }
 
@@ -31,12 +31,12 @@ public class CommandCounterVisitor implements Visitor {
     }
 
     @Override
-    public void visit(ICompoundCommand driverCommand) {
-        Iterator<DriverCommand> iterator = driverCommand.iterator();
+    public void visit(ICompoundCommand compoundCommand) {
+        Iterator<DriverCommand> iterator = compoundCommand.iterator();
         while (iterator.hasNext())
         {
-            DriverCommand driverCommand1 = iterator.next();
-            driverCommand1.accept(this);
+            DriverCommand driverCommand = iterator.next();
+            driverCommand.accept(this);
         }
     }
 }
