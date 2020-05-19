@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -89,7 +90,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void runCommand() {
 		commandManager.runCurrentCommand();
-		updateCurrentCommandField();
 	}
 
 	public void updateCurrentCommandField() {
@@ -97,11 +97,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void deleteObservers(JButton deleteButton) {
-		if(observersDeleted){
+		if(observersDeleted) {
 			resetObservers(deleteButton);
 		}
-		else{
-			this.observerList = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
+		else {
+			this.observerList = this.commandManager.getChangePublisher().getSubscribers();
 			commandManager.getChangePublisher().clearObservers();
 			this.updateObserverListField();
 			observersDeleted = true;
