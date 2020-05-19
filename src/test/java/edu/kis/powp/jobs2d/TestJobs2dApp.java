@@ -18,6 +18,7 @@ import edu.kis.powp.jobs2d.features.DriverFeature;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static CommandManagerWindowCommandChangeObserver windowObserver;
 
 	/**
 	 * Setup test concerning preset figures in context.
@@ -29,10 +30,13 @@ public class TestJobs2dApp {
 				DriverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
 				DriverFeature.getDriverManager());
+		SelectAddCommandManagerWindowCommandChangeObserver selectAddCommandManagerWindow =
+				new SelectAddCommandManagerWindowCommandChangeObserver();
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
-		application.addTest("Add Command Change Observer", new SelectAddLoggerCommandChangeObserver());
+		application.addTest("Add Logger Command Change Observer", new SelectAddLoggerCommandChangeObserver());
+		application.addTest("Add Command Manager Window Change Observer", selectAddCommandManagerWindow);
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
+		windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
@@ -90,6 +94,10 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "Severe level",
 				(ActionEvent e) -> logger.setLevel(Level.SEVERE));
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
+	}
+
+	public static CommandManagerWindowCommandChangeObserver getWindowObserver() {
+		return windowObserver;
 	}
 
 	/**
