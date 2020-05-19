@@ -10,10 +10,10 @@ import java.awt.event.ActionListener;
 
 public class SelectLoadMacroListener implements ActionListener {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
-        CommandsFeature.getDriverCommandManager().setCurrentCommand(driver.getDriverCommandList(), "Macro");
-        DriverFeature.getDriverManager().setCurrentDriver(driver.getDriver());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
+		CommandsFeature.getDriverCommandManager().setCurrentCommand(driver.getDriverCommandList(), "Macro");
+		DriverFeature.getDriverManager().setCurrentDriver(driver.getDriver());
+	}
 }
