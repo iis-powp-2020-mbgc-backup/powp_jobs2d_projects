@@ -112,9 +112,8 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
-
-                JPanel panel = app.getFreePanel();
-                panel.addMouseListener(new MouseDrawListener(panel));
+				JPanel panel = app.getFreePanel();
+				panel.addMouseListener(new MouseDrawListener(panel));
 
                 app.setVisibility(true);
 			}
