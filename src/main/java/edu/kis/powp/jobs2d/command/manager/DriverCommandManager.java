@@ -36,19 +36,10 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
 		setCurrentCommand(new ICompoundCommand() {
-
 			List<DriverCommand> driverCommands = commandList;
-			CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
-
-			@Override
-			public void accept(Visitor visitor) {
-				visitor.visit(this);
-			}
 
 			@Override
 			public void execute(Job2dDriver driver) {
-				driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
-
 				driverCommands.forEach((c) -> c.execute(driver));
 			}
 
