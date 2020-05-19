@@ -13,11 +13,6 @@ public class SimpleFormatReader implements Reader {
     @Override
     public ComplexCommand read(String contentToParse) {
 
-        // W TAKI SPOSOB TRZEBA WPISYWAC KOMENDY!!!
-        // setPosition,1,1;
-        // operateTo,10,10;
-        // operateTo,100,30;
-
         List<DriverCommand> commandList = new ArrayList<>();
 
         String[] arr = contentToParse.split(";");

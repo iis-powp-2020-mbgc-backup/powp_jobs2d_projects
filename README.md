@@ -24,4 +24,4 @@ Akceptacja kodu i integracja go z bieżącą wersją (potencjalnie zawierającą
 * setPosition,1,1;
 * operateTo,10,10;
 * Kliknij "Load Command" i zamknij okno
-* User Test -> Custom Command
+* User Test -> Run Command

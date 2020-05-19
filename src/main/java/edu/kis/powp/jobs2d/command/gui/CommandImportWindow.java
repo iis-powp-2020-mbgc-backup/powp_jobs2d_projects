@@ -45,7 +45,6 @@ public class CommandImportWindow extends JFrame implements WindowComponent {
 
     private void loadCommand() {
     	commandManager.setCurrentCommand(reader.read(currentCommandField.getText()));
-    	//CommandsFeature.getDriverCommandManager().setCurrentCommand(reader.read(currentCommandField.getText()));
     }
 
     @Override

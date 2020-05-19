@@ -68,20 +68,16 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
-		
-		application.addTest("Custom Command", action -> CommandsFeature.getDriverCommandManager()
-				.getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver()));
 
 		DriverFeature.updateDriverInfo();
 	}
 
 	private static void setupWindows(Application application) {
-		
-		Reader reader = new SimpleFormatReader();
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
+		Reader reader = new SimpleFormatReader();
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
 
