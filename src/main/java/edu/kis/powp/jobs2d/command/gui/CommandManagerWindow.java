@@ -4,11 +4,13 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -18,6 +20,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea currentCommandField;
 
 	private JTextArea observerListField;
+
+	private final List<Subscriber> deletedSubscribers = new ArrayList<>();
 
 	/**
 	 * 
@@ -93,13 +97,22 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public void deleteObservers(ActionEvent e) {
 		JToggleButton button = (JToggleButton) e.getSource();
 		if(button.isSelected()) {
+			deletedSubscribers.addAll(commandManager.getChangePublisher().getSubscribers());
 			commandManager.getChangePublisher().clearObservers();
-			updateObserverListField();
 			button.setText("Reset observers");
 		} else {
-			updateObserverListField();
+			resetSubscribers();
 			button.setText("Delete observers");
 		}
+		updateObserverListField();
+	}
+
+	private void resetSubscribers() {
+		Publisher publisher = commandManager.getChangePublisher();
+		for(Subscriber subscriber : deletedSubscribers) {
+			publisher.addSubscriber(subscriber);
+		}
+		deletedSubscribers.clear();
 	}
 
 	private void updateObserverListField() {
