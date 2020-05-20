@@ -10,6 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.DriverStatistics;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -53,15 +54,17 @@ public class TestJobs2dApp {
      */
     private static void setupDrivers(Application application) {
         Job2dDriver loggerDriver = new LoggerDriver();
-        DriverFeature.addDriver("Logger driver", loggerDriver);
+        DriverFeature.addDriver("Logger driver", loggerDriver, new DriverStatistics());
 
         DrawPanelController drawerController = DrawerFeature.getDrawerController();
-        Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-        DriverFeature.addDriver("Line Simulator", driver);
-        DriverFeature.getDriverManager().setCurrentDriver(driver);
+        DriverStatistics statistics = new DriverStatistics();
+        Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic", statistics);
+        DriverFeature.addDriver("Line Simulator", driver, statistics);
+        //DriverFeature.getDriverManager().setCurrentDriver(driver);
 
-        driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
-        DriverFeature.addDriver("Special line Simulator", driver);
+        statistics = new DriverStatistics();
+        driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special", statistics);
+        DriverFeature.addDriver("Special line Simulator", driver, statistics);
         DriverFeature.updateDriverInfo();
     }
 

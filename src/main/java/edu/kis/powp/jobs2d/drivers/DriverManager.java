@@ -10,12 +10,14 @@ import edu.kis.powp.jobs2d.LoggerDriver;
 public class DriverManager {
 
     private Job2dDriver currentDriver = new LoggerDriver();
+    private DriverStatistics currentStatistics = new DriverStatistics();
 
     /**
      * @param driver Set the driver as current.
      */
-    public synchronized void setCurrentDriver(Job2dDriver driver) {
+    public synchronized void setCurrentDriver(Job2dDriver driver, DriverStatistics statistics) {
         currentDriver = driver;
+        currentStatistics = statistics;
     }
 
     /**
@@ -23,5 +25,12 @@ public class DriverManager {
      */
     public synchronized Job2dDriver getCurrentDriver() {
         return currentDriver;
+    }
+
+    /**
+     * @return Statistics for current driver.
+     */
+    public synchronized DriverStatistics getCurrentStatistics() {
+        return currentStatistics;
     }
 }
