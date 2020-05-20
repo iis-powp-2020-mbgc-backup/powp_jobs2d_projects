@@ -2,8 +2,8 @@ package edu.kis.powp.jobs2d.command.manager;
 
 import java.util.List;
 
-import edu.kis.powp.jobs2d.command.ICompoundCommandInstance;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -31,7 +31,7 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new ICompoundCommandInstance(commandList) );
+		setCurrentCommand(new ImmutableComplexCommand(commandList) );
 
 	}
 

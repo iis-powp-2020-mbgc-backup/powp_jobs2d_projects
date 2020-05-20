@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,11 @@ public class ImmutableComplexCommand implements ICompoundCommand {
 
     @Override
     public ImmutableComplexCommand clone() throws CloneNotSupportedException {
-        List<DriverCommand> list = List.copyOf(driverCommandList);
-        return new ImmutableComplexCommand(list);
+        List<DriverCommand> commands = new ArrayList<>();
+        for (DriverCommand command : this.driverCommandList) {
+            commands.add(command.clone());
+        }
+        return new ImmutableComplexCommand(commands);
     }
+
 }

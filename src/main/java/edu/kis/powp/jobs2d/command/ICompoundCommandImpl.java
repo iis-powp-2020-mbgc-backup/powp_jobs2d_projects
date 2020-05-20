@@ -2,14 +2,15 @@ package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ICompoundCommandInstance implements ICompoundCommand {
+public class ICompoundCommandImpl implements ICompoundCommand {
 
     List<DriverCommand> driverCommands;
 
-    public ICompoundCommandInstance(List<DriverCommand> commandList) {
+    public ICompoundCommandImpl(List<DriverCommand> commandList) {
         this.driverCommands = commandList;
     }
 
@@ -19,9 +20,12 @@ public class ICompoundCommandInstance implements ICompoundCommand {
     }
 
     @Override
-    public ICompoundCommandInstance clone() throws CloneNotSupportedException {
-        List<DriverCommand> list = List.copyOf(driverCommands);
-        return new ICompoundCommandInstance(list);
+    public ICompoundCommandImpl clone() throws CloneNotSupportedException {
+        List<DriverCommand> commands = new ArrayList<>();
+        for (DriverCommand command : this.driverCommands) {
+            commands.add(command.clone());
+        }
+        return new ICompoundCommandImpl(commands);
     }
 
     @Override

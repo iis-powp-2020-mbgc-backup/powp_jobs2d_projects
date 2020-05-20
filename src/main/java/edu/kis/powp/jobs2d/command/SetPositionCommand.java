@@ -22,10 +22,11 @@ public class SetPositionCommand implements DriverCommand {
 
 	@Override
 	public DriverCommand clone() throws CloneNotSupportedException {
-		SetPositionCommand copy =  (SetPositionCommand) super.clone();
-		copy.posX = this.posX;
-		copy.posY = this.posY;
-		return copy;
+		return (SetPositionCommand) super.clone();
 	}
 
+	public void movePoint(int x, int y) {
+		this.posX += x;
+		this.posY += y;
+	}
 }

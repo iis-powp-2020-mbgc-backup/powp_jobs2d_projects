@@ -32,7 +32,7 @@ public class TestJobs2dApp {
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
-		application.addTest("Deep copy", new ICompoundCommandListener(DriverFeature.getDriverManager()));
+		application.addTest("Deep copy", new ICompoundCommandDeepCopyTest(DriverFeature.getDriverManager()));
 	}
 
 	/**
