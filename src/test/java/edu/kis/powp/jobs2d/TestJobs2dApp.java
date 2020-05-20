@@ -47,8 +47,15 @@ public class TestJobs2dApp {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+
+		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
+		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
+		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
+
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
+
 	}
 
 	/**
