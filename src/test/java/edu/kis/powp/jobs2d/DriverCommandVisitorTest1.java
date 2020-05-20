@@ -12,31 +12,31 @@ import java.util.logging.Logger;
 
 public class DriverCommandVisitorTest1 implements ActionListener {
 
-    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        logger.info("Testing Command Visitor");
-        CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+		logger.info("Testing Command Visitor");
+		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
 
-        int expectedNumberOfSetPositionMethodCall = 3;
-        int expectedNumberOfOperateMethodCall = 2;
-        int expectedNumberOfAllOperationsCall = 5;
+		int expectedNumberOfSetPositionMethodCall = 3;
+		int expectedNumberOfOperateMethodCall = 2;
+		int expectedNumberOfAllOperationsCall = 5;
 
-        List<DriverCommand> driverCommands = new ArrayList<>();
-        driverCommands.add(new SetPositionCommand(-20, -50));
-        driverCommands.add(new OperateToCommand(-20, -50));
-        driverCommands.add(new SetPositionCommand(-20, -40));
-        driverCommands.add(new OperateToCommand(-20, 50));
-        driverCommands.add(new SetPositionCommand(0, -50));
+		List<DriverCommand> driverCommands = new ArrayList<>();
+		driverCommands.add(new SetPositionCommand(-20, -50));
+		driverCommands.add(new OperateToCommand(-20, -50));
+		driverCommands.add(new SetPositionCommand(-20, -40));
+		driverCommands.add(new OperateToCommand(-20, 50));
+		driverCommands.add(new SetPositionCommand(0, -50));
 
-        driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
+		driverCommands.forEach((c) -> c.accept(commandCounterVisitor));
 
-        if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
-        && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
-            logger.info("Driver Command Visitor test1 Passed");
-        } else {
-            logger.info("Driver Command Visitor test1 Failed");
-        }
-    }
+		if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
+			&& expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
+			logger.info("Driver Command Visitor test1 Passed");
+		} else {
+			logger.info("Driver Command Visitor test1 Failed");
+		}
+	}
 }
