@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -97,8 +96,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public void deleteObservers(ActionEvent e) {
 		JToggleButton button = (JToggleButton) e.getSource();
 		if(button.isSelected()) {
-			deletedSubscribers.addAll(commandManager.getChangePublisher().getSubscribers());
-			commandManager.getChangePublisher().clearObservers();
+			deletedSubscribers.addAll(commandManager.getChangeSubscribers());
+			commandManager.clearChangeSubscribers();
 			button.setText("Reset observers");
 		} else {
 			resetSubscribers();
@@ -108,16 +107,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void resetSubscribers() {
-		Publisher publisher = commandManager.getChangePublisher();
 		for(Subscriber subscriber : deletedSubscribers) {
-			publisher.addSubscriber(subscriber);
+			commandManager.addChangeSubscriber(subscriber);
 		}
 		deletedSubscribers.clear();
 	}
 
-	private void updateObserverListField() {
+	public void updateObserverListField() {
 		StringBuilder observerListString = new StringBuilder();
-		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
+		List<Subscriber> commandChangeSubscribers = commandManager.getChangeSubscribers();
 		for (Subscriber observer : commandChangeSubscribers) {
 			observerListString.append(observer.toString()).append(System.lineSeparator());
 		}
@@ -129,8 +127,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
-		updateObserverListField();
 		this.setVisible(!this.isVisible());
 	}
-
 }

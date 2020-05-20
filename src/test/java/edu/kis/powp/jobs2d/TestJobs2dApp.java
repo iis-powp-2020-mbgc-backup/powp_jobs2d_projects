@@ -10,6 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -72,9 +73,13 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
+		CommandManagerWindowObserverChangeObserver windowObserverChangeObserver =
+				new CommandManagerWindowObserverChangeObserver(commandManager);
+		CommandsFeature.getDriverCommandManager().addObserverChangeSubscriber(windowObserverChangeObserver);
+
 		windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
-		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);
 	}
 
 	/**

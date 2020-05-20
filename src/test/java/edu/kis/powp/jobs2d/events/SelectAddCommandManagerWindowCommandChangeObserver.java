@@ -8,12 +8,11 @@ import java.awt.event.ActionListener;
 
 public class SelectAddCommandManagerWindowCommandChangeObserver implements ActionListener {
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        CommandsFeature
-                .getDriverCommandManager()
-                .getChangePublisher()
-                .addSubscriber(TestJobs2dApp.getWindowObserver());
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+		CommandsFeature
+				.getDriverCommandManager()
+				.addChangeSubscriber(TestJobs2dApp.getWindowObserver());
 
-    }
+	}
 }
