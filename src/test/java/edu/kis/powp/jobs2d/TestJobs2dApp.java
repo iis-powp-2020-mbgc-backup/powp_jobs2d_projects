@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.*;
+
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -120,8 +122,10 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				JPanel panel = app.getFreePanel();
+				panel.addMouseListener(new MouseDrawListener(panel, DriverFeature.getDriverManager()));
 
-				app.setVisibility(true);
+                app.setVisibility(true);
 			}
 		});
 	}
