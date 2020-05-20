@@ -37,10 +37,10 @@ public class ICompoundCommandVisitorTest implements ActionListener {
         commands.add(new OperateToCommand(-25, 21));
         commands.add(new OperateToCommand(-11, 23));
 
+
         ICompoundCommand iCompoundCommand = new ICompoundCommand(){
 
             List<DriverCommand> driverCommands = commands;
-            CommandCounterVisitor commandCounter = commandCounterVisitor;
             String name;
 
             @Override
@@ -64,7 +64,9 @@ public class ICompoundCommandVisitorTest implements ActionListener {
             }
         };
 
-        iCompoundCommand.execute(job2dStub);
+        CommandCounterVisitor commandCounter = commandCounterVisitor;
+        iCompoundCommand.accept(commandCounter);
+
         if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
             && expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
             logger.info("ICompound Command Visitor Test Passed");
