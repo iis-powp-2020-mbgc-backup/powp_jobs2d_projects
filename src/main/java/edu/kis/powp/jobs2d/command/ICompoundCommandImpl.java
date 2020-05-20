@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ICompoundCommandImpl implements ICompoundCommand {
 
-    List<DriverCommand> driverCommands;
+    private List<DriverCommand> driverCommands;
 
     public ICompoundCommandImpl(List<DriverCommand> commandList) {
         this.driverCommands = commandList;
