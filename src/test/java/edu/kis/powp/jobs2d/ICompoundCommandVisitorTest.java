@@ -50,8 +50,6 @@ public class ICompoundCommandVisitorTest implements ActionListener {
 
             @Override
             public void execute(Job2dDriver driver) {
-                driverCommands.forEach((c) -> c.accept(commandCounter));
-
                 driverCommands.forEach((c) -> c.execute(driver));
             }
 
