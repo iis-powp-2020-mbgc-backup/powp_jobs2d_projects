@@ -2,7 +2,11 @@ package edu.kis.powp.jobs2d.drivers;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
+import java.util.logging.Logger;
+
 public class DriverUsageMonitor extends Job2dDriverDecorator {
+	Logger logger = Logger.getLogger("global");
+	
 	private double operateToDistance;
 	private double setPositionDistance;
 	private int previousPositionX;
@@ -18,6 +22,7 @@ public class DriverUsageMonitor extends Job2dDriverDecorator {
 		super.setPosition(x, y);
 		
 		this.setPositionDistance += computeDistance(x, y);
+		logger.info(driver.toString() + "\nSetPosition distance: " + getSetPositionDistance());
 		
 		this.previousPositionX = x;
 		this.previousPositionY = y;
@@ -28,6 +33,7 @@ public class DriverUsageMonitor extends Job2dDriverDecorator {
 		super.operateTo(x, y);
 		
 		this.operateToDistance += computeDistance(x, y);
+		logger.info(driver.toString() + "\nOperateTo distance: "  + getOperateToDistance());
 		
 		this.previousPositionX = x;
 		this.previousPositionY = y;
