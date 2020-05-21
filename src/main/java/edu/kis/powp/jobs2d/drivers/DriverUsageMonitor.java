@@ -51,6 +51,11 @@ public class DriverUsageMonitor extends Job2dDriverDecorator {
 		return setPositionDistance;
 	}
 	
+	@Override
+	public String toString() {
+		return driver.toString();
+	}
+	
 	private double computeDistance(int x, int y) {
 		return Math.sqrt(Math.pow(x - previousPositionX, 2) + Math.pow(y - previousPositionY, 2));
 	}
