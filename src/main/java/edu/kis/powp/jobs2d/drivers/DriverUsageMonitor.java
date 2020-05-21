@@ -5,10 +5,10 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import java.util.logging.Logger;
 
 public class DriverUsageMonitor extends Job2dDriverDecorator {
-	Logger logger = Logger.getLogger("global");
+	Logger logger = Logger.getLogger("usagemonitor");
 	
-	private double operateToDistance;
-	private double setPositionDistance;
+	private int operateToDistance;
+	private int setPositionDistance;
 	private int previousPositionX;
 	private int previousPositionY;
 	
@@ -22,7 +22,8 @@ public class DriverUsageMonitor extends Job2dDriverDecorator {
 		super.setPosition(x, y);
 		
 		this.setPositionDistance += computeDistance(x, y);
-		logger.info(driver.toString() + "\nSetPosition distance: " + getSetPositionDistance());
+		logger.info("SetPosition distance: " + getSetPositionDistance()
+				+ "\nTotal distance: " + getTotalToDistance());
 		
 		this.previousPositionX = x;
 		this.previousPositionY = y;
@@ -33,21 +34,22 @@ public class DriverUsageMonitor extends Job2dDriverDecorator {
 		super.operateTo(x, y);
 		
 		this.operateToDistance += computeDistance(x, y);
-		logger.info(driver.toString() + "\nOperateTo distance: "  + getOperateToDistance());
+		logger.info("OperateTo distance: " + getOperateToDistance()
+				+ "\nTotal distance: " + getTotalToDistance());
 		
 		this.previousPositionX = x;
 		this.previousPositionY = y;
 	}
 	
-	public double getOperateToDistance() {
+	public int getOperateToDistance() {
 		return this.operateToDistance;
 	}
 	
-	public double getTotalToDistance() {
+	public int getTotalToDistance() {
 		return this.operateToDistance + this.setPositionDistance;
 	}
 	
-	public double getSetPositionDistance() {
+	public int getSetPositionDistance() {
 		return setPositionDistance;
 	}
 	

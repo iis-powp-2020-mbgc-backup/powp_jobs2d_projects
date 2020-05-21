@@ -6,6 +6,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.gui.MonitorUsageWindow;
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
 import edu.kis.powp.jobs2d.drivers.DriverUsageMonitor;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+	
 	/**
 	 * Setup test concerning preset figures in context.
 	 *
@@ -33,12 +34,12 @@ public class TestJobs2dApp {
 				DriverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
 				DriverFeature.getDriverManager());
-
+		
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
-
+		
 	}
-
+	
 	/**
 	 * Setup test using driver commands in context.
 	 *
@@ -46,13 +47,13 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-
+		
 		application.addTest("DriverCommandVisitor test DriverCommand", new SelectSingleCommandVisitorTestListener());
 		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());
 		
 		application.addTest("Load and copy secret command", new SelectCopySecretCommand());
 	}
-
+	
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
 	 *
@@ -60,38 +61,38 @@ public class TestJobs2dApp {
 	 */
 	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new DriverUsageMonitor(new LoggerDriver());
-
+		
 		DriverChangeTitleObserver driverObserver = new DriverChangeTitleObserver();
 		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(driverObserver);
-
+		
 		DriverFeature.addDriver("Logger driver", loggerDriver);
-
+		
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new DriverUsageMonitor(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
-
+		
 		driver = new DriverUsageMonitor(new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special"));
 		DriverFeature.addDriver("Special line Simulator", driver);
 	}
-
+	
 	private static void setupWindows(Application application) {
-
+		
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
-
+		
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
-
+	
 	/**
 	 * Setup menu for adjusting logging settings.
 	 *
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
-
+		
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
 				(ActionEvent e) -> application.flushLoggerOutput());
@@ -103,7 +104,19 @@ public class TestJobs2dApp {
 				(ActionEvent e) -> logger.setLevel(Level.SEVERE));
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
 	}
-
+	
+	/**
+	 * Setup a usage monitor window, which displays a current head distance.
+	 *
+	 * @param app Application context.
+	 */
+	private static void setupMonitorUsage(Application app) {
+		MonitorUsageWindow monitorUsageWindow = new MonitorUsageWindow();
+		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(monitorUsageWindow);
+		app.addWindowComponent("Monitor usage", monitorUsageWindow);
+	}
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -114,17 +127,16 @@ public class TestJobs2dApp {
 				DrawerFeature.setupDrawerPlugin(app);
 				MouseDrawFeature.SetMouseListener(app.getFreePanel());
 				CommandsFeature.setupCommandManager();
-
+				
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
-
+				setupMonitorUsage(app);
 				app.setVisibility(true);
 			}
 		});
 	}
-
 }

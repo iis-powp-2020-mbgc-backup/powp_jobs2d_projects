@@ -5,6 +5,8 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
 
+import java.util.logging.Logger;
+
 public class DriverFeature {
 
 	private static DriverManager driverManager = new DriverManager();
