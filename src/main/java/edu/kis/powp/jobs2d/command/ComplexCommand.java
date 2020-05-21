@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.manager;
+package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;

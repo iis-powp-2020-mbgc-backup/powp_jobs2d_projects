@@ -3,7 +3,7 @@ package edu.kis.powp.jobs2d.features.Readers;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.command.manager.ComplexCommand;
+import edu.kis.powp.jobs2d.command.ComplexCommand;
 
 import java.util.ArrayList;
 import java.util.List;
