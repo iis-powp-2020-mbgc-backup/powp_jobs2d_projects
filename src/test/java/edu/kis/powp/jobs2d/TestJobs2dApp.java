@@ -1,13 +1,9 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
@@ -16,6 +12,14 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.Readers.Reader;
+import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -47,6 +51,13 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
+
+		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
+		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
+		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
+
+		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
+		application.addTest("Clear Macro",new SelectClearMacroListener());
 	}
 
 	/**
@@ -65,6 +76,13 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
+		DriverFeature.addDriver("Dotted line Simulator", driver);
+
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
+		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
+
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -76,9 +94,12 @@ public class TestJobs2dApp {
 		CommandManagerWindowObserverChangeObserver windowObserverChangeObserver =
 				new CommandManagerWindowObserverChangeObserver(commandManager);
 		CommandsFeature.getDriverCommandManager().addObserverChangeSubscriber(windowObserverChangeObserver);
+		Reader reader = new SimpleFormatReader();
+		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
+		application.addWindowComponent("Editor", commandImportWindow);
 
-		windowObserver = new CommandManagerWindowCommandChangeObserver(
-				commandManager);
+
+    windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);
 	}
 
@@ -114,8 +135,9 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-
+				MacroFeature.setupMacroDriverDecorator();
 				DriverFeature.setupDriverPlugin(app);
+
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
