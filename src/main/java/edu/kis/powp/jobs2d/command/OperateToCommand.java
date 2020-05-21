@@ -15,11 +15,6 @@ public class OperateToCommand implements DriverCommand {
 		this.posY = posY;
 	}
 
-	public void movePoint(int x, int y) {
-		this.posX += x;
-		this.posY += y;
-	}
-
 	@Override
 	public void execute(Job2dDriver driver) {
 		driver.operateTo(posX, posY);

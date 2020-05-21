@@ -25,8 +25,4 @@ public class SetPositionCommand implements DriverCommand {
 		return (SetPositionCommand) super.clone();
 	}
 
-	public void movePoint(int x, int y) {
-		this.posX += x;
-		this.posY += y;
-	}
 }

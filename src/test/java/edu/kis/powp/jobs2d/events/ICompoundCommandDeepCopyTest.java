@@ -1,5 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
+import classes_for_test.MutableOperateToCommand;
+import classes_for_test.MutableSetPositionCommand;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 
@@ -20,9 +22,9 @@ public class ICompoundCommandDeepCopyTest implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         List<DriverCommand> commands = new ArrayList<DriverCommand>();
 
-        SetPositionCommand setCommand = new SetPositionCommand(0, 0);
-        OperateToCommand firstCommand = new OperateToCommand(0, -100);
-        OperateToCommand secondCommand = new OperateToCommand(30, -100);
+        MutableSetPositionCommand setCommand = new MutableSetPositionCommand(0, 0);
+        MutableOperateToCommand firstCommand = new MutableOperateToCommand(0, -100);
+        MutableOperateToCommand secondCommand = new MutableOperateToCommand(30, -100);
 
         commands.add(setCommand);
         commands.add(firstCommand);
