@@ -1,11 +1,13 @@
-package edu.kis.powp.jobs2d.command.manager;
+package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 
+import java.util.Iterator;
 import java.util.List;
 
-public class ComplexCommand implements DriverCommand {
+public class ComplexCommand implements ICompoundCommand {
 
     private List<DriverCommand> commandList;
 
@@ -18,5 +20,10 @@ public class ComplexCommand implements DriverCommand {
         for(int i=0;i<commandList.size();i++) {
             commandList.get(i).execute(driver);
         }
+    }
+
+    @Override
+    public Iterator<DriverCommand> iterator() {
+        return commandList.iterator();
     }
 }
