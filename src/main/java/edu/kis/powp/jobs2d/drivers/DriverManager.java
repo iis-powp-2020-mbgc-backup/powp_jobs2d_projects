@@ -10,7 +10,7 @@ import edu.kis.powp.observer.Publisher;
  */
 public class DriverManager {
 
-	Publisher publisher = new Publisher();
+	private Publisher publisher = new Publisher();
 	private Job2dDriver currentDriver = new LoggerDriver();
 
 	/**
