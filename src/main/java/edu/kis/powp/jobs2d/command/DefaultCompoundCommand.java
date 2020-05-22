@@ -26,7 +26,7 @@ public class DefaultCompoundCommand implements ICompoundCommand {
     }
 
     @Override
-    public DriverCommand clone(){
+    public DriverCommand clone( ) throws CloneNotSupportedException{
         return ICompoundCommand.super.clone();
     }
 }
