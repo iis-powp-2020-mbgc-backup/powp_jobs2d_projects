@@ -9,16 +9,14 @@ import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
 
-
-
-public class MacroDriver implements Job2dDriver {
+public class MacroDriverDecorator implements Job2dDriver {
 
     List<DriverCommand> commands = new ArrayList<DriverCommand>();
     private Job2dDriver jd;
     public void clearMacro(){
         commands.clear();
     }
-    public void setPreviousDriver(Job2dDriver jd){
+    public void setCoreDriver(Job2dDriver jd){
         this.jd=jd;
     }
     public Job2dDriver getPreviousDriver(){
@@ -26,8 +24,8 @@ public class MacroDriver implements Job2dDriver {
     }
 
     @Override
-    public void setPosition(int i, int i1) {
-        commands.add(new SetPositionCommand(i, i1));
+    public void setPosition(int x, int y) {
+        commands.add(new SetPositionCommand(x, y));
     }
 
     @Override
@@ -41,7 +39,7 @@ public class MacroDriver implements Job2dDriver {
 
     @Override
     public String toString () {
-        return "MacroDriver";
+        return "MacroDriverDecorator";
     }
 
 }

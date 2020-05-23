@@ -1,19 +1,18 @@
 package edu.kis.powp.jobs2d.features;
 
 
-import edu.kis.powp.jobs2d.command.manager.LoggerCommandChangeObserver;
-import edu.kis.powp.jobs2d.drivers.MacroDriver;
+import edu.kis.powp.jobs2d.drivers.MacroDriverDecorator;
 
 public class MacroFeature {
 
-    private static MacroDriver macroDriver= new MacroDriver();
+    private static MacroDriverDecorator macroDriverDecorator = new MacroDriverDecorator();
 
     /**
      * Get manager of application driver macro.
      *
-     * @return macroDriver.
+     * @return macroDriverDecorator.
      */
-    public static MacroDriver getMacroDriver() {
-        return macroDriver;
+    public static MacroDriverDecorator getMacroDriverDecorator() {
+        return macroDriverDecorator;
     }
 }
