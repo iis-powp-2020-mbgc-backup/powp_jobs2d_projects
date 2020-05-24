@@ -1,78 +1,62 @@
-{
-   "1": {
-         "command": "setPosition",
-		 "x": "-20",
-		 "y": "-50"
-    },
-    "2": {
-         "command": "operateTo",
-		 "x": "-20",
-		 "y": "-50"
+[
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+		"DATA":{"posX":-20,"posY":-50}
 	},
-	"3": {
-         "command": "setPosition",
-		 "x": "-20",
-		"y": "-40"      
-    },
-	"4": {
-         "command": "operateTo",
-		 "x": "-20",
-		 "y": "50" 
-    },
-	"5": {
-         "command": "setPosition",
-		 "x": "0",
-		 "y": "-50"
-    },
-	"6": {
-         "command": "operateTo",
-		 "x": "0",
-		 "y": "-50"
-    },
-	"7": {
-         "command": "setPosition", 
-		 "x": "0",
-		 "y": "-40"
-    },
-	"8": {
-		"command": "operateTo",
-		"x": "0",
-		"y": "50"
-    },
-	"9": {
-         "command": "setPosition", 
-		 "x": "70",
-		 "y": "-50"
-    },
-	"10": {
-         "command": "operateTo",
-		 "x": "20",
-		 "y": "-50"
-    },
-	"11": {
-         "command": "operateTo",
-		 "x": "20",
-		 "y": "0"
-    },
-	
-	"12": {
-         "command": "operateTo",
-		 "x": "70",
-		 "y": "0"
-    },
-	"13": {
-         "command": "operateTo",
-		 "x": "70",
-		 "y": "0"
-    },
-	"14": {
-         "command": "operateTo",
-		 "x": "70",
-		 "y": "50"
-    },
-	"15": {
-         "command": "operateTo",
-		 "x": "20",
-		 "y": "50"
-    }
-}
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":-20,"posY":-50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+		"DATA":{"posX":-20,"posY":-40}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":-20,"posY":50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+		"DATA":{"posX":0,"posY":-50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":0,"posY":-50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+		"DATA":{"posX":0,"posY":-40}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":0,"posY":50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+		"DATA":{"posX":70,"posY":-50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":20,"posY":-50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":20,"posY":0}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":70,"posY":0}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":70,"posY":0}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":70,"posY":50}
+	},
+	{
+		"CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+		"DATA":{"posX":20,"posY":50}
+	}
+]

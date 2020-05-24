@@ -1,27 +1,23 @@
-{
-  "1": {
-    "command": "setPosition",
-    "x": "-125",
-    "y": "-100"
+[
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+    "DATA":{"posX":-125,"posY":-100}
   },
-  "2": {
-    "command": "operateTo",
-    "x": "125",
-    "y": "-100"
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":125,"posY":-100}
   },
-  "3": {
-    "command": "operateTo",
-    "x": "125",
-    "y": "100"
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":125,"posY":100}
   },
-  "4": {
-    "command": "operateTo",
-    "x": "-125",
-    "y": "100"
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":-125,"posY":100}
   },
-  "5": {
-    "command": "operateTo",
-    "x": "-125",
-    "y": "-100"
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":-125,"posY":-100}
   }
-}
+]
+
