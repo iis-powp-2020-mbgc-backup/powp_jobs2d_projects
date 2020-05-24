@@ -10,10 +10,15 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
 
     private IComputationPolicy policy;
     private LinkedList<Usage> usagesOfHead;
+    private double timeOfUsage;
+
 
     @Override
     public void analyze(ICompoundCommand compoundCommand) {
-
+        timeOfUsage = 0;
+        usagesOfHead = new LinkedList<>();
+        visit(compoundCommand);
+        usagesOfHead.forEach(usage -> this.timeOfUsage += policy.compute(usage.startX, usage.startY, usage.endX, usage.endY, usage.type));
     }
 
     @Override
