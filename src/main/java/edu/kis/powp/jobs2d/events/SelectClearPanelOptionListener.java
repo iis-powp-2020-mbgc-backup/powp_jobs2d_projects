@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -15,11 +16,9 @@ public class SelectClearPanelOptionListener implements ActionListener {
 	}
 
 	private void cleanMouseListeners(){
-		Arrays.stream(DrawerFeature
-				.getPanel()
+		JPanel panel = DrawerFeature.getPanel();
+		Arrays.stream(panel
 				.getMouseListeners())
-				.forEach(listener -> DrawerFeature
-						.getPanel()
-						.removeMouseListener(listener));
+				.forEach(panel::removeMouseListener);
 	}
 }

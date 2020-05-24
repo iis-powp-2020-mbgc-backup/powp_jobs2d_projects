@@ -10,12 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class SelectMouseFigureOptionListener implements ActionListener {
 
-	private Integer halfWidth;
-	private Integer halfHeight;
 	private DriverManager driverManager;
 	private JPanel drawPanel;
-	private Integer prevX;
-	private Integer prevY;
+	private Integer previousHeadXPosition;
+	private Integer previousHeadYPosition;
 
 
 	public SelectMouseFigureOptionListener(JPanel drawPanel, DriverManager driverManager) {
@@ -25,32 +23,32 @@ public class SelectMouseFigureOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setXYnull();
-		halfWidth = drawPanel.getWidth()/2;
-		halfHeight = drawPanel.getHeight()/2;
+		cleanHeadPosition();
+		int halfWindowHeight = drawPanel.getHeight()/2;
+		int halfWindowWidth = drawPanel.getWidth()/2;
 
 		this.drawPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(prevX == null || prevY == null){
-					updatePreviousMousePosition(e);
+				if(previousHeadXPosition == null || previousHeadYPosition == null){
+					updatePreviousMousePosition(e, halfWindowWidth, halfWindowHeight);
 				}
 
-				driverManager.getCurrentDriver().setPosition(prevX, prevY);
-				driverManager.getCurrentDriver().operateTo(e.getX()- halfWidth, e.getY()- halfHeight);
+				driverManager.getCurrentDriver().setPosition(previousHeadXPosition, previousHeadYPosition);
+				driverManager.getCurrentDriver().operateTo(e.getX()- halfWindowWidth, e.getY()- halfWindowHeight);
 
-				updatePreviousMousePosition(e);
+				updatePreviousMousePosition(e, halfWindowWidth, halfWindowHeight);
 			}
 		});
 	}
 
-	private void updatePreviousMousePosition(MouseEvent event){
-		prevX = event.getX() - halfWidth;
-		prevY = event.getY() - halfHeight;
+	private void updatePreviousMousePosition(MouseEvent event, int halfWidth, int halfHeight){
+		previousHeadXPosition = event.getX() - halfWidth;
+		previousHeadYPosition = event.getY() - halfHeight;
 	}
 
-	private void setXYnull(){
-		prevY = null;
-		prevX = null;
+	private void cleanHeadPosition(){
+		previousHeadYPosition = null;
+		previousHeadXPosition = null;
 	}
 }
