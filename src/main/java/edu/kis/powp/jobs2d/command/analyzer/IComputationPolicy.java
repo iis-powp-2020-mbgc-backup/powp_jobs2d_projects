@@ -31,7 +31,7 @@ public interface IComputationPolicy {
      * Sets velocity factor for examined device or object
      * @param d deceleration in m/s^2.
      */
-    void setVelocity(double d);
+    void setMaxVelocity(double d);
 
     /**
      * Sets distance unit for current examination (it determines distances between coordinates)
