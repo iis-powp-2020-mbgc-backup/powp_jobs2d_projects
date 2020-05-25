@@ -7,6 +7,7 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
  * This interface was defined for complex commands benchmarking and analysis of usage purpose.
  */
 public interface ICommandUsageAnalyzer extends DriverCommandVisitor {
+
     /**
      * Performs command analysis based on injected policy.
      * @param compoundCommand command to benchmark.
