@@ -4,6 +4,8 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.*;
+import edu.kis.powp.jobs2d.command.backlog.BackLogManager;
+import edu.kis.powp.jobs2d.command.backlog.BackLogViewer;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
@@ -79,9 +81,15 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
+		BackLogManager backLog = new BackLogManager(CommandsFeature.getDriverCommandManager());
+		application.addWindowComponent("Back Log", backLog);
+
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+
+		BackLogViewer windowObserver2 = new BackLogViewer(backLog);
+		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver2);
 	}
 
 	/**
