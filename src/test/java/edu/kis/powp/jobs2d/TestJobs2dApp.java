@@ -55,8 +55,8 @@ public class TestJobs2dApp {
 		application.addTest("Vertical flipped secret figure", new FlipVerticalSecretCommandOptionListener());
 		application.addTest("Horizontal flipped figure", new FlipHorizontalSecretCommandOptionListener());
 		application.addTest("Scaling figure", new ScaleCommandOptionListener());
-		application.addTest("Rotate figure", null);
-
+		application.addTest("Rotate LEFT figure", new RotateLeftSecretCommandOptionListener());
+		application.addTest("Rotate RIGHT figure", new RotateRightSecretCommandOptionListener());
 	}
 
 	/**
