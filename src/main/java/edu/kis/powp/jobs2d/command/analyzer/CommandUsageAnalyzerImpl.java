@@ -6,12 +6,15 @@ import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
 
     private IComputationPolicy policy;
     private LinkedList<Usage> usagesOfHead;
-    private double timeOfUsage;
+    private List<Double> timeOfUsages;
+    private List<Double> averageVelocities;
+    private List<Double> distances;
 
     /**
      * Start position of head
@@ -21,10 +24,19 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
 
     @Override
     public void analyze(ICompoundCommand compoundCommand) {
-        timeOfUsage = 0;
+        timeOfUsages = new LinkedList<>();
         usagesOfHead = new LinkedList<>();
+        distances = new LinkedList<>();
+        averageVelocities = new LinkedList<>();
+
         visit(compoundCommand);
-        usagesOfHead.forEach(usage -> this.timeOfUsage += policy.compute(usage.startX, usage.startY, usage.endX, usage.endY, usage.type));
+
+        usagesOfHead.forEach(usage -> {
+            Statistics statistics = policy.compute(usage.startX, usage.startY, usage.endX, usage.endY, usage.type);
+            this.timeOfUsages.add(statistics.getData("time"));
+            this.averageVelocities.add(statistics.getData("averageVelocity"));
+            this.distances.add(statistics.getData("distance"));
+        });
     }
 
     @Override
@@ -54,7 +66,6 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
         x = driverCommand.getPosX();
         y = driverCommand.getPosY();
     }
-
 
     /**
      * internal struct

@@ -11,9 +11,9 @@ public interface IComputationPolicy {
      * @param start_y current y position of head or other device
      * @param end_x end x position of head or other device
      * @param end_y end y position of head or other device
-     * @return computed factor (i.e. time) for current step.
+     * @return computed factors (i.e. time) for current step.
      */
-    double compute(int start_x, int start_y, int end_x, int end_y, UsageType type);
+    Statistics compute(int start_x, int start_y, int end_x, int end_y, UsageType type);
 
     /**
      * Sets acceleration factor for examined device or object
