@@ -25,4 +25,8 @@ public class SetPositionCommand implements DriverCommand {
 		return (SetPositionCommand) super.clone();
 	}
 
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
+
 }

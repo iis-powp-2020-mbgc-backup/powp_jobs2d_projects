@@ -8,7 +8,11 @@ import java.util.Iterator;
  */
 public interface ICompoundCommand extends DriverCommand {
 
-	public Iterator<DriverCommand> iterator();
+	Iterator<DriverCommand> iterator();
 
 	public ICompoundCommand clone() throws CloneNotSupportedException;
+
+	default void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

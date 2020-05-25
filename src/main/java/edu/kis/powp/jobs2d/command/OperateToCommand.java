@@ -25,4 +25,7 @@ public class OperateToCommand implements DriverCommand {
 		return (OperateToCommand) super.clone();
 	}
 
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }
