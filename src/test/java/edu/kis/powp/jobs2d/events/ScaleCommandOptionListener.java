@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FlipVerticalSecretCommandOptionListener implements ActionListener {
+public class ScaleCommandOptionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
         DefaultCompoundCommand compound = null;
         List<DriverCommand> commands = new ArrayList<DriverCommand>();
         DriverCommand first, second, third, lastOne; // test DriverCommands
-        DriverCommandFlipVertical flipVisitor = null;
+        DriverCommandScale scaleVisitor = null;
 
         try {
             commands.add(new SetPositionCommand(-20, -50));
@@ -66,13 +66,12 @@ public class FlipVerticalSecretCommandOptionListener implements ActionListener {
         }
 
         commands.clear();
-        flipVisitor = new DriverCommandFlipVertical();
-        lastOne.accept(flipVisitor);
-        DriverCommand flipped = flipVisitor.getFlippedCommand();
+        scaleVisitor = new DriverCommandScale(.5f, 2.f);
+        lastOne.accept(scaleVisitor);
+        DriverCommand flipped = scaleVisitor.getScaledCommand();
         commands.add(flipped);
 
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         manager.setCurrentCommand(commands, "CopiedTopSecretCommand");
     }
-
 }

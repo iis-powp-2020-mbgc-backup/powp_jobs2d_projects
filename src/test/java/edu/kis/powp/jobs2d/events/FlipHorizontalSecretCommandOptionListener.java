@@ -73,11 +73,6 @@ public class FlipHorizontalSecretCommandOptionListener implements ActionListener
 
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         manager.setCurrentCommand(commands, "CopiedTopSecretCommand");
-
-        DriverCommandCallCounterVisitor counterVisitor = new DriverCommandCallCounterVisitor();
-
-        flipped.accept(counterVisitor);
-        Logger.getLogger("global").log(Level.INFO, Integer.toString(counterVisitor.getCounter()));
     }
 
 }
