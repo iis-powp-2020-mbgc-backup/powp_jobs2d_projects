@@ -14,5 +14,4 @@ public interface DriverCommand {
      */
     public void execute(Job2dDriver driver);
 
-    void accept(ICommandVisitor commandVisitor);
 }

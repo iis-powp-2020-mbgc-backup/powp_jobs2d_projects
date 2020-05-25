@@ -20,8 +20,4 @@ public class OperateToCommand implements DriverCommand {
         driver.operateTo(posX, posY);
     }
 
-    @Override
-    public void accept(ICommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
-    }
 }
