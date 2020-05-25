@@ -1,22 +1,21 @@
-package edu.kis.powp.jobs2d.command.backlog;
+package edu.kis.powp.jobs2d.command.gui.backlog;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.format.DateTimeFormatter;
 
-public class BackLogManager extends JFrame implements WindowComponent {
+public class BackLogManagerWindow extends JFrame implements WindowComponent {
 
     private DriverCommandManager commandManager;
-    private JTextArea currentCommandField;
-    private String observerListString;
-    private JTextArea observerListField;
+    private JTextArea commandListField;
 
 
-    public BackLogManager(DriverCommandManager commandManager) {
+    public BackLogManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("BackLog Viewer");
-        this.setSize(800, 400);
+        this.setSize(600, 500);
         Container content = this.getContentPane();
         content.setLayout(new GridBagLayout());
 
@@ -28,9 +27,9 @@ public class BackLogManager extends JFrame implements WindowComponent {
         c.gridx = 0;
         c.weighty = 1;
 
-        observerListField = new JTextArea("");
-        observerListField.setEditable(false);
-        content.add(observerListField, c);
+        commandListField = new JTextArea("");
+        commandListField.setEditable(false);
+        content.add(commandListField, c);
         updateLog();
 
     }
@@ -39,12 +38,12 @@ public class BackLogManager extends JFrame implements WindowComponent {
         /**
          *  Here we will add some backlog infos about used functions
          */
-        observerListString = "Nothing to show";
-        observerListField.setText(observerListString);
+        commandListField.setText("History of commands: \n");
     }
 
-    public void updateCurrentCommandField() {
-        currentCommandField.setText(commandManager.getCurrentCommandString());
+    public void updateCommandListField() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        commandListField.append("Used command ("+java.time.LocalTime.now().format(dtf) + "): " + commandManager.getCurrentCommandString() + "\n");
     }
 
     @Override
