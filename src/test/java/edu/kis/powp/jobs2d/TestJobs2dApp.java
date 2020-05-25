@@ -16,6 +16,7 @@ import edu.kis.powp.jobs2d.features.Readers.Reader;
 import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
 import edu.kis.powp.jobs2d.features.MacroFeature;
 
+import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -82,7 +83,10 @@ public class TestJobs2dApp {
 
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
 		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
-
+    
+    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
+    
 		DriverFeature.updateDriverInfo();
 	}
 
