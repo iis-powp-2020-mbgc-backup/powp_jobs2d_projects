@@ -1,0 +1,31 @@
+package classes_for_test;
+
+import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.SetPositionCommand;
+
+public class MutableSetPositionCommand implements DriverCommand {
+
+    private int posX, posY;
+
+    public MutableSetPositionCommand(int posX, int posY) {
+        super();
+        this.posX = posX;
+        this.posY = posY;
+    }
+
+    @Override
+    public void execute(Job2dDriver driver) {
+        driver.setPosition(posX, posY);
+    }
+
+    @Override
+    public DriverCommand clone() throws CloneNotSupportedException {
+        return (MutableSetPositionCommand) super.clone();
+    }
+
+    public void movePoint(int x, int y) {
+        this.posX += x;
+        this.posY += y;
+    }
+}

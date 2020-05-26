@@ -21,7 +21,12 @@ public class SetPositionCommand implements DriverCommand {
 	}
 
 	@Override
+	public DriverCommand clone() throws CloneNotSupportedException {
+		return (SetPositionCommand) super.clone();
+	}
+
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
 }

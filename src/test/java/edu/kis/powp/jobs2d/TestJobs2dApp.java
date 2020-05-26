@@ -41,6 +41,7 @@ public class TestJobs2dApp {
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
+		application.addTest("Deep copy", new ICompoundCommandDeepCopyTest(DriverFeature.getDriverManager()));
 		application.addTest("Add Logger Command Change Observer", new SelectAddLoggerCommandChangeObserver());
 		application.addTest("Add Command Manager Window Change Observer", selectAddCommandManagerWindow);
 	}
