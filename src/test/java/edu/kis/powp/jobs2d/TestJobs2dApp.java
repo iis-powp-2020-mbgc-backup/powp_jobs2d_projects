@@ -6,7 +6,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.gui.MonitorUsageWindow;
+import edu.kis.powp.jobs2d.command.gui.UsageMonitorWindow;
 
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -18,8 +18,7 @@ import edu.kis.powp.jobs2d.events.SelectLoadMacro;
 import edu.kis.powp.jobs2d.features.MacroFeature;
 
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
-import edu.kis.powp.jobs2d.drivers.DriverMonitorUsageObserver;
-import edu.kis.powp.jobs2d.drivers.DriverUsageMonitor;
+import edu.kis.powp.jobs2d.drivers.DriverUsageMonitorObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -129,11 +128,11 @@ public class TestJobs2dApp {
 	 *
 	 * @param app Application context.
 	 */
-	private static void setupMonitorUsage(Application app) {
-		MonitorUsageWindow monitorUsageWindow = new MonitorUsageWindow();
-		app.addWindowComponent("Monitor usage", monitorUsageWindow);
-		DriverMonitorUsageObserver driverMonitorUsageObserver = new DriverMonitorUsageObserver(monitorUsageWindow);
-		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(driverMonitorUsageObserver);
+	private static void setupUsageMonitor(Application app) {
+		UsageMonitorWindow usageMonitorWindow = new UsageMonitorWindow();
+		app.addWindowComponent("Usage Monitor", usageMonitorWindow);
+		DriverUsageMonitorObserver driverUsageMonitorObserver = new DriverUsageMonitorObserver(usageMonitorWindow);
+		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(driverUsageMonitorObserver);
 	}
 	
 	
@@ -149,7 +148,7 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
         
 				DriverFeature.setupDriverPlugin(app);
-				setupMonitorUsage(app);
+				setupUsageMonitor(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);

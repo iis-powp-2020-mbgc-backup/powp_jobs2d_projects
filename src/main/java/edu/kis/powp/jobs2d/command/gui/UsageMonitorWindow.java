@@ -8,16 +8,16 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-public class MonitorUsageWindow extends JFrame implements WindowComponent {
+public class UsageMonitorWindow extends JFrame implements WindowComponent {
 	public static final String USAGEMONITOR_LOGGER = "usagemonitor";
 	private JTextArea usageTextAreaViewer;
 	
 	private static final long serialVersionUID = 9204679248307009948L;
 	
-	public MonitorUsageWindow(){
+	public UsageMonitorWindow(){
 		Logger l = Logger.getLogger(USAGEMONITOR_LOGGER);
 		
-		this.setTitle("Monitor usage");
+		this.setTitle("Usage Monitor");
 		this.setSize(400, 300);
 		this.usageTextAreaViewer = new JTextArea("");
 		this.usageTextAreaViewer.setEditable(false);
@@ -46,7 +46,7 @@ public class MonitorUsageWindow extends JFrame implements WindowComponent {
 	}
 
 	public void flush(String driverName) {
-		this.setTitle("Monitor usage - " + driverName);
+		this.setTitle("Usage Monitor - " + driverName);
 		this.usageTextAreaViewer.setText("");
 	}
 	
