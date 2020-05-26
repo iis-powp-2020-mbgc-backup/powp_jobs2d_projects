@@ -29,13 +29,13 @@ public class StandardComputationPolicy implements IComputationPolicy {
 
         double unit = mapUnit(distanceUnit);
 
-        double distance = Math.sqrt(Math.pow(end_x - start_x, 2) + Math.pow(end_y - start_y, 2)) * unit;
+        double distance = Math.sqrt(Math.pow(end_x - start_x + 1, 2) + Math.pow(end_y - start_y + 1, 2)) * unit;
         double coefficient = 2 * (1 - 1 / deviceDistanceFactor) * distance;
         double factor = (deviceDistanceFactor / (deviceDistanceFactor - 1));
         double time = Math.sqrt(coefficient / deviceAcceleration) * factor * writeFactor;
         double averageVelocity = distance / time;
         averageVelocity = Double.isNaN(averageVelocity) ? 0 : averageVelocity;
-        double totalInk = distance / inkFactor;
+        double totalInk = type == UsageType.WRITE ? distance / inkFactor : 0;
 
         statistics.addRecord("time", time);
         statistics.addRecord("averageVelocity", averageVelocity);
@@ -118,16 +118,18 @@ public class StandardComputationPolicy implements IComputationPolicy {
 
         /**
          * Sets the amount of litres of ink that will be used per one meter of distance.
+         *
          * @param v factor
          * @return this
          */
-        public ComputationPolicyBuilder ofInkUsageFactor(double v){
+        public ComputationPolicyBuilder ofInkUsageFactor(double v) {
             this.inkFactor = v;
             return this;
         }
 
         /**
          * builds policy
+         *
          * @return new instance of policy filled with data from this class.
          */
         public IComputationPolicy build() {
