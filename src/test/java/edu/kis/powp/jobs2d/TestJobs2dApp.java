@@ -8,6 +8,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.MonitorUsageWindow;
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
+import edu.kis.powp.jobs2d.drivers.DriverMonitorUsageObserver;
 import edu.kis.powp.jobs2d.drivers.DriverUsageMonitor;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
@@ -60,7 +61,7 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
-		Job2dDriver loggerDriver = new DriverUsageMonitor(new LoggerDriver());
+		Job2dDriver loggerDriver = new LoggerDriver();
 		
 		DriverChangeTitleObserver driverObserver = new DriverChangeTitleObserver();
 		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(driverObserver);
@@ -68,11 +69,11 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
-		Job2dDriver driver = new DriverUsageMonitor(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
+		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
 		
-		driver = new DriverUsageMonitor(new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special"));
+		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 	}
 	
@@ -112,8 +113,9 @@ public class TestJobs2dApp {
 	 */
 	private static void setupMonitorUsage(Application app) {
 		MonitorUsageWindow monitorUsageWindow = new MonitorUsageWindow();
-		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(monitorUsageWindow);
 		app.addWindowComponent("Monitor usage", monitorUsageWindow);
+		DriverMonitorUsageObserver driverMonitorUsageObserver = new DriverMonitorUsageObserver(monitorUsageWindow);
+		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(driverMonitorUsageObserver);
 	}
 	
 	

@@ -1,9 +1,6 @@
 package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +8,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-public class MonitorUsageWindow extends JFrame implements WindowComponent, Subscriber {
+public class MonitorUsageWindow extends JFrame implements WindowComponent {
 	public static final String USAGEMONITOR_LOGGER = "usagemonitor";
 	private JTextArea usageTextAreaViewer;
 	
@@ -47,15 +44,14 @@ public class MonitorUsageWindow extends JFrame implements WindowComponent, Subsc
 		container.setLayout(new BorderLayout());
 		container.add(scrollPane,  BorderLayout.CENTER);
 	}
+
+	public void flush(String driverName) {
+		this.setTitle("Monitor usage - " + driverName);
+		this.usageTextAreaViewer.setText("");
+	}
 	
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		this.setVisible(!this.isVisible());
-	}
-	
-	@Override
-	public void update() {
-		this.setTitle("Monitor usage - " + DriverFeature.getDriverManager().getCurrentDriver().toString());
-		this.usageTextAreaViewer.setText("");
 	}
 }
