@@ -57,10 +57,6 @@ public class DriverCommandManager {
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
 
-		if(this.currentCommand instanceof ICompoundCommand) {
-			analyzer.analyze((ICompoundCommand) this.currentCommand);
-		}
-
 		changePublisher.notifyObservers();
 	}
 
