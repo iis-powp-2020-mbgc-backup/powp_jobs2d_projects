@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.DriverCommandRotate90degrees;
+import edu.kis.powp.jobs2d.command.DriverCommandRotate90Degrees;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -15,7 +15,7 @@ public class RotateRightSecretCommandOptionListener implements ActionListener {
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         DriverCommand testCommand = manager.getCurrentCommand();
 
-        DriverCommandRotate90degrees rotateVisitor = new DriverCommandRotate90degrees(DriverCommandRotate90degrees.Direction.RIGHT);
+        DriverCommandRotate90Degrees rotateVisitor = new DriverCommandRotate90Degrees(DriverCommandRotate90Degrees.Direction.RIGHT);
         testCommand.accept(rotateVisitor);
         DriverCommand flipped = rotateVisitor.getRotatedCommand();
 

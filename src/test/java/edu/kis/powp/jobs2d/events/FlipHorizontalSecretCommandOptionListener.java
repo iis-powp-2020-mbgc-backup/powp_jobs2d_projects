@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.DriverCommandFlipHorizontal;
+import edu.kis.powp.jobs2d.command.CommandSimpleTransform;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -15,9 +15,10 @@ public class FlipHorizontalSecretCommandOptionListener implements ActionListener
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         DriverCommand testCommand = manager.getCurrentCommand();
 
-        DriverCommandFlipHorizontal flipVisitor = new DriverCommandFlipHorizontal();
-        testCommand.accept(flipVisitor);
-        DriverCommand flipped = flipVisitor.getFlippedCommand();
+        CommandSimpleTransform transformVisitor = new CommandSimpleTransform();
+        transformVisitor.flipHorizontal();
+        testCommand.accept(transformVisitor);
+        DriverCommand flipped = transformVisitor.getTransformed();
 
         manager.setCurrentCommand(Arrays.asList(flipped), "CopiedTopSecretCommand");
     }

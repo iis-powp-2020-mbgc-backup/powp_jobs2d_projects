@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
+import edu.kis.powp.jobs2d.command.CommandSimpleTransform;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.DriverCommandScale;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -15,9 +15,10 @@ public class ScaleCommandOptionListener implements ActionListener {
         DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
         DriverCommand testCommand = manager.getCurrentCommand();
 
-        DriverCommandScale scaleVisitor = new DriverCommandScale(.5f, 2.f);
-        testCommand.accept(scaleVisitor);
-        DriverCommand flipped = scaleVisitor.getScaledCommand();
+        CommandSimpleTransform transformVisitor = new CommandSimpleTransform();
+        transformVisitor.scale(.5f, 2.f);
+        testCommand.accept(transformVisitor);
+        DriverCommand flipped = transformVisitor.getTransformed();
 
         manager.setCurrentCommand(Arrays.asList(flipped), "CopiedTopSecretCommand");
     }

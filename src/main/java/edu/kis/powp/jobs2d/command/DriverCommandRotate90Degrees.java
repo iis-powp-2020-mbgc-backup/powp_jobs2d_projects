@@ -1,10 +1,10 @@
 package edu.kis.powp.jobs2d.command;
 
-public class DriverCommandRotate90degrees extends CommandTransform {
+public class DriverCommandRotate90Degrees extends CommandSimpleTransform {
     private Direction dir;
     private int factor = -1;
 
-    public DriverCommandRotate90degrees(Direction dir) {
+    public DriverCommandRotate90Degrees(Direction dir) {
         this.dir = dir;
     }
 
