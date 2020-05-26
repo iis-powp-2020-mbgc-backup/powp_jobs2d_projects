@@ -9,7 +9,7 @@ public class AnalyzerFeature {
     public static void setUpAnalyzer(){
         analyzer = new CommandUsageAnalyzerImpl();
         IComputationPolicy policy = StandardComputationPolicy.computationPolicyBuilder()
-                .ofDistanceUnit(Unit.MICROMETER)
+                .ofDistanceUnit(Unit.METER)
                 .ofDeviceAcceleration(5)
                 .ofDecelerationDistanceFactor(3)
                 .ofWriteUsageFactor(2).build();

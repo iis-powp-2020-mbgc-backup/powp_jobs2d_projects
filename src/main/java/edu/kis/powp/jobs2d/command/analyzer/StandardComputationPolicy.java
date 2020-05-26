@@ -32,6 +32,7 @@ public class StandardComputationPolicy implements IComputationPolicy {
         double factor = (deviceDistanceFactor / (deviceDistanceFactor - 1));
         double time = Math.sqrt(coefficient / deviceAcceleration) * factor * writeFactor;
         double averageVelocity = distance / time;
+        averageVelocity = Double.isNaN(averageVelocity) ? 0 : averageVelocity;
 
         statistics.addRecord("time", time);
         statistics.addRecord("averageVelocity", averageVelocity);
