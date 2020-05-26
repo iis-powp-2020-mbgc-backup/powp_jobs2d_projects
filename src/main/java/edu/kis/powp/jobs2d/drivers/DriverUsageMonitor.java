@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 public class DriverUsageMonitor extends Job2dDriverDecorator {
 	Logger logger = Logger.getLogger("usagemonitor");
 	
-	private int operateToDistance;
-	private int setPositionDistance;
-	private int previousPositionX;
-	private int previousPositionY;
+	private int operateToDistance = 0;
+	private int setPositionDistance = 0;
+	private int previousPositionX = 0;
+	private int previousPositionY = 0;
 	
 	
 	public DriverUsageMonitor(Job2dDriver driver) {
