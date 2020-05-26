@@ -1,11 +1,6 @@
 package edu.kis.powp.jobs2d.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DriverCommandScale implements DriverCommandVisitor {
-
-    private DriverCommand scaledCommand = null;
+public class DriverCommandScale extends CommandTransform {
     private float scaleX;
     private float scaleY;
 
@@ -19,28 +14,16 @@ public class DriverCommandScale implements DriverCommandVisitor {
     }
 
     public DriverCommand getScaledCommand() {
-        return scaledCommand;
-    }
-
-    @Override
-    public void visit(ICompoundCommand driverCommand) {
-        List<DriverCommand> list = new ArrayList<>();
-
-        for (DriverCommand partOfCompoundCommand : driverCommand) {
-            partOfCompoundCommand.accept(this);
-            list.add(scaledCommand);
-        }
-
-        scaledCommand = new DefaultCompoundCommand(list);
+        return transformed;
     }
 
     @Override
     public void visit(OperateToCommand driverCommand) {
-        scaledCommand = new OperateToCommand((int)(driverCommand.getX() * scaleX), (int)(driverCommand.getY() * scaleY));
+        transformed = new OperateToCommand((int) (driverCommand.getX() * scaleX), (int) (driverCommand.getY() * scaleY));
     }
 
     @Override
     public void visit(SetPositionCommand driverCommand) {
-        scaledCommand = new SetPositionCommand((int)(driverCommand.getX() * scaleX), (int)(driverCommand.getY() * scaleY));
+        transformed = new SetPositionCommand((int) (driverCommand.getX() * scaleX), (int) (driverCommand.getY() * scaleY));
     }
 }

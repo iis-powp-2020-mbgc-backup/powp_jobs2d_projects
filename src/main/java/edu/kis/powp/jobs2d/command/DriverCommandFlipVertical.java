@@ -1,35 +1,22 @@
 package edu.kis.powp.jobs2d.command;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DriverCommandFlipVertical extends CommandTransform {
+    private int factor = -1;
 
-public class DriverCommandFlipVertical implements DriverCommandVisitor {
-
-    private DriverCommand flippedCommand = null;
-
-    public DriverCommand getFlippedCommand() {
-        return flippedCommand;
+    public DriverCommandFlipVertical() {
     }
 
-    @Override
-    public void visit(ICompoundCommand driverCommand) {
-        List<DriverCommand> list = new ArrayList<>();
-
-        for (DriverCommand partOfCompoundCommand : driverCommand) {
-            partOfCompoundCommand.accept(this);
-            list.add(flippedCommand);
-        }
-
-        flippedCommand = new DefaultCompoundCommand(list);
+    public DriverCommand getFlippedCommand() {
+        return transformed;
     }
 
     @Override
     public void visit(OperateToCommand driverCommand) {
-        flippedCommand = new OperateToCommand(driverCommand.getX() * (-1), driverCommand.getY());
+        transformed = new OperateToCommand(driverCommand.getX() * factor, driverCommand.getY());
     }
 
     @Override
     public void visit(SetPositionCommand driverCommand) {
-        flippedCommand = new SetPositionCommand(driverCommand.getX() * (-1), driverCommand.getY());
+        transformed = new SetPositionCommand(driverCommand.getX() * factor, driverCommand.getY());
     }
 }
