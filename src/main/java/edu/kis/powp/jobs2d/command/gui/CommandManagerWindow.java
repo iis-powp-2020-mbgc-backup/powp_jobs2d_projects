@@ -19,7 +19,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private DriverCommandManager commandManager;
 
 	private JTextArea currentCommandField;
-
+	private JTextArea currentCommandAnalyzerField;
 	private String observerListString;
 	private JTextArea observerListField;
 
@@ -51,6 +51,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setEditable(false);
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
+
+		currentCommandAnalyzerField = new JTextArea("");
+		currentCommandAnalyzerField.setEditable(false);
+		content.add(currentCommandAnalyzerField, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
 		JButton btnRunCommand = new JButton("Run command");
@@ -85,7 +89,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearObservers, c);
 		content.add(btnResetObservers, c);
 
-		this.commandManager.getChangePublisher().addSubscriber(() -> btnRunCommand.setEnabled(true));
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			btnRunCommand.setEnabled(true);
+			currentCommandAnalyzerField.setText(commandManager.getStatistics());
+		});
 	}
 
 	private void clearCommand() {

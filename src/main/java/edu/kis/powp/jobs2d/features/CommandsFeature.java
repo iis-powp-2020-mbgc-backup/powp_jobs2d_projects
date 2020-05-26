@@ -13,6 +13,7 @@ public class CommandsFeature {
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
 		commandManager.getChangePublisher().addSubscriber(loggerObserver);
+		commandManager.setAnalyzer(AnalyzerFeature.getAnalyzer());
 	}
 
 	/**
