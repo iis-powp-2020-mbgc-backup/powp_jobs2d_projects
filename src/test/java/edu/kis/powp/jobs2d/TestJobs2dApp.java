@@ -90,8 +90,7 @@ public class TestJobs2dApp {
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
-		MacroFeature.getMacroDriverDecorator().setCoreDriver(driver);
-
+		MacroFeature.getMacroDriverDecorator().setCoreDriver(DriverFeature.getDriverManager().getCurrentDriver());
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 	}
@@ -150,12 +149,12 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
         
 				DriverFeature.setupDriverPlugin(app);
+				setupMonitorUsage(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
-				setupMonitorUsage(app);
 				app.setVisibility(true);
 			}
 		});
