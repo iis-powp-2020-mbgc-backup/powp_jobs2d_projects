@@ -14,7 +14,7 @@ public class CommandsFeature {
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
 		CommandAnalyzerCommandChangeObserver analyzerCommandChangeObserver = new CommandAnalyzerCommandChangeObserver(AnalyzerFeature.getAnalyzer());
-		
+
 		commandManager.getChangePublisher().addSubscriber(analyzerCommandChangeObserver);
 		commandManager.getChangePublisher().addSubscriber(loggerObserver);
 		commandManager.setAnalyzer(AnalyzerFeature.getAnalyzer());
