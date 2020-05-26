@@ -16,18 +16,30 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
     private List<Double> averageVelocities;
     private List<Double> distances;
 
+
+    private int startX;
+    private int startY;
+
+    public void setStartPosition(int x, int y) {
+        this.startX = x;
+        this.startY = y;
+    }
+
     /**
-     * Start position of head
+     * Start position of head during computation
      */
     private int x = 0;
     private int y = 0;
 
     @Override
     public void analyze(ICompoundCommand compoundCommand) {
+
         timeOfUsages = new LinkedList<>();
         usagesOfHead = new LinkedList<>();
         distances = new LinkedList<>();
         averageVelocities = new LinkedList<>();
+        x = startX;
+        y = startY;
 
         visit(compoundCommand);
 
@@ -37,6 +49,8 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
             this.averageVelocities.add(statistics.getData("averageVelocity"));
             this.distances.add(statistics.getData("distance"));
         });
+
+
     }
 
     @Override

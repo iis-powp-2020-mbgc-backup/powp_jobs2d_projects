@@ -22,16 +22,11 @@ public interface IComputationPolicy {
     void setAccelerationFactor(double d);
 
     /**
-     * Sets deceleration factor for examined device or object
-     * @param d deceleration in m/s^2.
+     * Sets deceleration distance factor for examined device or object
+     * @param d deceleration distance factor in units. Should be greater than 0.
      */
-    void setDecelerationFactor(double d);
+    void setDecelerationDistanceFactor(double d);
 
-    /**
-     * Sets velocity factor for examined device or object
-     * @param d deceleration in m/s^2.
-     */
-    void setMaxVelocity(double d);
 
     /**
      * Sets distance unit for current examination (it determines distances between coordinates)
