@@ -19,4 +19,10 @@ public interface ICommandUsageAnalyzer extends DriverCommandVisitor {
      * @param policy policy to set.
      */
     void setComputationPolicy(IComputationPolicy policy);
+
+    /**
+     * Prepares legible summary of analysis.
+     * @return analysis string
+     */
+    String exportStatistics();
 }

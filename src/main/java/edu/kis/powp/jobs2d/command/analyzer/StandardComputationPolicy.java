@@ -51,26 +51,28 @@ public class StandardComputationPolicy implements IComputationPolicy {
     }
 
     /**
-     * @inheritDoc
+     * Sets acceleration factor for examined device or object
+     * @param factor acceleration in m/s^2.
      */
-    @Override
     public void setAccelerationFactor(double factor) {
         deviceAcceleration = factor;
     }
 
     /**
-     * @inheritDoc
+     * Sets deceleration distance factor for examined device or object
+     * @param factor deceleration distance factor in units. Should be greater than 1.
      */
-    @Override
     public void setDecelerationDistanceFactor(double factor) {
         if(factor < 1) throw new RuntimeException("Deceleration distance factor is lesser than 1");
         deviceDistanceFactor = factor;
     }
 
     /**
-     * @inheritDoc
+     * Sets distance unit for current examination (it determines distances between coordinates)
+     * @see #compute
+     * @param unit unit enum
+     * @see edu.kis.powp.jobs2d.command.analyzer.Unit
      */
-    @Override
     public void setBasicDistanceUnit(Unit unit) {
         distanceUnit = unit;
     }
@@ -78,9 +80,8 @@ public class StandardComputationPolicy implements IComputationPolicy {
     /**
      * Indicates the impact of write usage in device foreseen performance.
      *
-     * @param factor
+     * @param factor impact of write usage
      */
-    @Override
     public void setWriteUsageFactor(double factor) {
         writeFactor = factor;
     }

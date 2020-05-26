@@ -15,7 +15,7 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
     private List<Double> timeOfUsages;
     private List<Double> averageVelocities;
     private List<Double> distances;
-
+    private Statistics sessionStatistics;
 
     private int startX;
     private int startY;
@@ -50,7 +50,45 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
             this.distances.add(statistics.getData("distance"));
         });
 
+        applyResults();
+    }
 
+    private void applyResults() {
+        sessionStatistics = new Statistics();
+
+        double averageTime = this.timeOfUsages.stream()
+                .mapToDouble(value -> value)
+                .average()
+                .orElse(Double.NaN);
+
+        double totalTime = this.timeOfUsages.stream()
+                .mapToDouble(value -> value)
+                .sum();
+
+        double averageVelocity = this.averageVelocities.stream()
+                .mapToDouble(value -> value)
+                .average()
+                .orElse(Double.NaN);
+
+        double totalDistance = this.distances.stream()
+                .mapToDouble(value -> value)
+                .sum();
+
+        double averageDistance = this.distances.stream()
+                .mapToDouble(value -> value)
+                .average()
+                .orElse(Double.NaN);
+
+        sessionStatistics.addRecord("averageTime", averageTime);
+        sessionStatistics.addRecord("totalTime", totalTime);
+        sessionStatistics.addRecord("averageVelocity", averageVelocity);
+        sessionStatistics.addRecord("averageDistance", averageDistance);
+        sessionStatistics.addRecord("totalDistance", totalDistance);
+    }
+
+    @Override
+    public String exportStatistics(){
+        return sessionStatistics.toString();
     }
 
     @Override
