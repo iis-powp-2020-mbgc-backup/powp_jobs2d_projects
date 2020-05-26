@@ -41,4 +41,11 @@ public class Statistics {
         if (!data.containsKey(key)) throw new RuntimeException("Cannot update record, since provided key not exists!");
         data.replace(key, value);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        data.forEach((s, aDouble) -> builder.append('[').append(s).append(']').append(" = ").append(aDouble).append('\n'));
+        return builder.toString();
+    }
 }

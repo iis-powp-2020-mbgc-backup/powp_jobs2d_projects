@@ -7,6 +7,17 @@ public class StandardComputationPolicy implements IComputationPolicy {
     private Unit distanceUnit;
     private double writeFactor;
 
+    public StandardComputationPolicy(ComputationPolicyBuilder computationPolicyBuilder) {
+        this.deviceDistanceFactor = computationPolicyBuilder.distanceFactor;
+        this.distanceUnit = computationPolicyBuilder.unit;
+        this.writeFactor = computationPolicyBuilder.writeUsage;
+        this.deviceAcceleration = computationPolicyBuilder.deviceAcceleration;
+    }
+
+    public static ComputationPolicyBuilder computationPolicyBuilder() {
+        return new ComputationPolicyBuilder();
+    }
+
     /**
      * @inheritDoc
      */
@@ -17,7 +28,7 @@ public class StandardComputationPolicy implements IComputationPolicy {
         double unit = mapUnit(distanceUnit);
 
         double distance = Math.sqrt(Math.pow(end_x - start_x, 2) + Math.pow(end_y - start_y, 2)) * unit;
-        double coefficient = 2 * (1 - 1/deviceDistanceFactor) * distance;
+        double coefficient = 2 * (1 - 1 / deviceDistanceFactor) * distance;
         double factor = (deviceDistanceFactor / (deviceDistanceFactor - 1));
         double time = Math.sqrt(coefficient / deviceAcceleration) * factor * writeFactor;
         double averageVelocity = distance / time;
@@ -50,39 +61,58 @@ public class StandardComputationPolicy implements IComputationPolicy {
         }
     }
 
-    /**
-     * Sets acceleration factor for examined device or object
-     * @param factor acceleration in m/s^2.
-     */
-    public void setAccelerationFactor(double factor) {
-        deviceAcceleration = factor;
-    }
+    public static class ComputationPolicyBuilder {
 
-    /**
-     * Sets deceleration distance factor for examined device or object
-     * @param factor deceleration distance factor in units. Should be greater than 1.
-     */
-    public void setDecelerationDistanceFactor(double factor) {
-        if(factor < 1) throw new RuntimeException("Deceleration distance factor is lesser than 1");
-        deviceDistanceFactor = factor;
-    }
+        private Unit unit;
+        private double writeUsage;
+        private double deviceAcceleration;
+        private double distanceFactor;
 
-    /**
-     * Sets distance unit for current examination (it determines distances between coordinates)
-     * @see #compute
-     * @param unit unit enum
-     * @see edu.kis.powp.jobs2d.command.analyzer.Unit
-     */
-    public void setBasicDistanceUnit(Unit unit) {
-        distanceUnit = unit;
-    }
+        /**
+         * Sets distance unit for current examination (it determines distances between coordinates)
+         *
+         * @param unit unit enum
+         * @see StandardComputationPolicy#compute
+         * @see edu.kis.powp.jobs2d.command.analyzer.Unit
+         */
+        public ComputationPolicyBuilder ofDistanceUnit(Unit unit) {
+            this.unit = unit;
+            return this;
+        }
 
-    /**
-     * Indicates the impact of write usage in device foreseen performance.
-     *
-     * @param factor impact of write usage
-     */
-    public void setWriteUsageFactor(double factor) {
-        writeFactor = factor;
+        /**
+         * Sets acceleration factor for examined device or object
+         *
+         * @param deviceAcceleration acceleration in m/s^2.
+         */
+        public ComputationPolicyBuilder ofDeviceAcceleration(double deviceAcceleration) {
+            this.deviceAcceleration = deviceAcceleration;
+            return this;
+        }
+
+        /**
+         * Sets deceleration distance factor for examined device or object
+         *
+         * @param factor deceleration distance factor in units. Should be greater than 1.
+         */
+        public ComputationPolicyBuilder ofDecelerationDistanceFactor(double factor) {
+            if (factor < 1) throw new RuntimeException("Deceleration distance factor is lesser than 1");
+            this.distanceFactor = factor;
+            return this;
+        }
+
+        /**
+         * Indicates the impact of write usage in device foreseen performance.
+         *
+         * @param value impact of write usage
+         */
+        public ComputationPolicyBuilder ofWriteUsageFactor(double value) {
+            this.writeUsage = value;
+            return this;
+        }
+
+        public IComputationPolicy build() {
+            return new StandardComputationPolicy(this);
+        }
     }
 }

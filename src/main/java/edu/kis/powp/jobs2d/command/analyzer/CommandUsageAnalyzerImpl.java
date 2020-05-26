@@ -86,7 +86,6 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
         sessionStatistics.addRecord("totalDistance", totalDistance);
     }
 
-    @Override
     public String exportStatistics(){
         return sessionStatistics.toString();
     }
