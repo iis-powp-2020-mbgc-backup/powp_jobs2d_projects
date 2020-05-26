@@ -17,15 +17,15 @@ public interface IComputationPolicy {
 
     /**
      * Sets acceleration factor for examined device or object
-     * @param d acceleration in m/s^2.
+     * @param factor acceleration in m/s^2.
      */
-    void setAccelerationFactor(double d);
+    void setAccelerationFactor(double factor);
 
     /**
      * Sets deceleration distance factor for examined device or object
-     * @param d deceleration distance factor in units. Should be greater than 0.
+     * @param factor deceleration distance factor in units. Should be greater than 1.
      */
-    void setDecelerationDistanceFactor(double d);
+    void setDecelerationDistanceFactor(double factor);
 
 
     /**
@@ -35,4 +35,10 @@ public interface IComputationPolicy {
      * @see edu.kis.powp.jobs2d.command.analyzer.Unit
      */
     void setBasicDistanceUnit(Unit unit);
+
+    /**
+     * Indicates the impact of write usage in device foreseen performance.
+     * @param factor
+     */
+    void setWriteUsageFactor(double factor);
 }
