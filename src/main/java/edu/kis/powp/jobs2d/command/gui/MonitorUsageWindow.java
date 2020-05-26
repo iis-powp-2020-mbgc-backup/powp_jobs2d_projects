@@ -50,11 +50,7 @@ public class MonitorUsageWindow extends JFrame implements WindowComponent, Subsc
 	
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
-		if (this.isVisible()) {
-			this.setVisible(false);
-		} else {
-			this.setVisible(true);
-		}
+		this.setVisible(!this.isVisible());
 	}
 	
 	@Override
