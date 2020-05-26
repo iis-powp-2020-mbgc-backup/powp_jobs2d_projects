@@ -12,7 +12,9 @@ public class AnalyzerFeature {
                 .ofDistanceUnit(Unit.METER)
                 .ofDeviceAcceleration(5)
                 .ofDecelerationDistanceFactor(3)
-                .ofWriteUsageFactor(2).build();
+                .ofWriteUsageFactor(2)
+                .ofInkUsageFactor(100)
+                .build();
         analyzer.setComputationPolicy(policy);
         analyzer.setStartPosition(0, 0);
     }

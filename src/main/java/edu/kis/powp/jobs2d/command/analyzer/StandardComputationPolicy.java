@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command.analyzer;
 
 public class StandardComputationPolicy implements IComputationPolicy {
 
+    private final double inkFactor;
     private double deviceAcceleration;
     private double deviceDistanceFactor;
     private Unit distanceUnit;
@@ -12,6 +13,7 @@ public class StandardComputationPolicy implements IComputationPolicy {
         this.distanceUnit = computationPolicyBuilder.unit;
         this.writeFactor = computationPolicyBuilder.writeUsage;
         this.deviceAcceleration = computationPolicyBuilder.deviceAcceleration;
+        this.inkFactor = computationPolicyBuilder.inkFactor;
     }
 
     public static ComputationPolicyBuilder computationPolicyBuilder() {
@@ -33,11 +35,12 @@ public class StandardComputationPolicy implements IComputationPolicy {
         double time = Math.sqrt(coefficient / deviceAcceleration) * factor * writeFactor;
         double averageVelocity = distance / time;
         averageVelocity = Double.isNaN(averageVelocity) ? 0 : averageVelocity;
+        double totalInk = distance / inkFactor;
 
         statistics.addRecord("time", time);
         statistics.addRecord("averageVelocity", averageVelocity);
         statistics.addRecord("distance", distance);
-
+        statistics.addRecord("totalInkUsed", totalInk);
         return statistics;
     }
 
@@ -64,6 +67,7 @@ public class StandardComputationPolicy implements IComputationPolicy {
 
     public static class ComputationPolicyBuilder {
 
+        private double inkFactor;
         private Unit unit;
         private double writeUsage;
         private double deviceAcceleration;
@@ -112,6 +116,20 @@ public class StandardComputationPolicy implements IComputationPolicy {
             return this;
         }
 
+        /**
+         * Sets the amount of litres of ink that will be used per one meter of distance.
+         * @param v factor
+         * @return this
+         */
+        public ComputationPolicyBuilder ofInkUsageFactor(double v){
+            this.inkFactor = v;
+            return this;
+        }
+
+        /**
+         * builds policy
+         * @return new instance of policy filled with data from this class.
+         */
         public IComputationPolicy build() {
             return new StandardComputationPolicy(this);
         }
