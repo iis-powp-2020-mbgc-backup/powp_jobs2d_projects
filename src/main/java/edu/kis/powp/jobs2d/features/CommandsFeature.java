@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.features;
 
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.LoggerCommandChangeObserver;
 
@@ -8,7 +9,7 @@ public class CommandsFeature {
 	private static DriverCommandManager commandManager;
 
 	public static void setupCommandManager() {
-		commandManager = new DriverCommandManager();
+		commandManager = new DriverCommandManager(DriverFeature.getDriverManager());
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
 		commandManager.getChangePublisher().addSubscriber(loggerObserver);
@@ -21,5 +22,9 @@ public class CommandsFeature {
 	 */
 	public static DriverCommandManager getDriverCommandManager() {
 		return commandManager;
+	}
+
+	public static DriverCommand deepCopyCommand(DriverCommand toCopy) throws CloneNotSupportedException {
+		return toCopy.clone();
 	}
 }
