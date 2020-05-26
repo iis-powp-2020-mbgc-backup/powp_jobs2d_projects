@@ -1,12 +1,11 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
-import edu.kis.powp.jobs2d.command.DriverCommandVisitor;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 
 /**
  * This interface was defined for complex commands benchmarking and analysis of usage purpose.
  */
-public interface ICommandUsageAnalyzer extends DriverCommandVisitor {
+public interface ICommandUsageAnalyzer {
 
     /**
      * Performs command analysis based on injected policy.
