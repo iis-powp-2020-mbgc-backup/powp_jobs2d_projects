@@ -6,6 +6,16 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+
+import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
+import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
+import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
+import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.events.SelectClearMacro;
+
+import edu.kis.powp.jobs2d.events.SelectLoadMacro;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
@@ -18,6 +28,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -45,6 +56,10 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
+		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Load macro", new SelectLoadMacro(DriverFeature.getDriverManager(), MacroFeature.getMacroDriverDecorator(), CommandsFeature.getDriverCommandManager()));
+		application.addTest("Clear macro", new SelectClearMacro(DriverFeature.getDriverManager()));
 
 		application.addTest("DriverCommandVisitor test DriverCommand", new SelectSingleCommandVisitorTestListener());
 		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());
@@ -58,6 +73,9 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
+
+		DriverFeature.addDriver("Macro", MacroFeature.getMacroDriverDecorator());
+
 		Job2dDriver loggerDriver = new LoggerDriver();
 
 		DriverChangeTitleObserver driverObserver = new DriverChangeTitleObserver();
@@ -69,6 +87,8 @@ public class TestJobs2dApp {
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
+
+		MacroFeature.getMacroDriverDecorator().setCoreDriver(driver);
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
@@ -113,7 +133,6 @@ public class TestJobs2dApp {
 				DrawerFeature.setupDrawerPlugin(app);
 				MouseDrawFeature.SetMouseListener(app.getFreePanel());
 				CommandsFeature.setupCommandManager();
-
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
