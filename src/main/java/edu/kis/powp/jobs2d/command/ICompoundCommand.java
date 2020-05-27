@@ -11,6 +11,7 @@ public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand>
 
 	Iterator<DriverCommand> iterator();
 
+
 	@Override
 	default DriverCommand clone() throws CloneNotSupportedException{
 		List<DriverCommand> commands = new ArrayList<>();
@@ -20,5 +21,9 @@ public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand>
 		}
 
 		return new CompoundCommand(commands);
+  }
+    
+	default public void accept(CommandVisitorInterface visitor) {
+		visitor.visit(this);
 	}
 }

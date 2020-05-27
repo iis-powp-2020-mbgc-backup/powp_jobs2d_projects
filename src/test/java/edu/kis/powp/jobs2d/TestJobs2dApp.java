@@ -1,10 +1,5 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
@@ -15,6 +10,14 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.*;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -42,8 +45,12 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
+		application.addTest("Load macro command",new SelectLoadMacroListener());
+
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("Deep secret command copy", new SelectDeepCopySecretCommand());
+		application.addTest("Visitor Command Counting test", new DriverCommandCounterVisitorTest());
+		application.addTest("Visitor Command Executor test", new DriverCommandExecutorVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
 	}
 
 	/**
@@ -62,6 +69,9 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		DriverFeature.addDriver("Macro Driver (special line)", MacroFeature.getMacroDriverDecorator());
+		MacroFeature.getMacroDriverDecorator().setDriver(driver);
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -103,6 +113,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+				MacroFeature.setupMacroDriver();
 
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
@@ -110,8 +121,10 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				JPanel panel = app.getFreePanel();
+				panel.addMouseListener(new MouseDrawListener(panel, DriverFeature.getDriverManager()));
 
-				app.setVisibility(true);
+                app.setVisibility(true);
 			}
 		});
 	}

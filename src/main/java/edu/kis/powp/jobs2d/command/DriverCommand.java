@@ -13,5 +13,9 @@ public interface DriverCommand extends Cloneable {
 	 * @param driver driver.
 	 */
 	void execute(Job2dDriver driver);
+
 	DriverCommand clone() throws CloneNotSupportedException;
+
+	void accept(CommandVisitorInterface visitor);
+
 }

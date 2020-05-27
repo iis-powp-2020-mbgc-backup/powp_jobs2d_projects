@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,7 +16,8 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
+	private List<Subscriber> observerList;
+	private boolean observersDeleted = false;
 	private DriverCommandManager commandManager;
 
 	private JTextArea currentCommandField;
@@ -65,12 +67,20 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearCommand, c);
 
 		JButton btnClearObservers = new JButton("Delete observers");
-		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
+		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers(btnClearObservers));
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnClearObservers, c);
+
+		JButton btnRunCommand = new JButton("Run command");
+		btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnRunCommand, c);
 	}
 
 	private void clearCommand() {
@@ -78,13 +88,40 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		updateCurrentCommandField();
 	}
 
+	private void runCommand() {
+		commandManager.runCurrentCommand();
+	}
+
 	public void updateCurrentCommandField() {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
 
-	public void deleteObservers() {
+	public void deleteObservers(JButton deleteButton) {
+		if(observersDeleted) {
+			resetObservers(deleteButton);
+		}
+		else {
+			this.observerList = this.commandManager.getChangePublisher().getSubscribers();
+			commandManager.getChangePublisher().clearObservers();
+			this.updateObserverListField();
+			observersDeleted = true;
+			deleteButton.setText("Reset observers");
+		}
+
+	}
+
+	public void resetObservers(JButton deleteButton) {
 		commandManager.getChangePublisher().clearObservers();
+		observersDeleted = false;
+		deleteButton.setText("Delete observers");
+
+		if (observerList != null) {
+			for (Subscriber subscriber : observerList) {
+				this.commandManager.getChangePublisher().addSubscriber(subscriber);
+			}
+		}
 		this.updateObserverListField();
+
 	}
 
 	private void updateObserverListField() {
