@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
+import static edu.kis.powp.jobs2d.command.analyzer.StatisticType.*;
 import static edu.kis.powp.jobs2d.command.analyzer.Unit.mapUnit;
 
 public class StandardComputationPolicy implements IComputationPolicy {
@@ -39,10 +40,10 @@ public class StandardComputationPolicy implements IComputationPolicy {
         averageVelocity = Double.isNaN(averageVelocity) ? 0 : averageVelocity;
         double totalInk = type == UsageType.WRITE ? distance / inkFactor : 0;
 
-        statistics.addRecord("time", time);
-        statistics.addRecord("averageVelocity", averageVelocity);
-        statistics.addRecord("distance", distance);
-        statistics.addRecord("totalInkUsed", totalInk);
+        statistics.addRecord(TOTAL_TIME, time);
+        statistics.addRecord(AVERAGE_VELOCITY, averageVelocity);
+        statistics.addRecord(TOTAL_DISTANCE, distance);
+        statistics.addRecord(TOTAL_INK_USAGE, totalInk);
         return statistics;
     }
 
