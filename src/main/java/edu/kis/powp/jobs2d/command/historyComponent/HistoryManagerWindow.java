@@ -12,6 +12,7 @@ public class HistoryManagerWindow extends JFrame implements WindowComponent {
     private DriverCommandManager commandManager;
     private JTextArea commandHistoryContent;
     private JFrame frame;
+    Dimension screenSize;
     private static final String HEAD_STRING = "History of commands: \n";
     private static final String JFRAME_TITLE = "Command History";
     private static final String HISTORY_TIME_PATTERN = "HH:mm:ss";
@@ -23,7 +24,8 @@ public class HistoryManagerWindow extends JFrame implements WindowComponent {
     public HistoryManagerWindow(DriverCommandManager commandManager) {
         this.commandManager = commandManager;
         frame = new JFrame(JFRAME_TITLE);
-        frame.setSize(900, 500);
+        screenSize = new Dimension(500, 400);
+        frame.setPreferredSize(screenSize);
         Container content = frame.getContentPane();
         content.setLayout(new GridBagLayout());
         GridBagConstraints con = new GridBagConstraints();
