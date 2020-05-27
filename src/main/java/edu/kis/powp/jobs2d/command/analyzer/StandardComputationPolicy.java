@@ -1,5 +1,7 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
+import static edu.kis.powp.jobs2d.command.analyzer.Unit.mapUnit;
+
 public class StandardComputationPolicy implements IComputationPolicy {
 
     private final double inkFactor;
@@ -42,27 +44,6 @@ public class StandardComputationPolicy implements IComputationPolicy {
         statistics.addRecord("distance", distance);
         statistics.addRecord("totalInkUsed", totalInk);
         return statistics;
-    }
-
-    private double mapUnit(Unit distanceUnit) {
-        switch (distanceUnit) {
-            case NANOMETER:
-                return Math.pow(10, -9);
-            case MICROMETER:
-                return Math.pow(10, -6);
-            case MILLIMETER:
-                return Math.pow(10, -3);
-            case CENTIMETER:
-                return Math.pow(10, -2);
-            case DECIMETER:
-                return Math.pow(10, -1);
-            case METER:
-                return 1;
-            case KILOMETER:
-                return Math.pow(10, 3);
-            default:
-                throw new IllegalStateException("Unexpected value: " + distanceUnit);
-        }
     }
 
     public static class ComputationPolicyBuilder {
