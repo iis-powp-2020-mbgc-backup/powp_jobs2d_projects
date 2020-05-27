@@ -1,9 +1,11 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static edu.kis.powp.jobs2d.command.analyzer.StatisticType.*;
 
 public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
 
@@ -28,7 +30,7 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
     }
 
     @Override
-    public void analyze(ICompoundCommand compoundCommand) {
+    public void analyze(DriverCommand compoundCommand) {
 
         timeOfUsages = new LinkedList<>();
         distances = new LinkedList<>();
@@ -36,15 +38,15 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
         inkUsages = new LinkedList<>();
 
         visitor.setStartPosition(startX, startY);
-        visitor.visit(compoundCommand);
+        compoundCommand.accept(visitor);
 
         LinkedList<Usage> usagesOfHead = visitor.getUsages();
         usagesOfHead.forEach(usage -> {
             Statistics statistics = policy.compute(usage.getStartX(), usage.getStartY(), usage.getEndX(), usage.getEndY(), usage.getType());
-            this.timeOfUsages.add(statistics.getData("time"));
-            this.averageVelocities.add(statistics.getData("averageVelocity"));
-            this.distances.add(statistics.getData("distance"));
-            this.inkUsages.add(statistics.getData("totalInkUsed"));
+            this.timeOfUsages.add(statistics.getData(TOTAL_TIME));
+            this.averageVelocities.add(statistics.getData(AVERAGE_VELOCITY));
+            this.distances.add(statistics.getData(TOTAL_DISTANCE));
+            this.inkUsages.add(statistics.getData(TOTAL_INK_USAGE));
         });
 
         applyResults();
@@ -85,13 +87,13 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
                 .average()
                 .orElse(Double.NaN);
 
-        sessionStatistics.addRecord("averageTime", averageTime);
-        sessionStatistics.addRecord("totalTime", totalTime);
-        sessionStatistics.addRecord("averageVelocity", averageVelocity);
-        sessionStatistics.addRecord("averageDistance", averageDistance);
-        sessionStatistics.addRecord("totalDistance", totalDistance);
-        sessionStatistics.addRecord("averageInkUsage", averageInk);
-        sessionStatistics.addRecord("totalInkUsage", totalInk);
+        sessionStatistics.addRecord(AVERAGE_TIME, averageTime);
+        sessionStatistics.addRecord(TOTAL_TIME, totalTime);
+        sessionStatistics.addRecord(AVERAGE_VELOCITY, averageVelocity);
+        sessionStatistics.addRecord(AVERAGE_DISTANCE, averageDistance);
+        sessionStatistics.addRecord(TOTAL_DISTANCE, totalDistance);
+        sessionStatistics.addRecord(AVERAGE_INK_USAGE, averageInk);
+        sessionStatistics.addRecord(TOTAL_INK_USAGE, totalInk);
     }
 
     public String exportStatistics() {
