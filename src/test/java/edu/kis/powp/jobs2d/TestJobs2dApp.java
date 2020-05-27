@@ -65,6 +65,12 @@ public class TestJobs2dApp {
 		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());
 		
 		application.addTest("Load and copy secret command", new SelectCopySecretCommand());
+
+		application.addTest("Vertical flipped secret figure", new FlipVerticalSecretCommandOptionListener());
+		application.addTest("Horizontal flipped figure", new FlipHorizontalSecretCommandOptionListener());
+		application.addTest("Scaling figure", new ScaleCommandOptionListener());
+		application.addTest("Rotate LEFT figure", new RotateLeftSecretCommandOptionListener());
+		application.addTest("Rotate RIGHT figure", new RotateRightSecretCommandOptionListener());
 	}
 
 	/**

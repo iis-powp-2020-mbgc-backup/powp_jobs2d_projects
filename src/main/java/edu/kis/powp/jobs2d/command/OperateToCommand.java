@@ -29,4 +29,12 @@ public class OperateToCommand implements DriverCommand {
 	public DriverCommand clone() throws CloneNotSupportedException {
 		return (DriverCommand) super.clone();
 	}
+
+	public int getX() {
+		return posX;
+	}
+
+	public int getY() {
+		return posY;
+	}
 }
