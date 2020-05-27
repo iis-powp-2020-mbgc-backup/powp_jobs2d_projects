@@ -1,17 +1,10 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.observer.Publisher;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,25 +79,18 @@ public class DriverCommandManager {
         return changePublisher;
     }
 
-    class Command {
-        String operation;
-        int posX;
-        int posY;
+    static class ComplexCommand {
+        String name;
+        static class Command {
+            String operation;
+            int posX;
+            int posY;
+        }
+        List<Command> commands;
     }
 
     public synchronized void loadCommands(String loadedCommands) {
-        Gson gson = new Gson();
-        Type dataListType = new TypeToken<Collection<Command>>() {
-        }.getType();
-        List<Command> all = gson.fromJson(loadedCommands, dataListType);
-        List<DriverCommand> po = new ArrayList<DriverCommand>();
-        for (Command t : all) {
-            if (t.operation.equals("SetPositionCommand")) {
-                po.add(new SetPositionCommand(t.posX, t.posY));
-            } else if (t.operation.equals("OperateToCommand")) {
-                po.add(new OperateToCommand(t.posX, t.posY));
-            }
-        }
-        setCurrentCommand(po, "Loaded input");
+        JSONCommandParser jsonCommandParser = new JSONCommandParser(loadedCommands);
+        setCurrentCommand(jsonCommandParser.getComplexCommand(), jsonCommandParser.getComplexCommandName());
     }
 }
