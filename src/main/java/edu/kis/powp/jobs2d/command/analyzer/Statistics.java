@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,10 +8,10 @@ import java.util.TreeMap;
  * This class was created to store and update statistics double data, in future it could be template class for any type.
  */
 public class Statistics {
-    private HashMap<StatisticType, Double> data;
+    private LinkedHashMap<StatisticType, Double> data;
 
     public Statistics() {
-        data = new HashMap<>();
+        data = new LinkedHashMap<>();
     }
 
     /**
@@ -47,8 +47,7 @@ public class Statistics {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        Map<StatisticType, Double> map = new TreeMap<>(data);
-        map.forEach((s, aDouble) -> builder.append('[').append(s).append(']').append(" = ").append(aDouble).append('\n'));
+        data.forEach((s, aDouble) -> builder.append('[').append(s).append(']').append(" = ").append(aDouble).append('\n'));
         return builder.toString();
     }
 }
