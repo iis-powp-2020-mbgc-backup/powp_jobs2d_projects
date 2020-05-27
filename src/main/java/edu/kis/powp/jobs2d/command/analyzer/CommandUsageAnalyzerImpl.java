@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command.analyzer;
 
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
     }
 
     @Override
-    public void analyze(ICompoundCommand compoundCommand) {
+    public void analyze(DriverCommand compoundCommand) {
 
         timeOfUsages = new LinkedList<>();
         distances = new LinkedList<>();
@@ -36,7 +37,7 @@ public class CommandUsageAnalyzerImpl implements ICommandUsageAnalyzer {
         inkUsages = new LinkedList<>();
 
         visitor.setStartPosition(startX, startY);
-        visitor.visit(compoundCommand);
+        compoundCommand.accept(visitor);
 
         LinkedList<Usage> usagesOfHead = visitor.getUsages();
         usagesOfHead.forEach(usage -> {
