@@ -19,10 +19,7 @@ import edu.kis.powp.jobs2d.features.MacroFeature;
 import edu.kis.powp.jobs2d.drivers.DriverChangeTitleObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.MouseDrawFeature;
+import edu.kis.powp.jobs2d.features.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -138,6 +135,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				MouseDrawFeature.SetMouseListener(app.getFreePanel());
+				AnalyzerFeature.setUpAnalyzer();
 				CommandsFeature.setupCommandManager();
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);

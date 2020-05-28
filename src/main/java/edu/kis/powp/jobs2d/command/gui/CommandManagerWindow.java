@@ -6,9 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -19,7 +17,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private DriverCommandManager commandManager;
 
 	private JTextArea currentCommandField;
-
+	private JTextArea currentCommandAnalyzerField;
+	private JLabel statisticsLabel;
 	private String observerListString;
 	private JTextArea observerListField;
 
@@ -51,6 +50,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setEditable(false);
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
+
+		statisticsLabel = new JLabel();
+		content.add(statisticsLabel, c);
+		statisticsLabel.setVisible(false);
+		statisticsLabel.setText("Foreseen usage statistics of command: ");
+
+		currentCommandAnalyzerField = new JTextArea("");
+		currentCommandAnalyzerField.setEditable(false);
+		content.add(currentCommandAnalyzerField, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
 		JButton btnRunCommand = new JButton("Run command");
@@ -85,11 +93,17 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearObservers, c);
 		content.add(btnResetObservers, c);
 
-		this.commandManager.getChangePublisher().addSubscriber(() -> btnRunCommand.setEnabled(true));
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			btnRunCommand.setEnabled(true);
+			statisticsLabel.setVisible(true);
+			currentCommandAnalyzerField.setText(commandManager.getStatistics());
+		});
 	}
 
 	private void clearCommand() {
 		commandManager.clearCurrentCommand();
+		currentCommandAnalyzerField.setText("");
+		statisticsLabel.setVisible(false);
 		updateCurrentCommandField();
 	}
 

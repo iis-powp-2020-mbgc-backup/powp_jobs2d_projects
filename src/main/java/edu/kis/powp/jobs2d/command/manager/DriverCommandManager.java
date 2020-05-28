@@ -2,6 +2,8 @@ package edu.kis.powp.jobs2d.command.manager;
 
 import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.analyzer.ICommandUsageAnalyzer;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
@@ -18,6 +20,7 @@ public class DriverCommandManager {
 	private Publisher changePublisher = new Publisher();
 	private DriverManager driverManager;
 	private List<Subscriber> cache = null;
+	private ICommandUsageAnalyzer analyzer = null;
 
 	/**
 	 * Constructor of driver command manager, I had to choose whether keep accessing static method of DriverFeature or assign reference only one time
@@ -53,7 +56,12 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
+
 		changePublisher.notifyObservers();
+	}
+
+	public synchronized  String getStatistics(){
+		return analyzer.exportStatistics();
 	}
 
 	public synchronized void clearCurrentCommand() {
@@ -130,5 +138,9 @@ public class DriverCommandManager {
 
 	public Publisher getChangePublisher() {
 		return changePublisher;
+	}
+
+	public void setAnalyzer(ICommandUsageAnalyzer analyzer) {
+		this.analyzer = analyzer;
 	}
 }
