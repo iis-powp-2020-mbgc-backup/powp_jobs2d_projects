@@ -48,9 +48,8 @@ public class TestJobs2dApp {
 		application.addTest("Load macro command",new SelectLoadMacroListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
-
+		application.addTest("Deep secret command copy", new SelectDeepCopySecretCommand());
 		application.addTest("Visitor Command Counting test", new DriverCommandCounterVisitorTest());
-
 		application.addTest("Visitor Command Executor test", new DriverCommandExecutorVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
 	}
 
