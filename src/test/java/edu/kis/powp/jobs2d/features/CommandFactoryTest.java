@@ -1,17 +1,15 @@
 package edu.kis.powp.jobs2d.features;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandFactoryTest {
 
     @Test
-    void get() {
+    void getAndAdd() {
         CommandFactory cf = new CommandFactory();
         assertNull(cf.get(null));
         assertNull(cf.get(""));
@@ -54,9 +52,6 @@ class CommandFactoryTest {
 
     }
 
-//    @Test
-//    void add() {
-//    }
 
     @Test
     void getNamesOfStored() {

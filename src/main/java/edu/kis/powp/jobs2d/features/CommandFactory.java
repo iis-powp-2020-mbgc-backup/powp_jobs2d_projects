@@ -20,6 +20,7 @@ public class CommandFactory {
     public ICompoundCommand get(String name){
         return shapes.get(name);
     }
+
     public void add(String name, ICompoundCommand commands){
         List<DriverCommand> list = new ArrayList<>();
         for (DriverCommand dc : commands) {
@@ -35,6 +36,7 @@ public class CommandFactory {
     public void remove(String name){
         shapes.remove(name);
     }
+
     public void clear(){
         shapes.clear();
     }
