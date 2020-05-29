@@ -1,23 +1,30 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.Readers.Reader;
+import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+
+import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static CommandManagerWindowCommandChangeObserver windowObserver;
 
 	/**
 	 * Setup test concerning preset figures in context.
@@ -29,9 +36,14 @@ public class TestJobs2dApp {
 				DriverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
 				DriverFeature.getDriverManager());
+		SelectAddCommandManagerWindowCommandChangeObserver selectAddCommandManagerWindow =
+				new SelectAddCommandManagerWindowCommandChangeObserver();
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
+		application.addTest("Deep copy", new ICompoundCommandDeepCopyTest(DriverFeature.getDriverManager()));
+		application.addTest("Add Logger Command Change Observer", new SelectAddLoggerCommandChangeObserver());
+		application.addTest("Add Command Manager Window Change Observer", selectAddCommandManagerWindow);
 	}
 
 	/**
@@ -42,10 +54,14 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
+		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
+		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
-
+    
+		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
+		application.addTest("Clear Macro",new SelectClearMacroListener());
 	}
 
 	/**
@@ -64,6 +80,16 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
+		DriverFeature.addDriver("Dotted line Simulator", driver);
+
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
+		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
+    
+    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
+    
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -72,9 +98,16 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
-				commandManager);
-		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		CommandManagerWindowObserverChangeObserver windowObserverChangeObserver =
+				new CommandManagerWindowObserverChangeObserver(commandManager);
+		CommandsFeature.getDriverCommandManager().addObserverChangeSubscriber(windowObserverChangeObserver);
+		Reader reader = new SimpleFormatReader();
+		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
+		application.addWindowComponent("Editor", commandImportWindow);
+
+
+    windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);
 	}
 
 	/**
@@ -96,6 +129,10 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
 	}
 
+	public static CommandManagerWindowCommandChangeObserver getWindowObserver() {
+		return windowObserver;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -105,8 +142,9 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app, app.getFreePanel());
 				CommandsFeature.setupCommandManager();
-
+				MacroFeature.setupMacroDriverDecorator();
 				DriverFeature.setupDriverPlugin(app);
+
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
