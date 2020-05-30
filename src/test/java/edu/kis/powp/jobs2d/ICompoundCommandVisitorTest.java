@@ -1,11 +1,7 @@
 package edu.kis.powp.jobs2d;
 
-import edu.kis.powp.jobs2d.command.CommandCounterVisitor;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.command.Visitor;
+import edu.kis.powp.jobs2d.command.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,7 +34,7 @@ public class ICompoundCommandVisitorTest implements ActionListener {
 		commands.add(new OperateToCommand(-11, 23));
 
 
-		ICompoundCommand iCompoundCommand = new ICompoundCommand(){
+		ICompoundCommand iCompoundCommand = new ICompoundCommand() {
 
 			List<DriverCommand> driverCommands = commands;
 			String name;
@@ -56,6 +52,15 @@ public class ICompoundCommandVisitorTest implements ActionListener {
 			@Override
 			public Iterator<DriverCommand> iterator() {
 				return driverCommands.iterator();
+			}
+
+			@Override
+			public ICompoundCommand clone() throws CloneNotSupportedException {
+				List<DriverCommand> commands = new ArrayList<>();
+				for (DriverCommand command : this.driverCommands) {
+					commands.add(command.clone());
+				}
+				return new ComplexCommand(commands);
 			}
 
 			@Override

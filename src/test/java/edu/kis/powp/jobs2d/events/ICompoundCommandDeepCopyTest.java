@@ -29,9 +29,9 @@ public class ICompoundCommandDeepCopyTest implements ActionListener {
         commands.add(setCommand);
         commands.add(firstCommand);
         commands.add(secondCommand);
-        ICompoundCommandImpl command = new ICompoundCommandImpl(commands);
+        ComplexCommand command = new ComplexCommand(commands);
 
-        ICompoundCommandImpl copy = null;
+        ComplexCommand copy = null;
         try {
             copy = command.clone();
         } catch (CloneNotSupportedException ex) {
