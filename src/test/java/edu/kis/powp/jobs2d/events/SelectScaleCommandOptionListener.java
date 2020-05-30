@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.ScaleCommand;
+import edu.kis.powp.jobs2d.command.CommandTransformationScale;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -21,9 +21,9 @@ public class SelectScaleCommandOptionListener implements ActionListener {
 	public void actionPerformed(ActionEvent actionEvent) {
 		DriverCommandManager driverCommandManager = CommandsFeature.getDriverCommandManager();
 
-		ScaleCommand scaleCommand = new ScaleCommand(scaleX, scaleY);
-		driverCommandManager.getCurrentCommand().accept(scaleCommand);
-		ICompoundCommand transformedCommand = scaleCommand.getTransformedCommand();
+		CommandTransformationScale commandTransformationScale = new CommandTransformationScale(scaleX, scaleY);
+		driverCommandManager.getCurrentCommand().accept(commandTransformationScale);
+		ICompoundCommand transformedCommand = commandTransformationScale.getTransformedCommand();
 
 		driverCommandManager.setCurrentCommand(transformedCommand);
 	}

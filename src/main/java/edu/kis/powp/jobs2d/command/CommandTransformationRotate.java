@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ScaleCommand implements CommandVisitorInterface {
+public class CommandTransformationRotate implements CommandVisitorInterface {
 	private List<DriverCommand> commands;
-	private double scaleX;
-	private double scaleY;
+	private double angle;
 
-	public ScaleCommand(double scaleX, double scaleY) {
-		this.scaleX = scaleX;
-		this.scaleY = scaleY;
-
+	public CommandTransformationRotate(float angleInDegrees) {
+		this.angle = Math.toRadians(angleInDegrees);
 		commands = new ArrayList<>();
 	}
 
@@ -36,8 +33,8 @@ public class ScaleCommand implements CommandVisitorInterface {
 	public void visit(OperateToCommand driver) {
 		int x = driver.getPosX();
 		int y = driver.getPosY();
-		int newX = (int) (x * scaleX);
-		int newY = (int) (y * scaleY);
+		int newX = (int) (x * Math.cos(angle) - y * Math.sin(angle));
+		int newY = (int) (x * Math.sin(angle) + y * Math.cos(angle));
 
 		DriverCommand transformedCommand = new OperateToCommand(newX, newY);
 		commands.add(transformedCommand);
@@ -47,8 +44,8 @@ public class ScaleCommand implements CommandVisitorInterface {
 	public void visit(SetPositionCommand driver) {
 		int x = driver.getPosX();
 		int y = driver.getPosY();
-		int newX = (int) (x * scaleX);
-		int newY = (int) (y * scaleY);
+		int newX = (int) (x * Math.cos(angle) - y * Math.sin(angle));
+		int newY = (int) (x * Math.sin(angle) + y * Math.cos(angle));
 
 		SetPositionCommand transformedCommand = new SetPositionCommand(newX, newY);
 		commands.add(transformedCommand);
