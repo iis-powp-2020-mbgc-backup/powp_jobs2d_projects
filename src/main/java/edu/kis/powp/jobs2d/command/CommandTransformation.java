@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CommandTransformation implements CommandVisitorInterface {
+public abstract class CommandTransformation implements CommandVisitorInterface {
     List<DriverCommand> commands;
 
     public CommandTransformation(){
@@ -29,13 +29,13 @@ public class CommandTransformation implements CommandVisitorInterface {
 
     @Override
     public void visit(OperateToCommand driver) {
-        DriverCommand transformedCommand = new OperateToCommand(getNewX(driver.getPosX(), driver.getPosY()), getNewY(driver.getPosX(), driver.getPosY()));
+        DriverCommand transformedCommand = new OperateToCommand(getTransformedX(driver.getPosX(), driver.getPosY()), getTransformedY(driver.getPosX(), driver.getPosY()));
         commands.add(transformedCommand);
     }
 
     @Override
     public void visit(SetPositionCommand driver) {
-        SetPositionCommand transformedCommand = new SetPositionCommand(getNewX(driver.getPosX(), driver.getPosY()), getNewY(driver.getPosX(), driver.getPosY()));
+        SetPositionCommand transformedCommand = new SetPositionCommand(getTransformedX(driver.getPosX(), driver.getPosY()), getTransformedY(driver.getPosX(), driver.getPosY()));
         commands.add(transformedCommand);
     }
 
@@ -46,11 +46,6 @@ public class CommandTransformation implements CommandVisitorInterface {
         }
     }
 
-    int getNewX(int x, int y){
-        return x;
-    }
-
-    int getNewY(int x, int y){
-        return y;
-    }
+    abstract int getTransformedX(int x, int y);
+    abstract int getTransformedY(int x, int y);
 }

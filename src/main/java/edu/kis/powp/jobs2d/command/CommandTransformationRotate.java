@@ -9,12 +9,12 @@ public class CommandTransformationRotate extends CommandTransformation {
 	}
 
 	@Override
-	int getNewX(int x, int y){
+	int getTransformedX(int x, int y){
 		return (int) (x * Math.cos(angle) - y * Math.sin(angle));
 	}
 
 	@Override
-	int getNewY(int x, int y){
+	int getTransformedY(int x, int y){
 		return (int) (x * Math.sin(angle) + y * Math.cos(angle));
 	}
 }

@@ -11,12 +11,12 @@ public class CommandTransformationScale extends CommandTransformation {
 	}
 
 	@Override
-	int getNewX(int x, int y){
+	int getTransformedX(int x, int y){
 		return (int) (x * scaleX);
 	}
 
 	@Override
-	int getNewY(int x, int y){
+	int getTransformedY(int x, int y){
 		return (int) (y * scaleY);
 	}
 }
