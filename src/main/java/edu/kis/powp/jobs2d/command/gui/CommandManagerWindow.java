@@ -60,9 +60,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
         content.add(InputCommandsField,c);
 
-        JButton btnLoadCommand = new JButton("Load commands");
-        btnLoadCommand.addActionListener((ActionEvent e) -> this.loadCommands());
-        content.add(btnLoadCommand,c);
+        JButton jsonLoadCommands = new JButton("Load commands");
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommands());
+        content.add(jsonLoadCommands,c);
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
