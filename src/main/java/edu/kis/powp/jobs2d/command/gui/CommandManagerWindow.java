@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(InputCommandsField,c);
 
         JButton jsonLoadCommands = new JButton("Load commands");
-        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommands());
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON());
         content.add(jsonLoadCommands,c);
 
         JButton btnClearCommand = new JButton("Clear command");
@@ -81,8 +82,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(btnClearObservers, c);
     }
 
-    private void loadCommands() {
-        commandManager.loadCommands(InputCommandsTextArea.getText().trim());
+    private void loadCommandsFromJSON() {
+        String jsonInput = InputCommandsTextArea.getText().trim();
+        JSONCommandParser jsonCommandParser = new JSONCommandParser(jsonInput);
+        jsonCommandParser.parseToDriverCommand();
+
+        commandManager.setCurrentCommand(
+                jsonCommandParser.getDriverCommand(),
+                jsonCommandParser.getDriverCommandName()
+        );
     }
 
     private void clearCommand() {

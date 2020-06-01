@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.manager;
+package edu.kis.powp.jobs2d.command.manager.parsers;
 
 import com.google.gson.Gson;
 import edu.kis.powp.jobs2d.command.DriverCommand;
@@ -8,9 +8,8 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-class JSONCommandParser {
-
-    static class ComplexCommand {
+public class JSONCommandParser implements Parser {
+    private static class DriverCommandAdapterJSON {
         String name;
         static class Command {
             String operation;
@@ -20,16 +19,26 @@ class JSONCommandParser {
         List<Command> commands;
     }
 
-    private ComplexCommand complexCommandFromJSON;
+    private DriverCommandAdapterJSON complexCommandFromJSON;
+    private String json;
 
     public JSONCommandParser(String json) {
+        this.json = json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
+
+    @Override
+    public void parseToDriverCommand() {
         Gson gson = new Gson();
 
         complexCommandFromJSON =
-                gson.fromJson(json, ComplexCommand.class);
+                gson.fromJson(json, DriverCommandAdapterJSON.class);
     }
 
-    public List<DriverCommand> getComplexCommand() {
+    public List<DriverCommand> getDriverCommand() {
         List<DriverCommand> complexCommand = new ArrayList<>();
 
         complexCommandFromJSON.commands.forEach(command -> {
@@ -43,7 +52,7 @@ class JSONCommandParser {
         return complexCommand;
     }
 
-    public String getComplexCommandName() {
+    public String getDriverCommandName() {
         return complexCommandFromJSON.name;
     }
 }

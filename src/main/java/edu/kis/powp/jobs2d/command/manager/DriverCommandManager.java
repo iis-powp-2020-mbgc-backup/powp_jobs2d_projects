@@ -6,6 +6,7 @@ import java.util.List;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -77,10 +78,5 @@ public class DriverCommandManager {
 
     public Publisher getChangePublisher() {
         return changePublisher;
-    }
-
-    public synchronized void loadCommands(String loadedCommands) {
-        JSONCommandParser jsonCommandParser = new JSONCommandParser(loadedCommands);
-        setCurrentCommand(jsonCommandParser.getComplexCommand(), jsonCommandParser.getComplexCommandName());
     }
 }
