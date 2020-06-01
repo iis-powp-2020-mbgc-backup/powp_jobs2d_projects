@@ -58,6 +58,8 @@ public class TestJobs2dApp {
 		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
 		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
 
+		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
+    
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 	}
@@ -138,7 +140,7 @@ public class TestJobs2dApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
-				DrawerFeature.setupDrawerPlugin(app);
+				DrawerFeature.setupDrawerPlugin(app, app.getFreePanel());
 				CommandsFeature.setupCommandManager();
 				MacroFeature.setupMacroDriverDecorator();
 				DriverFeature.setupDriverPlugin(app);
