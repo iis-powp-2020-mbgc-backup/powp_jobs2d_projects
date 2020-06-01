@@ -6,7 +6,6 @@ import java.util.List;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
 import edu.kis.powp.observer.Publisher;
 
 /**
