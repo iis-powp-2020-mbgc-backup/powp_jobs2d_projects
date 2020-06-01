@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class CommandTransformation implements CommandVisitorInterface {
-    List<DriverCommand> commands;
+    private List<DriverCommand> commands;
 
     public CommandTransformation(){
         commands = new ArrayList<>();
