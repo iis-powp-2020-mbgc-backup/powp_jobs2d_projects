@@ -1,12 +1,12 @@
 package edu.kis.powp.jobs2d.command.manager;
 
+import java.util.Iterator;
+import java.util.List;
+
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Driver command Manager.
@@ -77,16 +77,6 @@ public class DriverCommandManager {
 
     public Publisher getChangePublisher() {
         return changePublisher;
-    }
-
-    static class ComplexCommand {
-        String name;
-        static class Command {
-            String operation;
-            int posX;
-            int posY;
-        }
-        List<Command> commands;
     }
 
     public synchronized void loadCommands(String loadedCommands) {

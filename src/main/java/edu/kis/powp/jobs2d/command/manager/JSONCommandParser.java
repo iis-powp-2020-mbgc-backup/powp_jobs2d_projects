@@ -9,13 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 class JSONCommandParser {
-    private DriverCommandManager.ComplexCommand complexCommandFromJSON;
+
+    static class ComplexCommand {
+        String name;
+        static class Command {
+            String operation;
+            int posX;
+            int posY;
+        }
+        List<Command> commands;
+    }
+
+    private ComplexCommand complexCommandFromJSON;
 
     public JSONCommandParser(String json) {
         Gson gson = new Gson();
 
         complexCommandFromJSON =
-                gson.fromJson(json, DriverCommandManager.ComplexCommand.class);
+                gson.fromJson(json, ComplexCommand.class);
     }
 
     public List<DriverCommand> getComplexCommand() {
