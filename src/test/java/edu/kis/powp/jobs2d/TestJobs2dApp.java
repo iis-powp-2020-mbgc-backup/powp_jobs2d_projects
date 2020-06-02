@@ -51,6 +51,13 @@ public class TestJobs2dApp {
 		application.addTest("Deep secret command copy", new SelectDeepCopySecretCommand());
 		application.addTest("Visitor Command Counting test", new DriverCommandCounterVisitorTest());
 		application.addTest("Visitor Command Executor test", new DriverCommandExecutorVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
+
+		application.addTest("Rotate command 90 deg clockwise", new SelectCommandTransformationRotateOptionListener(90));
+		application.addTest("Rotate command 90 deg counterclockwise", new SelectCommandTransformationRotateOptionListener(-90));
+		application.addTest("Rotate command 30 deg clockwise", new SelectCommandTransformationRotateOptionListener(30));
+
+		application.addTest("Scale command (2x, 1y)", new SelectScaleCommandOptionListener(2.0f, 1.0f));
+		application.addTest("Scale command (1.5x, 2.3y)", new SelectScaleCommandOptionListener(1.5f, 2.3f));
 	}
 
 	/**
