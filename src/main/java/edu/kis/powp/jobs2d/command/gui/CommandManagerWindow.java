@@ -3,16 +3,18 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.parsing.JsonParser;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -25,8 +27,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private String observerListString;
 	private JTextArea observerListField;
 
+	private JTextField textFieldImport;
+	private JTextField textFieldExport;
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
 
@@ -58,6 +63,25 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+		GridLayout gridLayout = new GridLayout(2,2);
+		Container importingAndExporting = new Container();
+
+		textFieldImport = new JTextField();
+		importingAndExporting.add(textFieldImport);
+
+		JButton btnImportCommand = new JButton("Import commands from Json");
+		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
+		importingAndExporting.add(btnImportCommand);
+
+		textFieldExport = new JTextField();
+		importingAndExporting.add(textFieldExport);
+		JButton btnExportCommand = new JButton("Export commands to Json");
+		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
+		importingAndExporting.add(btnExportCommand);
+
+		importingAndExporting.setLayout(gridLayout);
+		content.add(importingAndExporting,c);
+
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
 		c.fill = GridBagConstraints.BOTH;
@@ -81,6 +105,17 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnRunCommand, c);
+	}
+
+	private void importCommands() {
+		System.out.println(textFieldImport.getText());
+		JsonParser jsonParser = new JsonParser(textFieldImport.getText());
+		commandManager.setCurrentCommand(jsonParser.parseFromImport(),jsonParser.getCommandName());
+	}
+
+	private void exportCommands() {
+		// TODO: 02.06.2020 wyciagniecie currentcommandow z drivermanagera i zapisanie ich w sciezce x
+		commandManager.getCurrentCommand();
 	}
 
 	private void clearCommand() {
