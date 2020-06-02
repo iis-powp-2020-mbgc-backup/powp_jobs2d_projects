@@ -7,6 +7,8 @@ import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
+import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
+import edu.kis.powp.jobs2d.command.history.HistoryViewer;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -104,6 +106,11 @@ public class TestJobs2dApp {
 		Reader reader = new SimpleFormatReader();
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
+
+		HistoryViewer historyViewer = new HistoryViewer();
+		application.addWindowComponent("History", historyViewer);
+		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);
 
 
     windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
