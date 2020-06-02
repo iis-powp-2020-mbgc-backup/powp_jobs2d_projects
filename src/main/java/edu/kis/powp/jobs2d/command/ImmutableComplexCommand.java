@@ -16,6 +16,11 @@ public class ImmutableComplexCommand implements ICompoundCommand {
 	}
 
 	@Override
+	public DriverCommand clone() throws CloneNotSupportedException {
+		return ICompoundCommand.super.clone();
+	}
+
+	@Override
 	public void execute(final Job2dDriver driver) {
 		for (final DriverCommand driverCommand : driverCommands) {
 			driverCommand.execute(driver);
