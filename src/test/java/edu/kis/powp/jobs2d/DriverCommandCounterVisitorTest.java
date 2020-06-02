@@ -45,6 +45,11 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
 			List<DriverCommand> commands = driverCommands;
 
 			@Override
+			public DriverCommand clone() throws CloneNotSupportedException {
+				return ICompoundCommand.super.clone();
+			}
+
+			@Override
 			public Iterator<DriverCommand> iterator()
 			{
 				return commands.iterator();

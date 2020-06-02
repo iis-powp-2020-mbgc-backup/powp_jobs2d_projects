@@ -1,7 +1,5 @@
 package edu.kis.powp.jobs2d.command;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,17 +12,7 @@ public abstract class CommandTransformation implements CommandVisitorInterface {
     }
 
     public ICompoundCommand getTransformedCommand() {
-        return new ICompoundCommand() {
-            @Override
-            public Iterator<DriverCommand> iterator() {
-                return commands.iterator();
-            }
-
-            @Override
-            public void execute(Job2dDriver driver) {
-                commands.forEach(c -> c.execute(driver));
-            }
-        };
+        return new CompoundCommand(commands);
     }
 
     @Override
