@@ -5,12 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -27,8 +27,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private String observerListString;
 	private JTextArea observerListField;
 
-	private JTextField textFieldImport;
-	private JTextField textFieldExport;
+	private JFileChooser fileChooser;
 
 	/**
 	 *
@@ -63,24 +62,25 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
-		GridLayout gridLayout = new GridLayout(2,2);
+		GridLayout gridLayout = new GridLayout(2, 2);
 		Container importingAndExporting = new Container();
 
-		textFieldImport = new JTextField();
-		importingAndExporting.add(textFieldImport);
+		fileChooser = new JFileChooser(new File(System.getProperty("user.dir")),
+				FileSystemView.getFileSystemView());
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"JSON FILES", "json");
+		fileChooser.setFileFilter(filter);
 
 		JButton btnImportCommand = new JButton("Import commands from Json");
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
 		importingAndExporting.add(btnImportCommand);
 
-		textFieldExport = new JTextField();
-		importingAndExporting.add(textFieldExport);
 		JButton btnExportCommand = new JButton("Export commands to Json");
 		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
 		importingAndExporting.add(btnExportCommand);
 
 		importingAndExporting.setLayout(gridLayout);
-		content.add(importingAndExporting,c);
+		content.add(importingAndExporting, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -108,14 +108,27 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void importCommands() {
-		System.out.println(textFieldImport.getText());
-		JsonParser jsonParser = new JsonParser(textFieldImport.getText());
-		commandManager.setCurrentCommand(jsonParser.parseFromImport(),jsonParser.getCommandName());
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			JsonParser jsonParser = new JsonParser(selectedFile.getAbsolutePath());
+			commandManager.setCurrentCommand(jsonParser.parseFromImport(), jsonParser.getCommandName());
+		}
+
 	}
 
 	private void exportCommands() {
 		// TODO: 02.06.2020 wyciagniecie currentcommandow z drivermanagera i zapisanie ich w sciezce x
 		commandManager.getCurrentCommand();
+		fileChooser.setDialogTitle("Specify a file to save");
+
+		int userSelection = fileChooser.showSaveDialog(this);
+
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			File fileToSave = fileChooser.getSelectedFile();
+			System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+			//return File
+		}
 	}
 
 	private void clearCommand() {
@@ -132,10 +145,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void deleteObservers(JButton deleteButton) {
-		if(observersDeleted) {
+		if (observersDeleted) {
 			resetObservers(deleteButton);
-		}
-		else {
+		} else {
 			this.observerList = this.commandManager.getChangePublisher().getSubscribers();
 			commandManager.getChangePublisher().clearObservers();
 			this.updateObserverListField();
