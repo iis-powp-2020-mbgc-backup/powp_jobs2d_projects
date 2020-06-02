@@ -3,7 +3,6 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
@@ -62,8 +61,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
-		GridLayout gridLayout = new GridLayout(2, 2);
-		Container importingAndExporting = new Container();
 
 		fileChooser = new JFileChooser(new File(System.getProperty("user.dir")),
 				FileSystemView.getFileSystemView());
@@ -73,14 +70,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		JButton btnImportCommand = new JButton("Import commands from Json");
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
-		importingAndExporting.add(btnImportCommand);
+		content.add(btnImportCommand,c);
 
 		JButton btnExportCommand = new JButton("Export commands to Json");
 		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
-		importingAndExporting.add(btnExportCommand);
 
-		importingAndExporting.setLayout(gridLayout);
-		content.add(importingAndExporting, c);
+		content.add(btnExportCommand, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -111,7 +106,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
-			JsonParser jsonParser = new JsonParser(selectedFile.getAbsolutePath());
+			JsonParser jsonParser = new JsonParser(selectedFile);
 			commandManager.setCurrentCommand(jsonParser.parseFromImport(), jsonParser.getCommandName());
 		}
 

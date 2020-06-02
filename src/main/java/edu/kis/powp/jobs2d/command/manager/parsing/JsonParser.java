@@ -6,13 +6,14 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonParser {
-	String pathToFile;
+	File jsonFile;
 	String commandName = "No command has been set yet";
 
 	private class JsonDriverCommand {
@@ -27,14 +28,14 @@ public class JsonParser {
 		List<operation> operations;
 	}
 
-	public JsonParser(String pathToFile) {
-		this.pathToFile = pathToFile;
+	public JsonParser(File jsonFile) {
+		this.jsonFile = jsonFile;
 	}
 
 	public List<DriverCommand> parseFromImport() {
 		try {
 			Gson gson = new Gson();
-			JsonReader reader = new JsonReader(new FileReader(pathToFile));
+			JsonReader reader = new JsonReader(new FileReader(jsonFile));
 			JsonDriverCommand jsonDriverCommand = gson.fromJson(reader, JsonDriverCommand.class);
 			List<DriverCommand> driverCommands = new ArrayList<>();
 			for (JsonDriverCommand.operation op : jsonDriverCommand.operations)
