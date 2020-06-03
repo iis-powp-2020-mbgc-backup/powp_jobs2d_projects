@@ -14,8 +14,7 @@ import edu.kis.powp.jobs2d.command.line.Line2d;
 public class TransformationManager {
 	
 	public ICompoundCommand moveCommand(CommandCoordinatesVisitor visitor, int x, int y) {
-		
-		List<DriverCommand> commandList = new ArrayList<>();
+
 		List<Line2d> lines = visitor.getAllCommandsCoordinates();
 		
 		for(int i = 0; i < lines.size(); i++) {
@@ -24,12 +23,20 @@ public class TransformationManager {
 			lines.get(i).setEndPosX(lines.get(i).getEndPosX() + x);
 			lines.get(i).setEndPosY(lines.get(i).getEndPosY() + y);
 		}
-		
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
+	private List<DriverCommand> buildCommandList(List<Line2d> lines) {
+		List<DriverCommand> commandList = new ArrayList<>();
+
 		if(lines.size() >= 1) {
 			commandList.add(new SetPositionCommand(lines.get(0).getStartPosX(),
 					lines.get(0).getStartPosY()));
 		}
-		
+
 		for(int i = 1; i < lines.size(); i++) {
 			if(Line2d.checkIfConnected(lines.get(i - 1), lines.get(i))) {
 				commandList.add(new OperateToCommand(lines.get(i).getStartPosX(),
@@ -47,9 +54,7 @@ public class TransformationManager {
 					l.getEndPosY()));
 		}
 
-		
-		//List<DriverCommand> driverCommandList = (List<DriverCommand>)
-		//		(List<? extends DriverCommand>) commandList;
-		return new ImmutableComplexCommand(commandList);
+		return commandList;
 	}
+
 }
