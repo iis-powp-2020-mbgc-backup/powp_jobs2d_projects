@@ -10,7 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.drivers.DriverStatistics;
+import edu.kis.powp.jobs2d.drivers.UsageMonitorObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -56,17 +56,15 @@ public class TestJobs2dApp {
      */
     private static void setupDrivers(Application application) {
         Job2dDriver loggerDriver = new LoggerDriver();
-        DriverFeature.addDriver("Logger driver", loggerDriver, new DriverStatistics());
+        DriverFeature.addDriver("Logger driver", loggerDriver);
 
         DrawPanelController drawerController = DrawerFeature.getDrawerController();
-        DriverStatistics statistics = new DriverStatistics();
-        Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic", statistics);
-        DriverFeature.addDriver("Line Simulator", driver, statistics);
+        Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+        DriverFeature.addDriver("Line Simulator", driver);
         //DriverFeature.getDriverManager().setCurrentDriver(driver);
 
-        statistics = new DriverStatistics();
-        driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special", statistics);
-        DriverFeature.addDriver("Special line Simulator", driver, statistics);
+        driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
+        DriverFeature.addDriver("Special line Simulator", driver);
         DriverFeature.updateDriverInfo();
     }
 
@@ -99,6 +97,11 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
     }
 
+    private static void addSubscribers(){
+        UsageMonitorObserver usageMonitorObserver = new UsageMonitorObserver();
+        DriverFeature.getDriverManager().getChangePublisher().addSubscriber(usageMonitorObserver);
+    }
+
     /**
      * Launch the application.
      */
@@ -115,6 +118,7 @@ public class TestJobs2dApp {
                 setupCommandTests(app);
                 setupLogger(app);
                 setupWindows(app);
+                addSubscribers();
                 app.getFreePanel().addMouseListener(new MouseClickDrawListener(app.getFreePanel()));
 
                 app.setVisibility(true);

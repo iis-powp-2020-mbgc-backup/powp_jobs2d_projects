@@ -11,15 +11,13 @@ import edu.kis.powp.observer.Publisher;
 public class DriverManager {
 
     private Job2dDriver currentDriver = new LoggerDriver();
-    private DriverStatistics currentStatistics = new DriverStatistics();
     private Publisher changePublisher = new Publisher();
 
     /**
      * @param driver Set the driver as current.
      */
-    public synchronized void setCurrentDriver(Job2dDriver driver, DriverStatistics statistics) {
+    public synchronized void setCurrentDriver(Job2dDriver driver) {
         currentDriver = driver;
-        currentStatistics = statistics;
         changePublisher.notifyObservers();
     }
 
@@ -30,13 +28,6 @@ public class DriverManager {
         return currentDriver;
     }
 
-    /**
-     * @return Statistics for current driver.
-     */
-    public synchronized DriverStatistics getCurrentStatistics() {
-        return currentStatistics;
-    }
-    
     public Publisher getChangePublisher() {
         return changePublisher;
     }

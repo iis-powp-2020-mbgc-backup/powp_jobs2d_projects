@@ -4,7 +4,6 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverLabelChangeObserver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.drivers.DriverStatistics;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
 
 public class DriverFeature {
@@ -32,10 +31,9 @@ public class DriverFeature {
      *
      * @param name   Button name.
      * @param driver Job2dDriver object.
-     * @param statistics DriverStatistics object.
      */
-    public static void addDriver(String name, Job2dDriver driver, DriverStatistics statistics) {
-        SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager, statistics);
+    public static void addDriver(String name, Job2dDriver driver) {
+        SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
         app.addComponentMenuElement(DriverFeature.class, name, listener);
     }
 
