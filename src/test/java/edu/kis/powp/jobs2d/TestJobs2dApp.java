@@ -45,6 +45,8 @@ public class TestJobs2dApp {
         application.addTest("Test command", new SelectLoadTestCommand());
         application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
+        application.addTest("Make a command deep copy", new CopyCommandListener());
+
     }
 
     /**
