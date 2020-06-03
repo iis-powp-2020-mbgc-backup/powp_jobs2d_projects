@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -17,8 +18,8 @@ public class HistoryViewer extends JFrame implements WindowComponent {
     private static final long serialVersionUID = 1L;
     private JList<HistoryEntry> historyCommandList;
 
-    public HistoryViewer() throws HeadlessException {
-        historyCommandList = new JList<HistoryEntry>(CommandHistory.getEntryHistoryList());
+    public HistoryViewer(DefaultListModel<HistoryEntry> historyCommandList) throws HeadlessException {
+        this.historyCommandList = new JList<HistoryEntry>(historyCommandList);
         setUpWindow();
     }
 
