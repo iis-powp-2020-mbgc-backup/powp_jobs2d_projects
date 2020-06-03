@@ -1,19 +1,20 @@
 package edu.kis.powp.jobs2d.command.history;
 
-import edu.kis.powp.jobs2d.command.gui.CommandManager;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandHistoryObserver implements Subscriber {
 
-    private CommandManager commandManager;
+    private DriverCommandManager driverCommandManager;
 
-    public CommandHistoryObserver(CommandManager commandManager) {
-        this.commandManager = commandManager;
+    public CommandHistoryObserver(DriverCommandManager commandManager) {
+        this.driverCommandManager = commandManager;
     }
 
     @Override
     public void update() {
-        CommandHistory.addCommandEntry(commandManager.getCurrentCommandString());
+        CommandHistory.addCommandEntry(driverCommandManager.getCurrentCommandString(),
+                driverCommandManager.getCurrentCommand());
     }
 
 }

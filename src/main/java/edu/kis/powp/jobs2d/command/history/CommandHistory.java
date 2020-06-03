@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.DefaultListModel;
 
+import edu.kis.powp.jobs2d.command.DriverCommand;
+
 public class CommandHistory {
 
     private static DefaultListModel<HistoryEntry> entryHistoryList = new DefaultListModel<>();
@@ -13,9 +15,9 @@ public class CommandHistory {
         return entryHistoryList;
     }
 
-    public static void addCommandEntry(String commandName) {
+    public static void addCommandEntry(String commandName, DriverCommand command) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        HistoryEntry historyEntry = new HistoryEntry(LocalTime.now().format(formatter), commandName);
+        HistoryEntry historyEntry = new HistoryEntry(LocalTime.now().format(formatter), commandName, command);
         entryHistoryList.addElement(historyEntry);
     }
 
