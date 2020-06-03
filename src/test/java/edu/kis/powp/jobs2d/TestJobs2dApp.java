@@ -65,6 +65,7 @@ public class TestJobs2dApp {
     
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
+		application.addTest("Clear History", new SelectClearHistoryListener());
 	}
 
 	/**
