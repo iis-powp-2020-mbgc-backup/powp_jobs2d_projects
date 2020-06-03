@@ -3,10 +3,11 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
+import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.gui.*;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.transformations.TransformationManager;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -62,6 +63,8 @@ public class TestJobs2dApp {
     
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
+
+		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 	}
 
 	/**
@@ -104,13 +107,11 @@ public class TestJobs2dApp {
 		Reader reader = new SimpleFormatReader();
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
-		
-		/*DriverCommandManager driverCommandManager = CommandsFeature.getDriverCommandManager();
-		TransformationManager t = new TransformationManager();
-		CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-		visitor.visit(driverCommandManager.getCurrentCommand());
-		DriverCommand d = t.moveCommand(visitor, 10, 10);
-		driverCommandManager.getCurrentCommand()*/
+
+		TransformationManager transformationManager = new TransformationManager();
+		CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager(),
+				transformationManager);
+		application.addWindowComponent("Transformation", commandTransformationWindow);
 
 
     windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
