@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d.events;
 
-import edu.kis.powp.jobs2d.drivers.MacroDriverDecorator;
+import edu.kis.powp.jobs2d.drivers.MacroDriverComposite;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
@@ -12,9 +12,9 @@ public class SelectLoadMacroDriverListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        MacroDriverDecorator macroDriverDecorator = MacroFeature.getMacroDriverDecorator();
+        MacroDriverComposite macroDriverComposite = MacroFeature.getMacroDriverComposite();
 
-        CommandsFeature.getDriverCommandManager().setCurrentCommand(macroDriverDecorator.getDriverCommandList(), "Macro");
-        DriverFeature.getDriverManager().setCurrentDriver(macroDriverDecorator.getCoreJob2dDriver());
+        CommandsFeature.getDriverCommandManager().setCurrentCommand(macroDriverComposite.getDriverCommandList(), "Macro");
+        DriverFeature.getDriverManager().setCurrentDriver(macroDriverComposite.getCoreJob2dDriver());
     }
 }

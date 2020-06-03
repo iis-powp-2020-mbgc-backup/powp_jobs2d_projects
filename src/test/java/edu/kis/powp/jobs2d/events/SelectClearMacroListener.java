@@ -8,6 +8,6 @@ import java.awt.event.ActionListener;
 public class SelectClearMacroListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        MacroFeature.getMacroDriverDecorator().clearMemory();
+        MacroFeature.getMacroDriverComposite().clearMemory();
     }
 }

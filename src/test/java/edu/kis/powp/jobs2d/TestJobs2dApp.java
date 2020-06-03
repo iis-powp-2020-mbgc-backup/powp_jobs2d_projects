@@ -17,6 +17,8 @@ import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
 import edu.kis.powp.jobs2d.features.MacroFeature;
 
 import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
+import edu.kis.powp.observer.Subscriber;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -74,22 +76,37 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
-		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		DriverFeature.addDriver("Line Simulator", driver);
-		DriverFeature.getDriverManager().setCurrentDriver(driver);
+		Job2dDriver basicLineDriver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		DriverFeature.addDriver("Line Simulator", basicLineDriver);
+		DriverFeature.getDriverManager().setCurrentDriver(basicLineDriver);
 
-		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
-		DriverFeature.addDriver("Special line Simulator", driver);
+		Job2dDriver specialLineDriver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
+		DriverFeature.addDriver("Special line Simulator", specialLineDriver);
 
-		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
-		DriverFeature.addDriver("Dotted line Simulator", driver);
+		Job2dDriver dottedLineDriver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
+		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
 
-		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
-		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverComposite());
+		MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(basicLineDriver);
     
-    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+    	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
-    
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(new Subscriber() {
+			@Override
+			public void update() {
+				switch (DriverFeature.getDriverManager().getCurrentDriver().toString()) {
+					case "2d device simulator - basic":
+						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(basicLineDriver);
+						break;
+					case "2d device simulator - special":
+						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(specialLineDriver);
+						break;
+					case "2d device simulator - dotted":
+						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(dottedLineDriver);
+						break;
+				}
+			}
+		});
 		DriverFeature.updateDriverInfo();
 	}
 

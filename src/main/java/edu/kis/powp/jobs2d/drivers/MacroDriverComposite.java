@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MacroDriverDecorator implements Job2dDriver {
+public class MacroDriverComposite implements Job2dDriver {
     private List<DriverCommand> driverCommandList = new ArrayList<>();
     private Job2dDriver job2dDriver;
 
@@ -31,11 +31,13 @@ public class MacroDriverDecorator implements Job2dDriver {
     @Override
     public void setPosition(int x, int y) {
         driverCommandList.add(new SetPositionCommand(x, y));
+        job2dDriver.setPosition(x, y);
     }
 
     @Override
     public void operateTo(int x, int y) {
         driverCommandList.add(new OperateToCommand(x, y));
+        job2dDriver.operateTo(x, y);
     }
 
     @Override
