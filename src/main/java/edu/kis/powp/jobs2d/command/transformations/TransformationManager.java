@@ -40,6 +40,13 @@ public class TransformationManager {
 						lines.get(i).getStartPosY()));
 			}
 		}
+
+		if(lines.size() >= 1) {
+			Line2d l = lines.get(lines.size()-1);
+			commandList.add(new OperateToCommand(l.getEndPosX(),
+					l.getEndPosY()));
+		}
+
 		
 		//List<DriverCommand> driverCommandList = (List<DriverCommand>)
 		//		(List<? extends DriverCommand>) commandList;

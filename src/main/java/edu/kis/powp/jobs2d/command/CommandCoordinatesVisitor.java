@@ -34,11 +34,21 @@ public class CommandCoordinatesVisitor implements Visitor {
 
 	@Override
 	public void visit(ICompoundCommand compoundCommand) {
+		System.out.println("ICompoundCommand passed");
+
 		Iterator<DriverCommand> iterator = compoundCommand.iterator();
 		while (iterator.hasNext())
 		{
 			DriverCommand driverCommand = iterator.next();
 			driverCommand.accept(this);
+		}
+	}
+
+	public void visit(DriverCommand compoundCommand) {
+		System.out.println("DriverCommand passed");
+		if(compoundCommand instanceof ICompoundCommand) {
+			ICompoundCommand iCompoundCommand = (ICompoundCommand) compoundCommand;
+			visit(iCompoundCommand);
 		}
 	}
 }
