@@ -18,7 +18,7 @@ public class HistoryViewer extends JFrame implements WindowComponent {
     private JList<HistoryEntry> historyCommandList;
 
     public HistoryViewer() throws HeadlessException {
-        historyCommandList = new JList<HistoryEntry>(CommandHistory.entryHistoryList);
+        historyCommandList = new JList<HistoryEntry>(CommandHistory.getEntryHistoryList());
         setUpWindow();
     }
 

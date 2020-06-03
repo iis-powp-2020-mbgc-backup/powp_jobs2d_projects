@@ -7,7 +7,11 @@ import javax.swing.DefaultListModel;
 
 public class CommandHistory {
 
-    static DefaultListModel<HistoryEntry> entryHistoryList = new DefaultListModel<>();
+    private static DefaultListModel<HistoryEntry> entryHistoryList = new DefaultListModel<>();
+
+    public static DefaultListModel<HistoryEntry> getEntryHistoryList() {
+        return entryHistoryList;
+    }
 
     public static void addCommandEntry(String commandName) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
