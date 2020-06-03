@@ -26,19 +26,49 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
         GridBagConstraints c = new GridBagConstraints();
 
-        JButton btnLoadCommand = new JButton("Transform command");
-        btnLoadCommand.addActionListener((ActionEvent e) -> this.moveCommand());
+        JButton btnLoadTransformCommand = new JButton("Transform command");
+        btnLoadTransformCommand.addActionListener((ActionEvent e) -> this.moveCommand());
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
         c.weighty = 1;
-        content.add(btnLoadCommand, c);
+        content.add(btnLoadTransformCommand, c);
+
+        JButton btnLoadhorizontalCommand = new JButton("Flip horizontal command");
+        btnLoadhorizontalCommand.addActionListener((ActionEvent e) -> this.flipHorizontalCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadhorizontalCommand, c);
+
+        JButton btnLoadVerticalCommand = new JButton("Flip vertical command");
+        btnLoadVerticalCommand.addActionListener((ActionEvent e) -> this.flipVerticalCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadVerticalCommand, c);
     }
 
     private void moveCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(commandManager.getCurrentCommand());
         DriverCommand d = transformationManager.moveCommand(visitor, 50, 0);
+        commandManager.setCurrentCommand(d);
+    }
+
+    private void flipHorizontalCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.flipHorizontalCommand(visitor);
+        commandManager.setCurrentCommand(d);
+    }
+
+    private void flipVerticalCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.flipVerticalCommand(visitor);
         commandManager.setCurrentCommand(d);
     }
 

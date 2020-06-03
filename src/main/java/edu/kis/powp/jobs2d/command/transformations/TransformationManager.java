@@ -29,6 +29,34 @@ public class TransformationManager {
 		return new ImmutableComplexCommand(commandList);
 	}
 
+	public ICompoundCommand flipHorizontalCommand(CommandCoordinatesVisitor visitor) {
+
+		List<Line2d> lines = visitor.getAllCommandsCoordinates();
+
+		for(int i = 0; i < lines.size(); i++) {
+			lines.get(i).setStartPosX(-lines.get(i).getStartPosX());
+			lines.get(i).setEndPosX(-lines.get(i).getEndPosX());
+		}
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
+	public ICompoundCommand flipVerticalCommand(CommandCoordinatesVisitor visitor) {
+
+		List<Line2d> lines = visitor.getAllCommandsCoordinates();
+
+		for(int i = 0; i < lines.size(); i++) {
+			lines.get(i).setStartPosY(-lines.get(i).getStartPosY());
+			lines.get(i).setEndPosY(-lines.get(i).getEndPosY());
+		}
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
 	private List<DriverCommand> buildCommandList(List<Line2d> lines) {
 		List<DriverCommand> commandList = new ArrayList<>();
 
