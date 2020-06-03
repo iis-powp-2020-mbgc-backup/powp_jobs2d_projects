@@ -57,6 +57,45 @@ public class TransformationManager {
 		return new ImmutableComplexCommand(commandList);
 	}
 
+	public ICompoundCommand scaleCommand(CommandCoordinatesVisitor visitor, int scaleFactor) {
+
+		List<Line2d> lines = visitor.getAllCommandsCoordinates();
+
+		// Move drawing to position 0,0
+
+		int x = lines.get(0).getStartPosX();
+		int y = lines.get(0).getStartPosY();
+
+		for(int i = 0; i < lines.size(); i++) {
+			lines.get(i).setStartPosX(lines.get(i).getStartPosX() - x);
+			lines.get(i).setStartPosY(lines.get(i).getStartPosY() - y);
+			lines.get(i).setEndPosX(lines.get(i).getEndPosX() - x);
+			lines.get(i).setEndPosY(lines.get(i).getEndPosY() - y);
+		}
+
+		// scaling
+
+		for(int i = 0; i < lines.size(); i++) {
+			lines.get(i).setStartPosX(lines.get(i).getStartPosX() * scaleFactor);
+			lines.get(i).setStartPosY(lines.get(i).getStartPosY() * scaleFactor);
+			lines.get(i).setEndPosX(lines.get(i).getEndPosX() * scaleFactor);
+			lines.get(i).setEndPosY(lines.get(i).getEndPosY() * scaleFactor);
+		}
+
+		// move back to original position
+
+		for(int i = 0; i < lines.size(); i++) {
+			lines.get(i).setStartPosX(lines.get(i).getStartPosX() + x);
+			lines.get(i).setStartPosY(lines.get(i).getStartPosY() + y);
+			lines.get(i).setEndPosX(lines.get(i).getEndPosX() + x);
+			lines.get(i).setEndPosY(lines.get(i).getEndPosY() + y);
+		}
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
 	private List<DriverCommand> buildCommandList(List<Line2d> lines) {
 		List<DriverCommand> commandList = new ArrayList<>();
 

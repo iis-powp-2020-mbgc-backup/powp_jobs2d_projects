@@ -49,6 +49,14 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         c.gridx = 0;
         c.weighty = 1;
         content.add(btnLoadVerticalCommand, c);
+
+        JButton btnLoadScaleCommand = new JButton("Scale command");
+        btnLoadScaleCommand.addActionListener((ActionEvent e) -> this.scaleCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadScaleCommand, c);
     }
 
     private void moveCommand() {
@@ -69,6 +77,13 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(commandManager.getCurrentCommand());
         DriverCommand d = transformationManager.flipVerticalCommand(visitor);
+        commandManager.setCurrentCommand(d);
+    }
+
+    private void scaleCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.scaleCommand(visitor,2);
         commandManager.setCurrentCommand(d);
     }
 
