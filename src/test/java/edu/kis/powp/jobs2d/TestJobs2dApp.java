@@ -104,6 +104,13 @@ public class TestJobs2dApp {
 		Reader reader = new SimpleFormatReader();
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
+		
+		/*DriverCommandManager driverCommandManager = CommandsFeature.getDriverCommandManager();
+		TransformationManager t = new TransformationManager();
+		CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+		visitor.visit(driverCommandManager.getCurrentCommand());
+		DriverCommand d = t.moveCommand(visitor, 10, 10);
+		driverCommandManager.getCurrentCommand()*/
 
 
     windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
