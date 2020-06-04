@@ -109,20 +109,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			JsonParser jsonParser = new JsonParser(selectedFile);
 			commandManager.setCurrentCommand(jsonParser.parseFromImport(), jsonParser.getCommandName());
 		}
-
 	}
 
 	private void exportCommands() {
-		// TODO: 02.06.2020 wyciagniecie currentcommandow z drivermanagera i zapisanie ich w sciezce x
-		commandManager.getCurrentCommand();
 		fileChooser.setDialogTitle("Specify a file to save");
-
 		int userSelection = fileChooser.showSaveDialog(this);
-
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
-			System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-			//return File
+			JsonParser jsonParser = new JsonParser(fileToSave);
+			jsonParser.parseToExport(commandManager.getCurrentCommand());
 		}
 	}
 
