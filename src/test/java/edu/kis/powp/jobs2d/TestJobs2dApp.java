@@ -17,7 +17,6 @@ import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 public class TestJobs2dApp {
-
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     /**
@@ -42,8 +41,11 @@ public class TestJobs2dApp {
      */
     private static void setupCommandTests(Application application) {
         application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-
+        application.addTest("Test command", new SelectLoadTestCommand());
         application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+        application.addTest("Make a command deep copy", new CopyCommandListener());
+
     }
 
     /**
@@ -116,4 +118,5 @@ public class TestJobs2dApp {
             }
         });
     }
+
 }
