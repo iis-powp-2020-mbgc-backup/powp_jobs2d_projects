@@ -8,10 +8,13 @@ import java.util.List;
 import edu.kis.powp.jobs2d.Job2dDriver;
 
 public class ImmutableComplexCommand implements ICompoundCommand {
-    private List<DriverCommand> driverCommandList;
 
-    public ImmutableComplexCommand(List<DriverCommand> driverCommandList) {
+    private List<DriverCommand> driverCommandList;
+    private String commandName;
+
+    public ImmutableComplexCommand(List<DriverCommand> driverCommandList, String commandName) {
         this.driverCommandList = Collections.unmodifiableList(driverCommandList);
+        this.commandName = commandName;
     }
 
     @Override
@@ -32,7 +35,11 @@ public class ImmutableComplexCommand implements ICompoundCommand {
         for (DriverCommand command : this.driverCommandList) {
             commands.add(command.clone());
         }
-        return new ImmutableComplexCommand(commands);
+        return new ImmutableComplexCommand(commands, commandName);
     }
 
+    @Override
+    public String toString() {
+        return "ImmutableComplexCommand commandName=" + commandName;
+    }
 }
