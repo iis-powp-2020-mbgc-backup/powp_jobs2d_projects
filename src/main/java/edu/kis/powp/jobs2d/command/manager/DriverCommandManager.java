@@ -36,7 +36,6 @@ public class DriverCommandManager implements CommandManager {
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
 		setCurrentCommand(new ImmutableComplexCommand(commandList, name));
-
 	}
 
 	/**
@@ -80,7 +79,9 @@ public class DriverCommandManager implements CommandManager {
 
 	@Override
 	public void runCommand() {
-		getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver());
+		if(currentCommand != null) {
+		    currentCommand.execute(DriverFeature.getDriverManager().getCurrentDriver());
+		}
 	}
 
 	public void addObserverChangeSubscriber(Subscriber subscriber) {
