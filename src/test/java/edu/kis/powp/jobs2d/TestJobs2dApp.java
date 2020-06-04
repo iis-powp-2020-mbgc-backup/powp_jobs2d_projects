@@ -7,6 +7,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
+import edu.kis.powp.jobs2d.command.history.CommandHistory;
 import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
 import edu.kis.powp.jobs2d.command.history.HistoryViewer;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -64,6 +65,7 @@ public class TestJobs2dApp {
     
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
+		application.addTest("Clear History", new SelectClearHistoryListener());
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class TestJobs2dApp {
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
 
-		HistoryViewer historyViewer = new HistoryViewer();
+		HistoryViewer historyViewer = new HistoryViewer(CommandHistory.getEntryHistoryList(), CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("History", historyViewer);
 		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);

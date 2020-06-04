@@ -2,17 +2,12 @@ package edu.kis.powp.jobs2d.command.manager;
 
 import java.util.List;
 
-import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
-import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.jobs2d.command.gui.CommandManager;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Driver command Manager.
@@ -40,8 +35,7 @@ public class DriverCommandManager implements CommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new ImmutableComplexCommand(commandList) );
-
+		setCurrentCommand(new ImmutableComplexCommand(commandList, name));
 	}
 
 	/**
@@ -85,7 +79,9 @@ public class DriverCommandManager implements CommandManager {
 
 	@Override
 	public void runCommand() {
-		getCurrentCommand().execute(DriverFeature.getDriverManager().getCurrentDriver());
+		if(currentCommand != null) {
+		    currentCommand.execute(DriverFeature.getDriverManager().getCurrentDriver());
+		}
 	}
 
 	public void addObserverChangeSubscriber(Subscriber subscriber) {
