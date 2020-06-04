@@ -109,7 +109,7 @@ public class TestJobs2dApp {
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
 
-		HistoryViewer historyViewer = new HistoryViewer(CommandHistory.getEntryHistoryList());
+		HistoryViewer historyViewer = new HistoryViewer(CommandHistory.getEntryHistoryList(), CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("History", historyViewer);
 		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);
