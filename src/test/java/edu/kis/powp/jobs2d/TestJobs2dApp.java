@@ -46,6 +46,7 @@ public class TestJobs2dApp {
 
         application.addTest("Make a command deep copy", new CopyCommandListener());
 
+        application.addTest("Rotate", new SelectCommandTransformationRotateOptionListener(36));
     }
 
     /**
