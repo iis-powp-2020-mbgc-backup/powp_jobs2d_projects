@@ -53,6 +53,8 @@ public class TestJobs2dApp {
         application.addTest("Scale: 0.3", new SelectCommandTransformationScaleOptionListener(0.3, 0.3));
         application.addTest("Scale: 1.2, 0.8", new SelectCommandTransformationScaleOptionListener(1.2, 0.8));
 
+        application.addTest("Flip: horizontal", new SelectCommandTransformationFlipOptionListener(true));
+        application.addTest("Flip: vertical", new SelectCommandTransformationFlipOptionListener(false));
     }
 
     /**
