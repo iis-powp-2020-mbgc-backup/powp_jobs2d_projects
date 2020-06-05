@@ -48,6 +48,11 @@ public class TestJobs2dApp {
 
         application.addTest("Rotate: 36 degrees", new SelectCommandTransformationRotateOptionListener(36));
         application.addTest("Rotate: -15 degrees", new SelectCommandTransformationRotateOptionListener(-15));
+
+        application.addTest("Scale: 2.5", new SelectCommandTransformationScaleOptionListener(2.5, 2.5));
+        application.addTest("Scale: 0.3", new SelectCommandTransformationScaleOptionListener(0.3, 0.3));
+        application.addTest("Scale: 1.2, 0.8", new SelectCommandTransformationScaleOptionListener(1.2, 0.8));
+
     }
 
     /**
