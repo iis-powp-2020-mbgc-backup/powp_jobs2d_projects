@@ -5,7 +5,7 @@ public class CommandTransformationRotate extends CommandTransformation {
 
     public CommandTransformationRotate(double angle) {
         super();
-        this.angle = angle;
+        this.angle = Math.toRadians(angle);
     }
 
     @Override

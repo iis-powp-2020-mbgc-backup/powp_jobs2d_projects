@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.transformation.CommandTransformation;
 import edu.kis.powp.jobs2d.command.transformation.CommandTransformationRotate;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -20,9 +21,9 @@ public class SelectCommandTransformationRotateOptionListener implements ActionLi
     public void actionPerformed(ActionEvent e) {
         DriverCommandManager driverCommandManager = CommandsFeature.getDriverCommandManager();
 
-        CommandTransformationRotate commandTransformationRotate = new CommandTransformationRotate(angle);
-        driverCommandManager.getCurrentCommand().accept(commandTransformationRotate);
-        ICompoundCommand iCompoundCommand = commandTransformationRotate.getCompoundCommand();
+        CommandTransformation commandTransformation = new CommandTransformationRotate(angle);
+        driverCommandManager.getCurrentCommand().accept(commandTransformation);
+        ICompoundCommand iCompoundCommand = commandTransformation.getCompoundCommand();
 
         driverCommandManager.setCurrentCommand(iCompoundCommand);
     }
