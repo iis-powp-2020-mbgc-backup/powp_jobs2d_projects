@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.analyzer.ICommandUsageAnalyzer;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
@@ -16,11 +17,14 @@ import java.util.List;
  */
 public class DriverCommandManager {
 	private DriverCommand currentCommand = null;
+	private String currentCommandName;
 
 	private Publisher changePublisher = new Publisher();
 	private DriverManager driverManager;
 	private List<Subscriber> cache = null;
 	private ICommandUsageAnalyzer analyzer = null;
+
+	public CommandFactory commandFactory = new CommandFactory();
 
 	/**
 	 * Constructor of driver command manager, I had to choose whether keep accessing static method of DriverFeature or assign reference only one time
@@ -37,7 +41,26 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
+		commandFactory.add(name, new DefaultCompoundCommand((commandList)));
+		currentCommandName = name;
 		setCurrentCommand(new DefaultCompoundCommand(commandList));
+	}
+	/**
+	 * Sets current command.
+	 *
+	 * @param name        name of the command.
+	 */
+	public synchronized void setCurrentCommand(String name) {
+		setCurrentCommand(commandFactory.get(name));
+	}
+
+	/**
+	 * Returns name of current command
+	 * 
+	 * @return name of current command
+	 */
+	public synchronized String getCurrentCommandName(){
+		return currentCommandName;
 	}
 
 	/**

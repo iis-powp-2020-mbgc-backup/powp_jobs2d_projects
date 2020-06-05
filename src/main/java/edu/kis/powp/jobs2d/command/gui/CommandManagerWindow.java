@@ -1,8 +1,6 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -21,6 +19,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JLabel statisticsLabel;
 	private String observerListString;
 	private JTextArea observerListField;
+
+	private JLabel cfLabel;
+	private Choice cfChoice;
 
 	/**
 	 * 
@@ -97,7 +98,35 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			btnRunCommand.setEnabled(true);
 			statisticsLabel.setVisible(true);
 			currentCommandAnalyzerField.setText(commandManager.getStatistics());
+
+			cfChoice.removeAll();
+			commandManager.commandFactory.getNamesOfStored().forEach(name ->{
+				cfChoice.add(name);
+			});
+			cfChoice.select(commandManager.getCurrentCommandName());
 		});
+
+		cfLabel = new JLabel();
+		content.add(cfLabel, c);
+		cfLabel.setVisible(true);
+		cfLabel.setText("cataloged commands: ");
+		cfChoice = new Choice();
+		content.add(cfChoice, c);
+
+		JButton btnFactoryClearCommand = new JButton("clear catalog");
+		JButton btnFactorySetCommand = new JButton("set chosen command");
+
+		btnFactoryClearCommand.addActionListener(e -> {
+			commandManager.commandFactory.clear();
+			cfChoice.removeAll();
+		});
+		btnFactorySetCommand.addActionListener(e -> {
+			commandManager.setCurrentCommand(cfChoice.getSelectedItem());
+		});
+
+		content.add(btnFactoryClearCommand, c);
+		content.add(btnFactorySetCommand, c);
+
 	}
 
 	private void clearCommand() {
