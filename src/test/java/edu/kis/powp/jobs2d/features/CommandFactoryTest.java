@@ -18,7 +18,7 @@ class CommandFactoryTest {
         List<DriverCommand> dcList = new ArrayList<>();
         dcList.add(new SetPositionCommand(100, 100));
         dcList.add(new OperateToCommand(150, 150));
-        ImmutableCompoundCommand icc = new ImmutableCompoundCommand(dcList);
+        ICompoundCommand icc = new DefaultCompoundCommand(dcList);
 
         cf.add("line", icc);
 

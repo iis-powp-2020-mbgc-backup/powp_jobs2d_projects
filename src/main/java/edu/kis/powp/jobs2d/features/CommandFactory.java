@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.features;
 
+import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.ImmutableCompoundCommand;
@@ -21,12 +22,12 @@ public class CommandFactory {
         return shapes.get(name);
     }
 
-    public void add(String name, ICompoundCommand commands){
-        List<DriverCommand> list = new ArrayList<>();
-        for (DriverCommand dc : commands) {
-            list.add(dc);
+    public void add(String name, ICompoundCommand commands) throws IllegalArgumentException{
+        try{
+            shapes.put(name, (DefaultCompoundCommand) commands.clone());
+        }catch(CloneNotSupportedException e){
+            throw new IllegalArgumentException();
         }
-        shapes.put(name, new ImmutableCompoundCommand(list));
     }
 
     public Set<String> getNamesOfStored(){
