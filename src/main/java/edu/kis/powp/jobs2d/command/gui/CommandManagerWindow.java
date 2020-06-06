@@ -14,14 +14,20 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
 
+	private Container content;
+	private GridBagConstraints c;
+
 	private JTextArea currentCommandField;
 	private JTextArea currentCommandAnalyzerField;
 	private JLabel statisticsLabel;
 	private String observerListString;
 	private JTextArea observerListField;
 
-	private JLabel cfLabel;
-	private Choice cfChoice;
+	//catalog
+	private JLabel labelCatalog;
+	private Choice choiceCatalog;
+	private JButton btnCatalogClearCommand;
+	private JButton btnCatalogSetCommand;
 
 	/**
 	 * 
@@ -31,12 +37,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public CommandManagerWindow(DriverCommandManager commandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
-		Container content = this.getContentPane();
+		content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
 		this.commandManager = commandManager;
 
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -98,34 +104,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			btnRunCommand.setEnabled(true);
 			statisticsLabel.setVisible(true);
 			currentCommandAnalyzerField.setText(commandManager.getStatistics());
-
-			cfChoice.removeAll();
-			commandManager.commandFactory.getNamesOfStored().forEach(name ->{
-				cfChoice.add(name);
-			});
-			cfChoice.select(commandManager.getCurrentCommandName());
 		});
 
-		cfLabel = new JLabel();
-		content.add(cfLabel, c);
-		cfLabel.setVisible(true);
-		cfLabel.setText("cataloged commands: ");
-		cfChoice = new Choice();
-		content.add(cfChoice, c);
-
-		JButton btnFactoryClearCommand = new JButton("clear catalog");
-		JButton btnFactorySetCommand = new JButton("set chosen command");
-
-		btnFactoryClearCommand.addActionListener(e -> {
-			commandManager.commandFactory.clear();
-			cfChoice.removeAll();
-		});
-		btnFactorySetCommand.addActionListener(e -> {
-			commandManager.setCurrentCommand(cfChoice.getSelectedItem());
-		});
-
-		content.add(btnFactoryClearCommand, c);
-		content.add(btnFactorySetCommand, c);
+		this.setupCatalogGUI();
 
 	}
 
@@ -180,6 +161,42 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		} else {
 			this.setVisible(true);
 		}
+	}
+
+	private void setupCatalogGUI(){
+		//label for catalog
+		labelCatalog = new JLabel();
+		content.add(labelCatalog, c);
+		labelCatalog.setVisible(true);
+		labelCatalog.setText("Cataloged commands: ");
+
+		//choice list
+		choiceCatalog = new Choice();
+		content.add(choiceCatalog, c);
+
+		//buttons
+		btnCatalogClearCommand = new JButton("Clear catalog");
+		content.add(btnCatalogClearCommand, c);
+		btnCatalogSetCommand = new JButton("Set command");
+		content.add(btnCatalogSetCommand, c);
+
+		//buttons' actions
+		btnCatalogClearCommand.addActionListener(e -> {
+			commandManager.commandFactory.clear();
+			choiceCatalog.removeAll();
+		});
+		btnCatalogSetCommand.addActionListener(e -> {
+			commandManager.setCurrentCommand(choiceCatalog.getSelectedItem());
+		});
+
+		//update choice list when current command in commandManager has changed
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			choiceCatalog.removeAll();
+			commandManager.commandFactory.getNamesOfStored().forEach(name ->{
+				choiceCatalog.add(name);
+			});
+			choiceCatalog.select(commandManager.getCurrentCommandName());
+		});
 	}
 
 }
