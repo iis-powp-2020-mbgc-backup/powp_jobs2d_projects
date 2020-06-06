@@ -9,17 +9,11 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.features.Readers.Reader;
 import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
-import edu.kis.powp.jobs2d.features.MacroFeature;
 
-import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
-import edu.kis.powp.observer.Subscriber;
-
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,27 +80,13 @@ public class TestJobs2dApp {
 		Job2dDriver dottedLineDriver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
 
-		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverComposite());
-		MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(basicLineDriver);
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriver());
+		MacroFeature.getMacroDriver().setCoreJob2dDriver(basicLineDriver);
     
     	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
-		DriverFeature.getDriverManager().getPublisher().addSubscriber(new Subscriber() {
-			@Override
-			public void update() {
-				switch (DriverFeature.getDriverManager().getCurrentDriver().toString()) {
-					case "2d device simulator - basic":
-						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(basicLineDriver);
-						break;
-					case "2d device simulator - special":
-						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(specialLineDriver);
-						break;
-					case "2d device simulator - dotted":
-						MacroFeature.getMacroDriverComposite().setCoreJob2dDriver(dottedLineDriver);
-						break;
-				}
-			}
-		});
+
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(new DriverChangeObserver());
 		DriverFeature.updateDriverInfo();
 	}
 
