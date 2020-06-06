@@ -12,7 +12,7 @@ class CommandFactoryTest {
 
     private static CommandFactory cf;
 
-    private static List<DefaultCompoundCommand> testComamnds;
+    private static List<DefaultCompoundCommand> testCommands;
     private static final List<String> exampleNames = Arrays.asList(
             "line_01", "line_02", "line_03", "circle", "square", "triangle");
     private static List<String> existingCommandNames;
@@ -22,26 +22,26 @@ class CommandFactoryTest {
     void setUp() {
         cf = new CommandFactory();
 
-        testComamnds = new ArrayList<>();
+        testCommands = new ArrayList<>();
         existingCommandNames = new ArrayList<>();
         notExistingCommandNames = new ArrayList<>();
 
         List<DriverCommand> dcList1 = new ArrayList<>();
         dcList1.add(new SetPositionCommand(100, 100));
         dcList1.add(new OperateToCommand(150, 150));
-        testComamnds.add(new DefaultCompoundCommand(dcList1, exampleNames.get(0)));
+        testCommands.add(new DefaultCompoundCommand(dcList1, exampleNames.get(0)));
 
         List<DriverCommand> dcList2 = new ArrayList<>();
         dcList2.add(new SetPositionCommand(0, 0));
         dcList2.add(new OperateToCommand(50, 50));
-        testComamnds.add(new DefaultCompoundCommand(dcList2, exampleNames.get(1)));
+        testCommands.add(new DefaultCompoundCommand(dcList2, exampleNames.get(1)));
 
         List<DriverCommand> dcList3 = new ArrayList<>();
         dcList3.add(new SetPositionCommand(0, 100));
         dcList3.add(new OperateToCommand(50, 50));
-        testComamnds.add(new DefaultCompoundCommand(dcList3, exampleNames.get(2)));
+        testCommands.add(new DefaultCompoundCommand(dcList3, exampleNames.get(2)));
 
-        testComamnds.forEach(c -> existingCommandNames.add(c.toString()));
+        testCommands.forEach(c -> existingCommandNames.add(c.toString()));
 
         notExistingCommandNames.add(null);
         notExistingCommandNames.add(exampleNames.get(2));
@@ -61,7 +61,7 @@ class CommandFactoryTest {
             assertNull(cf.get(name));
         });
 
-        testComamnds.forEach(command ->{
+        testCommands.forEach(command ->{
             cf.add(command);
             assertNotEquals(command, cf.get(command.toString()));
         });
@@ -71,10 +71,10 @@ class CommandFactoryTest {
         });
 
         List<DriverCommand> listOriginal = new ArrayList<>();
-        testComamnds.get(0).forEach(listOriginal::add);
+        testCommands.get(0).forEach(listOriginal::add);
 
         List<DriverCommand> listFromfactory = new ArrayList<>();
-        DriverCommand dc = cf.get(testComamnds.get(0).toString());
+        DriverCommand dc = cf.get(testCommands.get(0).toString());
         assertTrue(dc instanceof DefaultCompoundCommand);
         DefaultCompoundCommand dcc = (DefaultCompoundCommand)dc;
         dcc.forEach(listFromfactory::add);
@@ -104,7 +104,7 @@ class CommandFactoryTest {
     @Test
     void getNamesOfStored() {
 
-        testComamnds.forEach(command ->{
+        testCommands.forEach(command ->{
             cf.add(command);
         });
         assertEquals(existingCommandNames.size(), cf.getNamesOfStored().size());
@@ -117,11 +117,11 @@ class CommandFactoryTest {
 
     @Test
     void remove() {
-        testComamnds.forEach(command ->{
+        testCommands.forEach(command ->{
             cf.add(command);
         });
 
-        testComamnds.forEach(command ->{
+        testCommands.forEach(command ->{
             assertNotNull(cf.get(command.toString()));
             cf.remove(command.toString());
             assertNull(cf.get(command.toString()));

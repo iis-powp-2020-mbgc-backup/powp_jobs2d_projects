@@ -2,17 +2,22 @@ package edu.kis.powp.jobs2d.command.gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.Driver;
 import java.util.List;
 
 import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	public CommandFactory commandFactory = new CommandFactory();
 
 	private Container content;
 	private GridBagConstraints c;
@@ -40,6 +45,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
+		this.commandFactory.setCommandManagerPublisher(commandManager);
 		this.commandManager = commandManager;
 
 		c = new GridBagConstraints();
@@ -182,17 +188,18 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		//buttons' actions
 		btnCatalogClearCommand.addActionListener(e -> {
-			commandManager.commandFactory.clear();
+			commandFactory.clear();
 			choiceCatalog.removeAll();
 		});
 		btnCatalogSetCommand.addActionListener(e -> {
-			commandManager.setCurrentCommand(commandManager.commandFactory.get(choiceCatalog.getSelectedItem()));
+			DriverCommand selected = commandFactory.get(choiceCatalog.getSelectedItem());
+			commandManager.setCurrentCommand(selected);
 		});
 
 		//update choice list when current command in commandManager has changed
 		this.commandManager.getChangePublisher().addSubscriber(() -> {
 			choiceCatalog.removeAll();
-			commandManager.commandFactory.getNamesOfStored().forEach(name ->{
+			commandFactory.getNamesOfStored().forEach(name ->{
 				choiceCatalog.add(name);
 			});
 			choiceCatalog.select(commandManager.getCurrentCommandString());

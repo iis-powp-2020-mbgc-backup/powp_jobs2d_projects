@@ -17,14 +17,11 @@ import java.util.List;
  */
 public class DriverCommandManager {
 	private DriverCommand currentCommand = null;
-	private String currentCommandName;
 
 	private Publisher changePublisher = new Publisher();
 	private DriverManager driverManager;
 	private List<Subscriber> cache = null;
 	private ICommandUsageAnalyzer analyzer = null;
-
-	public CommandFactory commandFactory = new CommandFactory();
 
 	/**
 	 * Constructor of driver command manager, I had to choose whether keep accessing static method of DriverFeature or assign reference only one time
@@ -41,9 +38,7 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		DefaultCompoundCommand dcc = new DefaultCompoundCommand(commandList, name);
-		commandFactory.add(dcc);
-		setCurrentCommand(dcc);
+		setCurrentCommand(new DefaultCompoundCommand(commandList, name));
 	}
 
 	/**
@@ -64,6 +59,7 @@ public class DriverCommandManager {
 		this.currentCommand = commandList;
 		changePublisher.notifyObservers();
 	}
+
 
 	public synchronized  String getStatistics(){
 		return analyzer.exportStatistics();

@@ -4,6 +4,8 @@ import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.ImmutableCompoundCommand;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.observer.Publisher;
 
 import java.util.*;
 
@@ -26,6 +28,13 @@ public class CommandFactory {
             throw new IllegalArgumentException();
         }
     }
+    public void add(DriverCommand complexCommand, String name) throws IllegalArgumentException{
+        try{
+            shapes.put(name, complexCommand.clone());
+        }catch(CloneNotSupportedException e){
+            throw new IllegalArgumentException();
+        }
+    }
 
     public Set<String> getNamesOfStored(){
         return shapes.keySet();
@@ -38,5 +47,18 @@ public class CommandFactory {
     public void clear(){
         shapes.clear();
     }
+
+    public void setCommandManagerPublisher(DriverCommandManager commandManager){
+        commandManager.getChangePublisher().addSubscriber(() -> {
+            DriverCommand currentCommand = commandManager.getCurrentCommand();
+            if(currentCommand instanceof DefaultCompoundCommand){
+                this.add((DefaultCompoundCommand)currentCommand);
+            }else{
+                this.add(currentCommand, commandManager.getCurrentCommandString());
+            }
+        });
+
+    }
+
 
 }
