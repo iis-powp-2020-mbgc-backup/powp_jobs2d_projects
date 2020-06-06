@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.transformation;
+package edu.kis.powp.jobs2d.command.visitor;
 
 public class CommandVisitorTransformationRotate extends CommandVisitorTransformation {
     private final double angle;

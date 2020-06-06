@@ -2,8 +2,8 @@ package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.command.transformation.CommandVisitorTransformation;
-import edu.kis.powp.jobs2d.command.transformation.CommandVisitorTransformationFlip;
+import edu.kis.powp.jobs2d.command.visitor.CommandVisitorTransformation;
+import edu.kis.powp.jobs2d.command.visitor.CommandVisitorTransformationFlip;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
