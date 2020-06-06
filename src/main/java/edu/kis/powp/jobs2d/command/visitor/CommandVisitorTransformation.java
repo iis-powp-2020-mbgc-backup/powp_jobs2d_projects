@@ -1,36 +1,38 @@
 package edu.kis.powp.jobs2d.command.visitor;
 
 import edu.kis.powp.jobs2d.command.*;
-import edu.kis.powp.jobs2d.command.visitor.CommandVisitorInterface;
+import edu.kis.powp.jobs2d.command.transformation.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CommandVisitorTransformation implements CommandVisitorInterface {
+public class CommandVisitorTransformation implements CommandVisitorInterface {
     private final List<DriverCommand> driverCommandList;
+    private final Transformation transformation;
 
-    public CommandVisitorTransformation() {
-        driverCommandList = new ArrayList<>();
+    public CommandVisitorTransformation(Transformation transformation) {
+        this.driverCommandList = new ArrayList<>();
+        this.transformation = transformation;
     }
 
     public ICompoundCommand getCompoundCommand() {
-        return new DefaultCompoundCommand(driverCommandList);
+        return new DefaultCompoundCommand(this.driverCommandList);
     }
 
     @Override
     public void visit(SetPositionCommand setPositionCommand) {
-        int transformedXPoint = transformXPoint(setPositionCommand.getPosX(), setPositionCommand.getPosY());
-        int transformedYPoint = transformYPoint(setPositionCommand.getPosX(), setPositionCommand.getPosY());
+        int transformedXPoint = this.transformation.transformXPoint(setPositionCommand.getPosX(), setPositionCommand.getPosY());
+        int transformedYPoint = this.transformation.transformYPoint(setPositionCommand.getPosX(), setPositionCommand.getPosY());
 
-        driverCommandList.add(new SetPositionCommand(transformedXPoint, transformedYPoint));
+        this.driverCommandList.add(new SetPositionCommand(transformedXPoint, transformedYPoint));
     }
 
     @Override
     public void visit(OperateToCommand operateToCommand) {
-        int transformedXPoint = transformXPoint(operateToCommand.getPosX(), operateToCommand.getPosY());
-        int transformedYPoint = transformYPoint(operateToCommand.getPosX(), operateToCommand.getPosY());
+        int transformedXPoint = this.transformation.transformXPoint(operateToCommand.getPosX(), operateToCommand.getPosY());
+        int transformedYPoint = this.transformation.transformYPoint(operateToCommand.getPosX(), operateToCommand.getPosY());
 
-        driverCommandList.add(new OperateToCommand(transformedXPoint, transformedYPoint));
+        this.driverCommandList.add(new OperateToCommand(transformedXPoint, transformedYPoint));
     }
 
     @Override
@@ -39,7 +41,4 @@ public abstract class CommandVisitorTransformation implements CommandVisitorInte
             driverCommand.accept(this);
         }
     }
-
-    abstract int transformXPoint(int x, int y);
-    abstract int transformYPoint(int x, int y);
 }
