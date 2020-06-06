@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -112,7 +113,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     public void deleteObservers() {
-        this.observers = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
+        this.observers = new ArrayList<>(this.commandManager.getChangePublisher().getSubscribers());
         commandManager.getChangePublisher().clearObservers();
     }
 
