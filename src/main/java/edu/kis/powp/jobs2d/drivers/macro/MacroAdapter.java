@@ -50,6 +50,6 @@ public class MacroAdapter implements Job2dDriver {
 
     @Override
     public String toString() {
-        return "MacroDriver";
+        return "MacroAdapter";
     }
 }
