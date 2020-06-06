@@ -1,5 +1,7 @@
 package edu.kis.powp.jobs2d.command;
 
+import edu.kis.powp.jobs2d.drivers.DriverComposite;
+
 import java.util.Iterator;
 
 
@@ -36,6 +38,13 @@ public class CommandCounterVisitor implements Visitor {
 		while (iterator.hasNext())
 		{
 			DriverCommand driverCommand = iterator.next();
+			driverCommand.accept(this);
+		}
+	}
+
+	@Override
+	public void visit(DriverComposite driverComposite) {
+		for (DriverCommand driverCommand : driverComposite.getDriverCommandList()) {
 			driverCommand.accept(this);
 		}
 	}
