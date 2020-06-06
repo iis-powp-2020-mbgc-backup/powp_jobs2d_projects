@@ -177,7 +177,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		//buttons
 		btnCatalogClearCommand = new JButton("Clear catalog");
 		content.add(btnCatalogClearCommand, c);
-		btnCatalogSetCommand = new JButton("Set command");
+		btnCatalogSetCommand = new JButton("Set selected command");
 		content.add(btnCatalogSetCommand, c);
 
 		//buttons' actions
@@ -186,7 +186,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			choiceCatalog.removeAll();
 		});
 		btnCatalogSetCommand.addActionListener(e -> {
-			commandManager.setCurrentCommand(choiceCatalog.getSelectedItem());
+			commandManager.setCurrentCommand(commandManager.commandFactory.get(choiceCatalog.getSelectedItem()));
 		});
 
 		//update choice list when current command in commandManager has changed
@@ -195,7 +195,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			commandManager.commandFactory.getNamesOfStored().forEach(name ->{
 				choiceCatalog.add(name);
 			});
-			choiceCatalog.select(commandManager.getCurrentCommandName());
+			choiceCatalog.select(commandManager.getCurrentCommandString());
 		});
 	}
 

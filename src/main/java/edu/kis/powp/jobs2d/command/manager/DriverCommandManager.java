@@ -41,26 +41,9 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		commandFactory.add(name, new DefaultCompoundCommand((commandList)));
-		currentCommandName = name;
-		setCurrentCommand(new DefaultCompoundCommand(commandList));
-	}
-	/**
-	 * Sets current command.
-	 *
-	 * @param name        name of the command.
-	 */
-	public synchronized void setCurrentCommand(String name) {
-		setCurrentCommand(commandFactory.get(name));
-	}
-
-	/**
-	 * Returns name of current command
-	 * 
-	 * @return name of current command
-	 */
-	public synchronized String getCurrentCommandName(){
-		return currentCommandName;
+		DefaultCompoundCommand dcc = new DefaultCompoundCommand(commandList, name);
+		commandFactory.add(dcc);
+		setCurrentCommand(dcc);
 	}
 
 	/**
@@ -79,7 +62,6 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
-
 		changePublisher.notifyObservers();
 	}
 

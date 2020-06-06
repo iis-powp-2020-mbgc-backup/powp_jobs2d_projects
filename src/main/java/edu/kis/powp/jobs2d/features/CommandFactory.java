@@ -5,26 +5,23 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.ImmutableCompoundCommand;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CommandFactory {
 
-    private HashMap<String, ICompoundCommand> shapes;
+    private Map<String, DriverCommand> shapes;
 
     public CommandFactory() {
         shapes = new HashMap<>();
     }
 
-    public ICompoundCommand get(String name){
+    public DriverCommand get(String name){
         return shapes.get(name);
     }
 
-    public void add(String name, ICompoundCommand commands) throws IllegalArgumentException{
+    public void add(DefaultCompoundCommand complexCommand) throws IllegalArgumentException{
         try{
-            shapes.put(name, (DefaultCompoundCommand) commands.clone());
+            shapes.put(complexCommand.toString(), complexCommand.clone());
         }catch(CloneNotSupportedException e){
             throw new IllegalArgumentException();
         }
