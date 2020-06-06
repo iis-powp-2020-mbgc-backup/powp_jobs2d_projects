@@ -1,9 +1,9 @@
 package edu.kis.powp.jobs2d.command.transformation;
 
-public class CommandTransformationRotate extends CommandTransformation {
+public class CommandVisitorTransformationRotate extends CommandVisitorTransformation {
     private final double angle;
 
-    public CommandTransformationRotate(double angle) {
+    public CommandVisitorTransformationRotate(double angle) {
         super();
         this.angle = Math.toRadians(angle);
     }

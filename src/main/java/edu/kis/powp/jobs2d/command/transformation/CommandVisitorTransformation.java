@@ -6,10 +6,10 @@ import edu.kis.powp.jobs2d.command.visitor.CommandVisitorInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CommandTransformation implements CommandVisitorInterface {
+public abstract class CommandVisitorTransformation implements CommandVisitorInterface {
     private final List<DriverCommand> driverCommandList;
 
-    public CommandTransformation() {
+    public CommandVisitorTransformation() {
         driverCommandList = new ArrayList<>();
     }
 

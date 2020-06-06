@@ -1,10 +1,10 @@
 package edu.kis.powp.jobs2d.command.transformation;
 
-public class CommandTransformationFlip extends CommandTransformation {
+public class CommandVisitorTransformationFlip extends CommandVisitorTransformation {
 
     private final boolean isHorizontal;
 
-    public CommandTransformationFlip(boolean isHorizontal) {
+    public CommandVisitorTransformationFlip(boolean isHorizontal) {
         super();
         this.isHorizontal = isHorizontal;
     }
