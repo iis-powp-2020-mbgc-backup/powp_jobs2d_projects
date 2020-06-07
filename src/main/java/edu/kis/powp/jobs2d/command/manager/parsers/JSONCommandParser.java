@@ -6,53 +6,15 @@ import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JSONCommandParser implements Parser {
-    private static class DriverCommandAdapterJSON {
-        String name;
-        static class Command {
-            String operation;
-            int posX;
-            int posY;
-        }
-        List<Command> commands;
-    }
-
-    private DriverCommandAdapterJSON complexCommandFromJSON;
-    private String json;
-
-    public JSONCommandParser(String json) {
-        this.json = json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
-    }
+    private Gson gson = new Gson();
 
     @Override
-    public void parseToDriverCommand() {
-        Gson gson = new Gson();
-
-        complexCommandFromJSON =
-                gson.fromJson(json, DriverCommandAdapterJSON.class);
-    }
-
-    public List<DriverCommand> getDriverCommand() {
-        List<DriverCommand> complexCommand = new ArrayList<>();
-
-        complexCommandFromJSON.commands.forEach(command -> {
-            if(command.operation.equals("SetPositionCommand")){
-                complexCommand.add(new SetPositionCommand(command.posX, command.posY));
-            } else if (command.operation.equals("OperateToCommand")) {
-                complexCommand.add(new OperateToCommand(command.posX, command.posY));
-            }
-        });
-
-        return complexCommand;
-    }
-
-    public String getDriverCommandName() {
-        return complexCommandFromJSON.name;
+    public InputDataModel parse(String data) {
+        return gson.fromJson(data, InputDataModel.class);
     }
 }

@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.parsers.InputDataModel;
 import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
 import edu.kis.powp.observer.Subscriber;
 
@@ -19,6 +20,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private String observerListString;
     private JTextArea observerListField;
     private JTextArea InputCommandsTextArea;
+
+    private JSONCommandParser jsonCommandParser = new JSONCommandParser();
 
     /**
      *
@@ -62,7 +65,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(InputCommandsField,c);
 
         JButton jsonLoadCommands = new JButton("Load commands");
-        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON());
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
         content.add(jsonLoadCommands,c);
 
         JButton btnClearCommand = new JButton("Clear command");
@@ -82,14 +85,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(btnClearObservers, c);
     }
 
-    private void loadCommandsFromJSON() {
-        String jsonInput = InputCommandsTextArea.getText().trim();
-        JSONCommandParser jsonCommandParser = new JSONCommandParser(jsonInput);
-        jsonCommandParser.parseToDriverCommand();
+    private void loadCommandsFromJSON(String jsonInput) {
+        InputDataModel inputDataModel = jsonCommandParser.parse(jsonInput);
 
         commandManager.setCurrentCommand(
-                jsonCommandParser.getDriverCommand(),
-                jsonCommandParser.getDriverCommandName()
+                inputDataModel.getDriverCommand(),
+                inputDataModel.getDriverCommandName()
         );
     }
 
