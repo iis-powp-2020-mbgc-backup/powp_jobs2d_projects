@@ -2,10 +2,7 @@ package edu.kis.powp.jobs2d.features;
 
 import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.ImmutableCompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.observer.Publisher;
 
 import java.util.*;
 
@@ -18,7 +15,11 @@ public class CommandFactory {
     }
 
     public DriverCommand get(String name){
-        return shapes.get(name);
+        try {
+            return shapes.get(name).clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     public void add(DefaultCompoundCommand complexCommand) throws IllegalArgumentException{
