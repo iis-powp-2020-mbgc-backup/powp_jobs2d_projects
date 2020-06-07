@@ -3,12 +3,9 @@ package edu.kis.powp.jobs2d.command.manager.parsing;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 
 import java.io.File;
-import java.util.List;
 
 public interface Parser {
-	List<DriverCommand> parseFromImport();
+	DriverCommand parseFromImport(String commandAsString);
 
-	String getCommandName();
-
-	File parseToExport(DriverCommand driverCommand);
+	void parseToExport(DriverCommand driverCommand, File fileToExportTo);
 }
