@@ -7,7 +7,7 @@ public class BackLogItem {
 	private String commandName;
 	private DriverCommand command;
 
-	public BackLogItem(String date, String commandName, DriverCommand command) {
+	public BackLogItem(String date, String commandName, final DriverCommand command) {
 		this.date = date;
 		this.commandName = commandName;
 		this.command = command;
@@ -17,5 +17,9 @@ public class BackLogItem {
 		return command;
 	}
 
-
+	@Override
+	public String toString() {
+		return date +
+				": " + commandName;
+	}
 }

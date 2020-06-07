@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command.gui.backlog;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.events.SelectBackLogListOptionListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,18 +16,10 @@ public class BackLogManagerWindow extends JFrame implements WindowComponent {
 
     public BackLogManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("BackLog Viewer");
-        this.setSize(600, 500);
-        Container content = this.getContentPane();
-        content.setLayout(new GridBagLayout());
-
+        this.setMinimumSize(new Dimension(500, 400));
         this.commandManager = commandManager;
         this.backLogCommandList = new JList<BackLogItem>(BackLogList.getBacklogCommandList());
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
 
         setupLog();
 
@@ -35,6 +28,8 @@ public class BackLogManagerWindow extends JFrame implements WindowComponent {
 
     private void setupLog() {
         this.add(backLogCommandList);
+        backLogCommandList.addListSelectionListener(
+                new SelectBackLogListOptionListener(commandManager));
     }
 
     public void updateBackLogCommandList() {
