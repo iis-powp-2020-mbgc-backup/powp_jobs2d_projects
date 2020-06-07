@@ -3,6 +3,8 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.TextField;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
