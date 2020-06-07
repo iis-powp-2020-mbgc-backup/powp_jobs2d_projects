@@ -3,6 +3,8 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.TextField;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.swing.filechooser.FileSystemView;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.parsing.JsonParser;
+import edu.kis.powp.jobs2d.command.manager.parsing.Parser;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -27,6 +30,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea observerListField;
 
 	private JFileChooser fileChooser;
+	private TextField txtFieldToImport;
+
 
 	/**
 	 *
@@ -61,6 +66,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+		Container container = new Container();
+		GridLayout gridLayout = new GridLayout(1, 2);
+		container.setLayout(gridLayout);
 
 		fileChooser = new JFileChooser(new File(System.getProperty("user.dir")),
 				FileSystemView.getFileSystemView());
@@ -68,13 +76,25 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 				"JSON FILES", "json");
 		fileChooser.setFileFilter(filter);
 
-		JButton btnImportCommand = new JButton("Import commands from Json");
+		txtFieldToImport = new TextField();
+		container.add(txtFieldToImport);
+
+		JButton btnImportCommand = new JButton("Import commands");
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
-		content.add(btnImportCommand,c);
+		container.add(btnImportCommand);
 
-		JButton btnExportCommand = new JButton("Export commands to Json");
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(container, c);
+
+		JButton btnExportCommand = new JButton("Export commands ");
 		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
-
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
 		content.add(btnExportCommand, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
@@ -103,12 +123,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void importCommands() {
-		int returnValue = fileChooser.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = fileChooser.getSelectedFile();
-			JsonParser jsonParser = new JsonParser(selectedFile);
-			commandManager.setCurrentCommand(jsonParser.parseFromImport(), jsonParser.getCommandName());
-		}
+		Parser parser = new JsonParser();
+		commandManager.setCurrentCommand(parser.parseFromImport(txtFieldToImport.getText()));
 	}
 
 	private void exportCommands() {
@@ -116,8 +132,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
-			JsonParser jsonParser = new JsonParser(fileToSave);
-			jsonParser.parseToExport(commandManager.getCurrentCommand());
+			Parser parser = new JsonParser();
+			parser.parseToExport(commandManager.getCurrentCommand(), fileToSave);
 		}
 	}
 
