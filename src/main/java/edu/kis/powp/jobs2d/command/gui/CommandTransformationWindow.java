@@ -14,6 +14,11 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
     private DriverCommandManager commandManager;
     private TransformationManager transformationManager;
+    private JTextArea shiftXValueField;
+    private JTextArea shiftYValueField;
+    private JTextArea scaleValueField;
+    private JTextArea angleValueField;
+
 
     public CommandTransformationWindow(DriverCommandManager commandManager, TransformationManager transformationManager) {
         this.setTitle("Command Transformation Manager");
@@ -26,6 +31,22 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
         GridBagConstraints c = new GridBagConstraints();
 
+        shiftXValueField = new JTextArea("Enter X here");
+        shiftXValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(shiftXValueField, c);
+
+        shiftYValueField = new JTextArea("Enter Y here");
+        shiftYValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(shiftYValueField, c);
+
         JButton btnLoadTransformCommand = new JButton("Transform command");
         btnLoadTransformCommand.addActionListener((ActionEvent e) -> this.moveCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -33,6 +54,38 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         c.gridx = 0;
         c.weighty = 1;
         content.add(btnLoadTransformCommand, c);
+
+        scaleValueField = new JTextArea("Enter scale value");
+        scaleValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(scaleValueField, c);
+
+        JButton btnLoadScaleCommand = new JButton("Scale command");
+        btnLoadScaleCommand.addActionListener((ActionEvent e) -> this.scaleCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadScaleCommand, c);
+
+        angleValueField = new JTextArea("Enter angle");
+        angleValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(angleValueField, c);
+
+        JButton btnLoadRotateCommand = new JButton("Rotate command");
+        btnLoadRotateCommand.addActionListener((ActionEvent e) -> this.rotateCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadRotateCommand, c);
 
         JButton btnLoadhorizontalCommand = new JButton("Flip horizontal command");
         btnLoadhorizontalCommand.addActionListener((ActionEvent e) -> this.flipHorizontalCommand());
@@ -50,19 +103,12 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         c.weighty = 1;
         content.add(btnLoadVerticalCommand, c);
 
-        JButton btnLoadScaleCommand = new JButton("Scale command");
-        btnLoadScaleCommand.addActionListener((ActionEvent e) -> this.scaleCommand());
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(btnLoadScaleCommand, c);
     }
 
     private void moveCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.moveCommand(visitor, 50, 0);
+        DriverCommand d = transformationManager.moveCommand(visitor, getFieldValue(shiftXValueField.getText()), getFieldValue(shiftYValueField.getText()));
         commandManager.setCurrentCommand(d);
     }
 
@@ -83,8 +129,26 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
     private void scaleCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.scaleCommand(visitor,2);
+        DriverCommand d = transformationManager.scaleCommand(visitor,getFieldValue(scaleValueField.getText()));
         commandManager.setCurrentCommand(d);
+    }
+
+    private void rotateCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.rotateCommand(visitor,getFieldValue(angleValueField.getText()));
+        commandManager.setCurrentCommand(d);
+    }
+    
+    private Integer getFieldValue(String input) {
+        Integer result = null;
+        System.out.println(Integer.valueOf(input));
+        try {
+            return Integer.valueOf(input);
+        } catch (NumberFormatException nfe) {
+            System.out.println("invalid input");
+        }
+        return result;
     }
 
     @Override
