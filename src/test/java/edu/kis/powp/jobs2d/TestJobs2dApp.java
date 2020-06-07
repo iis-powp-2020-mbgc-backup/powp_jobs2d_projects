@@ -81,6 +81,8 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
+
+
 		BackLogManagerWindow backLog = new BackLogManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Back Log", backLog);
 

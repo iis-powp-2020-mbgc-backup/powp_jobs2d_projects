@@ -12,6 +12,6 @@ public class BackLogManagerWindowCommandChangeObserver implements Subscriber {
 
     @Override
     public void update() {
-        backLogManagerWindow.updateCommandListField();
+        backLogManagerWindow.updateBackLogCommandList();
     }
 }

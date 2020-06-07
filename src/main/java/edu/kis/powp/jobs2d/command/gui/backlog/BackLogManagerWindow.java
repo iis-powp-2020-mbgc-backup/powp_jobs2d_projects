@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class BackLogManagerWindow extends JFrame implements WindowComponent {
 
     private DriverCommandManager commandManager;
-    private JTextArea commandListField;
+    private JList<BackLogItem> backLogCommandList;
 
 
     public BackLogManagerWindow(DriverCommandManager commandManager) {
@@ -20,6 +20,7 @@ public class BackLogManagerWindow extends JFrame implements WindowComponent {
         content.setLayout(new GridBagLayout());
 
         this.commandManager = commandManager;
+        this.backLogCommandList = new JList<BackLogItem>(BackLogList.getBacklogCommandList());
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -27,23 +28,18 @@ public class BackLogManagerWindow extends JFrame implements WindowComponent {
         c.gridx = 0;
         c.weighty = 1;
 
-        commandListField = new JTextArea("");
-        commandListField.setEditable(false);
-        content.add(commandListField, c);
-        updateLog();
+        setupLog();
+
 
     }
 
-    private void updateLog() {
-        /**
-         *  Here we will add some backlog infos about used functions
-         */
-        commandListField.setText("History of commands: \n");
+    private void setupLog() {
+        this.add(backLogCommandList);
     }
 
-    public void updateCommandListField() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        commandListField.append("Used command ("+java.time.LocalTime.now().format(dtf) + "): " + commandManager.getCurrentCommandString() + "\n");
+    public void updateBackLogCommandList() {
+        BackLogList.addCommand(commandManager.getCurrentCommandString(), commandManager.getCurrentCommand());
+
     }
 
     @Override
