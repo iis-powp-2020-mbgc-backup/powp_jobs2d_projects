@@ -12,6 +12,7 @@ import java.util.List;
 
 public class MacroAdapter implements Job2dDriver {
     private List<DriverCommand> driverCommandList;
+
     private Job2dDriver driver;
 
     public MacroAdapter() {
@@ -24,6 +25,9 @@ public class MacroAdapter implements Job2dDriver {
 
     public void setDriver(Job2dDriver driver) {
         this.driver = driver;
+    }
+    public Job2dDriver getDriver() {
+        return driver;
     }
 
     public void clearCommandSet() {
