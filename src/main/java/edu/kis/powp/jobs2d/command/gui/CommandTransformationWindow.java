@@ -18,11 +18,12 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
     private JTextArea shiftYValueField;
     private JTextArea scaleValueField;
     private JTextArea angleValueField;
-
+    private JTextArea shearXValueField;
+    private JTextArea shearYValueField;
 
     public CommandTransformationWindow(DriverCommandManager commandManager, TransformationManager transformationManager) {
         this.setTitle("Command Transformation Manager");
-        this.setSize(400, 400);
+        this.setSize(400, 600);
         Container content = this.getContentPane();
         content.setLayout(new GridBagLayout());
 
@@ -87,6 +88,39 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         c.weighty = 1;
         content.add(btnLoadRotateCommand, c);
 
+        shearXValueField = new JTextArea("Enter Shear X value");
+        shearXValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(shearXValueField, c);
+
+        JButton btnLoadShearXCommand = new JButton("Shear X command");
+        btnLoadShearXCommand.addActionListener((ActionEvent e) -> this.shearXCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadShearXCommand, c);
+
+        shearYValueField = new JTextArea("Enter Shear Y value");
+        shearYValueField.setEditable(true);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(shearYValueField, c);
+
+        JButton btnLoadShearYCommand = new JButton("Shear Y command");
+        btnLoadShearYCommand.addActionListener((ActionEvent e) -> this.shearYCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnLoadShearYCommand, c);
+
+
         JButton btnLoadhorizontalCommand = new JButton("Flip horizontal command");
         btnLoadhorizontalCommand.addActionListener((ActionEvent e) -> this.flipHorizontalCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -132,6 +166,21 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         DriverCommand d = transformationManager.scaleCommand(visitor,getFieldValue(scaleValueField.getText()));
         commandManager.setCurrentCommand(d);
     }
+
+    private void shearXCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.shearXCommand(visitor,getFieldValue(shearXValueField.getText()));
+        commandManager.setCurrentCommand(d);
+    }
+
+    private void shearYCommand() {
+        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+        visitor.visit(commandManager.getCurrentCommand());
+        DriverCommand d = transformationManager.shearYCommand(visitor,getFieldValue(shearYValueField.getText()));
+        commandManager.setCurrentCommand(d);
+    }
+
 
     private void rotateCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();

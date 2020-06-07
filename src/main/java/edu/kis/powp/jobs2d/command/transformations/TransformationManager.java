@@ -113,6 +113,64 @@ public class TransformationManager {
 		return new ImmutableComplexCommand(commandList);
 	}
 
+	public ICompoundCommand shearXCommand(CommandCoordinatesVisitor visitor, int shearValue) {
+
+		List<Line2d> lines = visitor.getAllCommandsCoordinates();
+
+		int x = lines.get(0).getStartPosX();
+		int y = lines.get(0).getStartPosY();
+
+		// Move drawing to position 0,0
+		moveToPosition(lines, -x, -y);
+		int startX, startY, endX, endY;
+
+		for(int i = 0; i < lines.size(); i++) {
+			startX = lines.get(i).getStartPosX();
+			startY = lines.get(i).getStartPosY();
+			endX = lines.get(i).getEndPosX();
+			endY = lines.get(i).getEndPosY();
+
+			lines.get(i).setStartPosX( startX + (startY * shearValue) );
+			lines.get(i).setEndPosX( endX + (endY * shearValue) );
+		}
+
+		//move back to original position
+		moveToPosition(lines, x, y);
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
+	public ICompoundCommand shearYCommand(CommandCoordinatesVisitor visitor, int shearValue) {
+
+		List<Line2d> lines = visitor.getAllCommandsCoordinates();
+
+		int x = lines.get(0).getStartPosX();
+		int y = lines.get(0).getStartPosY();
+
+		// Move drawing to position 0,0
+		moveToPosition(lines, -x, -y);
+		int startX, startY, endX, endY;
+
+		for(int i = 0; i < lines.size(); i++) {
+			startX = lines.get(i).getStartPosX();
+			startY = lines.get(i).getStartPosY();
+			endX = lines.get(i).getEndPosX();
+			endY = lines.get(i).getEndPosY();
+
+			lines.get(i).setStartPosY( startY + (startX * shearValue) );
+			lines.get(i).setEndPosY( endY + (endX * shearValue) );
+		}
+
+		//move back to original position
+		moveToPosition(lines, x, y);
+
+		List<DriverCommand> commandList = buildCommandList(lines);
+
+		return new ImmutableComplexCommand(commandList);
+	}
+
 	private void moveToPosition(List<Line2d> lines, int x, int y) {
 		for(int i = 0; i < lines.size(); i++) {
 			lines.get(i).setStartPosX(lines.get(i).getStartPosX() + x);
