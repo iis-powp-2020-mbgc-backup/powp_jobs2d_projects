@@ -9,6 +9,14 @@ public class SetPositionCommand implements DriverCommand {
 
 	private int posX, posY;
 
+	public int getPosX() {
+		return posX;
+	}
+
+	public int getPosY() {
+		return posY;
+	}
+
 	public SetPositionCommand(int posX, int posY) {
 		super();
 		this.posX = posX;
@@ -28,5 +36,13 @@ public class SetPositionCommand implements DriverCommand {
 	@Override
 	public DriverCommand clone() throws CloneNotSupportedException {
 		return (DriverCommand) super.clone();
+	}
+
+	public int getX() {
+		return posX;
+	}
+
+	public int getY() {
+		return posY;
 	}
 }

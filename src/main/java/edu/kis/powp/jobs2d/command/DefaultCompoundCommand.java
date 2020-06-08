@@ -8,9 +8,15 @@ import java.util.List;
 public class DefaultCompoundCommand implements ICompoundCommand {
 
 	private List<DriverCommand> driverCommands = null;
+	private String name;
 
 	public DefaultCompoundCommand(List<DriverCommand> collection) {
 		this.driverCommands = collection;
+		this.name = "";
+	}
+	public DefaultCompoundCommand(List<DriverCommand> collection, String name) {
+		this.driverCommands = collection;
+		this.name = name;
 	}
 
 	@Override
@@ -27,4 +33,10 @@ public class DefaultCompoundCommand implements ICompoundCommand {
 	public DriverCommand clone() throws CloneNotSupportedException {
 		return ICompoundCommand.super.clone();
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }
