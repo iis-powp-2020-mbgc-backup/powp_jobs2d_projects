@@ -1,26 +1,38 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.Driver;
 import java.util.List;
 
 import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	public CommandFactory commandFactory = new CommandFactory();
+
+	private Container content;
+	private GridBagConstraints c;
 
 	private JTextArea currentCommandField;
 	private JTextArea currentCommandAnalyzerField;
 	private JLabel statisticsLabel;
 	private String observerListString;
 	private JTextArea observerListField;
+
+	//catalog
+	private JLabel labelCatalog;
+	private Choice choiceCatalog;
+	private JButton btnCatalogClearCommand;
+	private JButton btnCatalogSetCommand;
 
 	/**
 	 * 
@@ -30,12 +42,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public CommandManagerWindow(DriverCommandManager commandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
-		Container content = this.getContentPane();
+		content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
+		this.commandFactory.setCommandManagerPublisher(commandManager);
 		this.commandManager = commandManager;
 
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -98,6 +111,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			statisticsLabel.setVisible(true);
 			currentCommandAnalyzerField.setText(commandManager.getStatistics());
 		});
+
+		this.setupCatalogGUI();
+
 	}
 
 	private void clearCommand() {
@@ -151,6 +167,43 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		} else {
 			this.setVisible(true);
 		}
+	}
+
+	private void setupCatalogGUI(){
+		//label for catalog
+		labelCatalog = new JLabel();
+		content.add(labelCatalog, c);
+		labelCatalog.setVisible(true);
+		labelCatalog.setText("Cataloged commands: ");
+
+		//choice list
+		choiceCatalog = new Choice();
+		content.add(choiceCatalog, c);
+
+		//buttons
+		btnCatalogClearCommand = new JButton("Clear catalog");
+		content.add(btnCatalogClearCommand, c);
+		btnCatalogSetCommand = new JButton("Set selected command");
+		content.add(btnCatalogSetCommand, c);
+
+		//buttons' actions
+		btnCatalogClearCommand.addActionListener(e -> {
+			commandFactory.clear();
+			choiceCatalog.removeAll();
+		});
+		btnCatalogSetCommand.addActionListener(e -> {
+			DriverCommand selected = commandFactory.get(choiceCatalog.getSelectedItem());
+			commandManager.setCurrentCommand(selected);
+		});
+
+		//update choice list when current command in commandManager has changed
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			choiceCatalog.removeAll();
+			commandFactory.getNamesOfStored().forEach(name ->{
+				choiceCatalog.add(name);
+			});
+			choiceCatalog.select(commandManager.getCurrentCommandString());
+		});
 	}
 
 }

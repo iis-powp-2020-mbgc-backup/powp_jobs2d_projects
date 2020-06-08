@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.analyzer.ICommandUsageAnalyzer;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
@@ -37,7 +38,7 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new DefaultCompoundCommand(commandList));
+		setCurrentCommand(new DefaultCompoundCommand(commandList, name));
 	}
 
 	/**
@@ -56,9 +57,9 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
-
 		changePublisher.notifyObservers();
 	}
+
 
 	public synchronized  String getStatistics(){
 		return analyzer.exportStatistics();

@@ -20,6 +20,6 @@ public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand>
 		for (DriverCommand command : this) {
 			commands.add(command);
 		}
-		return new DefaultCompoundCommand(commands);
+		return new DefaultCompoundCommand(commands, this.toString());
 	}
 }
