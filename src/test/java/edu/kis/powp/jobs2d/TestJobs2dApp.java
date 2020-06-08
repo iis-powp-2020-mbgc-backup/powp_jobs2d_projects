@@ -42,7 +42,7 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-		application.addTest("Load from Json", new SelectOpenFromJsonOptionListener());
+		application.addTest("Load from file", new SelectImportCommandFromFileOptionListener());
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("DriverCommandVisitor test DriverCommand", new SelectSingleCommandVisitorTestListener());
 		application.addTest("DriverCommandVisitor test ICompoundCommand", new SelectCompoundCommandVisitorTestListener());

@@ -6,11 +6,12 @@ import com.google.gson.stream.JsonReader;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandAdapter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
+
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoadFromJson implements Loader {
+public class LoadFromJson implements CommandReader {
     @Override
     public void load(String command) {
         List<DriverCommand> commands;
@@ -22,6 +23,6 @@ public class LoadFromJson implements Loader {
         DriverCommand[] driverCommands = gson.fromJson(reader, DriverCommand[].class);
 
         commands = Arrays.asList(driverCommands);
-        manager.setCurrentCommand(commands, "LoadFromJson");
+        manager.setCurrentCommand(commands, "LoadFromFile");
     }
 }

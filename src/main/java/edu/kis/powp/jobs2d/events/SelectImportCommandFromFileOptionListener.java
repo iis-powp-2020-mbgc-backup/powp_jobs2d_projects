@@ -1,7 +1,8 @@
 package edu.kis.powp.jobs2d.events;
 
-import edu.kis.powp.jobs2d.command.LoadFromJson;
-import edu.kis.powp.jobs2d.command.Loader;
+import edu.kis.powp.jobs2d.command.LoadFromFile;
+import org.apache.commons.io.FilenameUtils;
+
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +10,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class SelectOpenFromJsonOptionListener implements ActionListener {
+public class SelectImportCommandFromFileOptionListener implements ActionListener {
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) throws IllegalArgumentException{
         JFileChooser chooser = new JFileChooser();
         File workingDirectory = new File(System.getProperty("user.dir"));
         chooser.setCurrentDirectory(workingDirectory);
@@ -20,10 +21,10 @@ public class SelectOpenFromJsonOptionListener implements ActionListener {
             String command;
             try {
                 command = new String(Files.readAllBytes(Paths.get(f.getPath())));
-                Loader loader = new LoadFromJson();
-                loader.load(command);
+                LoadFromFile loadFromFile = new LoadFromFile();
+                loadFromFile.loadBaseOnExtension(command, FilenameUtils.getExtension(f.getPath()));
             } catch (IOException ex1) {
-                ex1.printStackTrace();
+                throw new IllegalArgumentException();
             }
         }
     }
