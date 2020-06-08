@@ -3,10 +3,18 @@ package edu.kis.powp.jobs2d.drivers.transformation;
 import java.util.ArrayList;
 import edu.kis.powp.jobs2d.Job2dDriver;
 
+/**
+ * Transformation driver
+ */
 public class TransformationDriver implements Job2dDriver {
     private final Job2dDriver driver;
     private final ArrayList<Transformation> allTransformations = new ArrayList<>();
     
+    /**
+     * Creates transformation driver
+     * 
+     * @param job2dDriver - driver to handle transformed points
+     */
     public TransformationDriver(Job2dDriver job2dDriver) {
         driver = job2dDriver;
     }
@@ -19,6 +27,12 @@ public class TransformationDriver implements Job2dDriver {
         return point;
     }
     
+    /**
+     * Adds new transformation. Oder of adding matters.
+     * First added transformation will be applied first
+     * 
+     * @param transformation - transformation to add
+     */
     public void addTransformation(Transformation transformation) {
         allTransformations.add(transformation);
     }

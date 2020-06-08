@@ -1,8 +1,16 @@
 package edu.kis.powp.jobs2d.drivers.transformation;
 
+/**
+ * Rotate transformation
+ */
 public class Rotate implements Transformation {
     private final double angle;
     
+    /**
+     * Defines rotation transformation by Z axis
+     * 
+     * @param angle - rotation angle in degrees
+     */
     public Rotate(double angle) {
         this.angle = angle;
     }
