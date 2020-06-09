@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 public class InkUsageDriver implements Job2dDriver {
 
     private int x0, y0;
+    private double inkLimit;
     private double totalUsage;
     Logger logger = Logger.getLogger("global");
     private DrawPanelController drawController;
@@ -15,19 +16,25 @@ public class InkUsageDriver implements Job2dDriver {
 
 
 
-    public InkUsageDriver(ILine line, DrawPanelController drawController){
+    public InkUsageDriver(ILine line, DrawPanelController drawController, double inkLimit ){
         super();
         this.drawController = drawController;
         this.line = line;
         this.x0 = 0;
         this.y0 = 0;
         this.totalUsage = 0;
+        this.inkLimit = inkLimit;
     }
 
     @Override
     public void setPosition(int x, int y){
         this.x0 = x;
         this.y0 = y;
+    }
+
+    public void restoreInk(double amount)
+    {
+        this.inkLimit += amount;
     }
 
     double inkCounter(int xStart, int xEnd, int yStart, int yEnd){
@@ -45,16 +52,24 @@ public class InkUsageDriver implements Job2dDriver {
 
         drawController.drawLine(line);
 
-        double waste;
+        double wasted;
         int xStart = line.getStartCoordinateX();
         int xEnd = line.getEndCoordinateX();
         int yStart = line.getStartCoordinateY();
         int yEnd = line.getEndCoordinateY();
 
-        waste = inkCounter(xStart, xEnd, yStart, yEnd);
-        totalUsage += waste;
-        this.logger.info("Ink wasted per move: " + String.format ("%.3f", waste) + "units");
-        this.logger.info("Total used ink: " + String.format ("%.3f", totalUsage) + "units");
-        this.logger.info("-----------------------------------");
+        wasted = inkCounter(xStart, xEnd, yStart, yEnd);
+        inkLimit -= wasted;
+
+        if(inkLimit <= 0)
+            this.logger.info("You don't have enough ink to do this!");
+        else
+        {
+            this.logger.info("Ink wasted per move: " + String.format ("%.3f", wasted) + "units");
+            this.logger.info("Total used ink: " + String.format ("%.3f", totalUsage) + "units");
+            this.logger.info("-----------------------------------");
+        }
+        totalUsage += wasted;
+
     }
 }
