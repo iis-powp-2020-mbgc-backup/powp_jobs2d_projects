@@ -11,15 +11,12 @@ public class InkUsageDriver implements Job2dDriver {
     private double inkLimit;
     private double totalUsage;
     Logger logger = Logger.getLogger("global");
-    private DrawPanelController drawController;
-    private ILine line;
 
+    private Job2dDriver driver;
 
-
-    public InkUsageDriver(ILine line, DrawPanelController drawController, double inkLimit ){
+    public InkUsageDriver(Job2dDriver driver, double inkLimit) {
         super();
-        this.drawController = drawController;
-        this.line = line;
+        this.driver = driver;
         this.x0 = 0;
         this.y0 = 0;
         this.totalUsage = 0;
@@ -28,6 +25,7 @@ public class InkUsageDriver implements Job2dDriver {
 
     @Override
     public void setPosition(int x, int y){
+        driver.setPosition(x,y);
         this.x0 = x;
         this.y0 = y;
     }
@@ -46,19 +44,13 @@ public class InkUsageDriver implements Job2dDriver {
     @Override
     public void operateTo(int x1, int y1) {
 
-        line.setStartCoordinates(this.x0, this.y0);
-        this.setPosition(x1, y1);
-        line.setEndCoordinates(this.x0, this.y0);
-
-        drawController.drawLine(line);
-
         double wasted;
-        int xStart = line.getStartCoordinateX();
-        int xEnd = line.getEndCoordinateX();
-        int yStart = line.getStartCoordinateY();
-        int yEnd = line.getEndCoordinateY();
+        wasted = inkCounter(this.x0, x1, this.y0, y1);
+        driver.operateTo(x1,y1);
+        this.x0 = x1;
+        this.y0 = y1;
 
-        wasted = inkCounter(xStart, xEnd, yStart, yEnd);
+
         inkLimit -= wasted;
 
         if(inkLimit <= 0)

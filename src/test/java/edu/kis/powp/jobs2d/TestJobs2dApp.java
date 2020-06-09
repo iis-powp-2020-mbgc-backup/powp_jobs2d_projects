@@ -10,6 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -68,9 +69,8 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-		driver = new InkUsageDriver(LineFactory.getSpecialLine(), drawerController);
-		DriverFeature.addDriver("Ink usage Simulator", driver);
-		DriverFeature.updateDriverInfo();
+		InkUsageObserver obs = new InkUsageObserver();
+		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(obs);
 	}
 
 	private static void setupWindows(Application application) {
