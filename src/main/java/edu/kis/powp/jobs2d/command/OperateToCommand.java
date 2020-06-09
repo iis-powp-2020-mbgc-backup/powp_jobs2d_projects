@@ -32,5 +32,4 @@ public class OperateToCommand implements DriverCommand {
     public void accept(CommandVisitor visitor) {
         visitor.visit(this);
     }
-
 }

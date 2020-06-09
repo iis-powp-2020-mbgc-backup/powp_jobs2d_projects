@@ -17,6 +17,5 @@ public interface DriverCommand extends Cloneable, Serializable {
      */
     public void execute(Job2dDriver driver);
 
-
     void accept(CommandVisitor visitor);
 }
