@@ -1,15 +1,19 @@
 package edu.kis.powp.jobs2d.command;
 
-public class LoadFromFile {
-    private CommandReader commandReader;
-    public void loadBaseOnExtension(String command, String fileExtension) {
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 
-        switch(fileExtension) {
-            case "json":
-                commandReader = new LoadFromJson();
-                commandReader.load(command);
-                break;
+public class LoadFromFile {
+    
+    public void loadBaseOnExtension(String command, String fileExtension) {
+        CommandReader commandReader;
+        DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
+        if ("json".equals(fileExtension)) {
+            commandReader = new LoadFromJson();
+        } else {
+            throw new IllegalStateException("Unexpected value: " + fileExtension);
         }
+        manager.setCurrentCommand(commandReader.load(command), "LoadFromFile");
     }
 
 }
