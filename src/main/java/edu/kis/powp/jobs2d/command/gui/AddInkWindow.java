@@ -1,0 +1,47 @@
+package edu.kis.powp.jobs2d.command.gui;
+
+import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.drivers.InkUsageDriver;
+import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+public class AddInkWindow extends JFrame implements WindowComponent
+{
+    InkUsageDriver driver;
+    public AddInkWindow(InkUsageDriver driver)
+    {
+        this.setTitle("Add Ink");
+        this.setSize(500, 500);
+        this.driver = driver;
+
+        Container content = this.getContentPane();
+
+        content.setLayout(new GridBagLayout());
+
+        JButton btnClearCommand = new JButton("Dodaj tusz");
+        btnClearCommand.addActionListener((ActionEvent e) -> this.AddInk());
+        content.add(btnClearCommand);
+
+        HideIfVisibleAndShowIfHidden();
+    }
+
+    
+    @Override
+    public void HideIfVisibleAndShowIfHidden() {
+        if (this.isVisible()) {
+            this.setVisible(false);
+        } else {
+            this.setVisible(true);
+        }
+    }
+
+    private void AddInk(){
+        driver.restoreInk(2000f);
+        HideIfVisibleAndShowIfHidden();
+    }
+}

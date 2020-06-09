@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.gui.AddInkWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
@@ -74,6 +75,9 @@ public class TestJobs2dApp {
 	}
 
 	private static void setupWindows(Application application) {
+		//rozwiazanie tymczasowe z new, ale docelowo nalezy pobrac current
+		AddInkWindow addInkWindow = new AddInkWindow(new InkUsageDriver(DriverFeature.getDriverManager().getCurrentDriver(),10000f));
+		application.addWindowComponent("Add Ink", addInkWindow);
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
