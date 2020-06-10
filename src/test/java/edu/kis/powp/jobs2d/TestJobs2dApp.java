@@ -8,6 +8,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.adapter.ScaleAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -83,6 +84,9 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", driver);
+
+		driver = new ScaleAdapter(drawerController, ((LineDriverAdapter) driver).getLine(),"basic");
+		DriverFeature.addDriver("zoomed",driver);
 
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
 		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
