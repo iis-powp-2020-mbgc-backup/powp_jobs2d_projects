@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.adapter.ScaleAdapter;
+import edu.kis.powp.jobs2d.drivers.adapter.TransformationAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -85,13 +85,17 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", driver);
 
-		driver = new ScaleAdapter(drawerController, ((LineDriverAdapter) driver).getLine(),"basic");
-		DriverFeature.addDriver("zoomed",driver);
+		DriverFeature.addDriver("scale 2x", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "scale 2x"));
+		DriverFeature.addDriver("scale 0.5x", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "scale 0.5x"));
+		DriverFeature.addDriver("rotate 30", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "rotate 30"));
+		DriverFeature.addDriver("flip horizontal", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "flip horizontal"));
+		DriverFeature.addDriver("flip vertical", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "flip vertical"));
+
 
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
 		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
     
-    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+    	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
     
 		DriverFeature.updateDriverInfo();
