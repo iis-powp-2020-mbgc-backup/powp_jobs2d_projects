@@ -191,7 +191,6 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
     
     private Integer getFieldValue(String input) {
         Integer result = null;
-        System.out.println(Integer.valueOf(input));
         try {
             return Integer.valueOf(input);
         } catch (NumberFormatException nfe) {
