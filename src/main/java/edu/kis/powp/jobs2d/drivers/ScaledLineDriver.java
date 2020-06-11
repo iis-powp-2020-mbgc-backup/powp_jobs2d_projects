@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.drivers.adapter;
+package edu.kis.powp.jobs2d.drivers;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.ILine;
@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelTransformation;
 /**
  * Line adapter - Job2dDriver with DrawPanelController object.
  */
-public class LineDriverAdapter implements Job2dDriver {
+public class ScaledLineDriver implements Job2dDriver {
 	private ILine line;
 	private int startX = 0, startY = 0;
 	private String name;
@@ -16,14 +16,7 @@ public class LineDriverAdapter implements Job2dDriver {
 
 	private DrawPanelController drawController;
 
-	public LineDriverAdapter(DrawPanelController drawController, ILine line, String name) {
-		super();
-		this.drawController = drawController;
-		this.line = line;
-		this.name = name;
-	}
-
-	public LineDriverAdapter(DrawPanelController drawController, ILine line, String name, DriverLevelTransformation transformation) {
+	public ScaledLineDriver(DrawPanelController drawController, ILine line, String name, DriverLevelTransformation transformation) {
 		super();
 		this.drawController = drawController;
 		this.line = line;
@@ -33,12 +26,15 @@ public class LineDriverAdapter implements Job2dDriver {
 
 	@Override
 	public void setPosition(int x, int y) {
-		if (this.transformation == null) {
+		if (transformation == null)
+		{
 			this.startX = x;
 			this.startY = y;
-		} else {
-			this.startX = this.transformation.transformXPoint(x, y);
-			this.startY = this.transformation.transformYPoint(x, y);
+		}
+		else
+		{
+			this.startX = transformation.transformXPoint(x, y);
+			this.startY = transformation.transformYPoint(x, y);
 		}
 	}
 
@@ -49,8 +45,8 @@ public class LineDriverAdapter implements Job2dDriver {
 			this.setPosition(x, y);
 			line.setEndCoordinates(x, y);
 		} else {
-			line.setStartCoordinates(transformation.transformXPoint(this.startX, this.startY), transformation.transformYPoint(this.startX, this.startY));
-			this.setPosition(transformation.transformXPoint(x, y), transformation.transformYPoint(x, y));
+			line.setStartCoordinates(this.startX, this.startY);
+			this.setPosition(x, y);
 			line.setEndCoordinates(transformation.transformXPoint(x, y), transformation.transformYPoint(x, y));
 		}
 
@@ -62,3 +58,4 @@ public class LineDriverAdapter implements Job2dDriver {
 		return "2d device simulator - " + name;
 	}
 }
+

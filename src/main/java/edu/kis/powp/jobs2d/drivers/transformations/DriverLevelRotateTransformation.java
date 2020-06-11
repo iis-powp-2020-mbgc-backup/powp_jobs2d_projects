@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.drivers;
+package edu.kis.powp.jobs2d.drivers.transformations;
 
 public class DriverLevelRotateTransformation implements DriverLevelTransformation {
     private final double angle;

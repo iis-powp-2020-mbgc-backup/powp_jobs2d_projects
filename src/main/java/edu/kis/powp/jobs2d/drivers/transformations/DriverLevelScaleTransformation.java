@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.drivers;
+package edu.kis.powp.jobs2d.drivers.transformations;
 
 public class DriverLevelScaleTransformation implements DriverLevelTransformation{
     private final double scaleFactorX;

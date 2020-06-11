@@ -30,7 +30,7 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
 		logger.info("Testing Command Visitor");
 		ComprisingCommandsCounterVisitor commandCounterVisitor = new ComprisingCommandsCounterVisitor(this.driver);
 
-		int expectedSetPostitionCalls = 3;
+		int expectedSetPositionCalls = 3;
 		int expectedOperateToCalls = 2;
 		int expectedAllCalls = 5;
 
@@ -64,7 +64,7 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
 
 		compound.accept(commandCounterVisitor);
 
-		if (expectedOperateToCalls == commandCounterVisitor.getOperateToCounter() && expectedSetPostitionCalls == commandCounterVisitor.getSetPositionCounter()
+		if (expectedOperateToCalls == commandCounterVisitor.getOperateToCounter() && expectedSetPositionCalls == commandCounterVisitor.getSetPositionCounter()
 				&& expectedAllCalls == commandCounterVisitor.getAllCommandsCounter()) {
 			logger.info("Visitor Command Counting test Passed\n Commands counter: " + commandCounterVisitor.getAllCommandsCounter());
 		} else {

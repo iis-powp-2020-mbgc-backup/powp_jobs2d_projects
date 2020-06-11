@@ -5,6 +5,9 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.ScaledLineDriver;
+import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelRotateTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelScaleTransformation;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -14,6 +17,7 @@ import edu.kis.powp.jobs2d.features.MacroFeature;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -92,6 +96,25 @@ public class TestJobs2dApp {
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
 
+	private static void setupTransformations(Application application) {
+		application.addComponentMenu(null, "Transformations at driver level");
+		application.addComponentMenuElement(null, "Scaling", e -> {
+			DrawPanelController drawerController = DrawerFeature.getDrawerController();
+			Job2dDriver driver = null;
+			if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
+				driver = new ScaledLineDriver(drawerController, LineFactory.getBasicLine(), "basic", new DriverLevelScaleTransformation(1.5, 1));
+			DriverFeature.getDriverManager().setCurrentDriver(driver);
+		});
+
+		application.addComponentMenuElement(null, "Rotating", e -> {
+			DrawPanelController drawerController = DrawerFeature.getDrawerController();
+			Job2dDriver driver = null;
+			if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
+				driver = new ScaledLineDriver(drawerController, LineFactory.getBasicLine(), "basic", new DriverLevelRotateTransformation(30));
+			DriverFeature.getDriverManager().setCurrentDriver(driver);
+		});
+	}
+
 	/**
 	 * Setup menu for adjusting logging settings.
 	 * 
@@ -128,6 +151,7 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				setupTransformations(app);
 				JPanel panel = app.getFreePanel();
 				panel.addMouseListener(new MouseDrawListener(panel, DriverFeature.getDriverManager()));
 

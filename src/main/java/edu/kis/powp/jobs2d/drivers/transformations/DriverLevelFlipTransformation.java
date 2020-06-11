@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.drivers;
+package edu.kis.powp.jobs2d.drivers.transformations;
 
 public class DriverLevelFlipTransformation implements DriverLevelTransformation {
 
