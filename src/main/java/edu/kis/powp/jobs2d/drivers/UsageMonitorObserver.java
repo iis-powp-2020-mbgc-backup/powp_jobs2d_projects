@@ -8,8 +8,8 @@ public class UsageMonitorObserver implements Subscriber {
 
     @Override public void update() {
         Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
-        if (!(currentDriver instanceof UsageMonitor)) {
-            DriverFeature.getDriverManager().setCurrentDriver(new UsageMonitor(currentDriver));
+        if (!(currentDriver instanceof Job2dDriverDecorator)) {
+            DriverFeature.getDriverManager().setCurrentDriver(new Job2dDriverDecorator(currentDriver));
         }
     }
 }

@@ -8,18 +8,18 @@ import java.util.logging.Logger;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class UsageMonitor implements Job2dDriver {
+public class Job2dDriverDecorator implements Job2dDriver {
 
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private static double nonOperationalDistance = 0;
-    private static double operationalDistance = 0;
+    private double nonOperationalDistance = 0;
+    private double operationalDistance = 0;
 
     private double lastX = 0;
     private double lastY = 0;
 
     private Job2dDriver driver;
 
-    public UsageMonitor(Job2dDriver driver) {
+    public Job2dDriverDecorator(Job2dDriver driver) {
         this.driver = driver;
     }
 
@@ -55,21 +55,5 @@ public class UsageMonitor implements Job2dDriver {
 
         logger.info("Non operational distance: " + decimalFormat.format(nonOperationalDistance) +
                     "\n   Operational distance: " + decimalFormat.format(operationalDistance));
-    }
-
-    /**
-     * API go get distance made by operateTo method by all drivers
-     * @return distance made by setPosition method
-     */
-    public static double getOperationalDistance() {
-        return operationalDistance;
-    }
-
-    /**
-     * API go get distance made by setPosition method by all drivers
-     * @return distance made by setPosition method
-     */
-    public static double getNonOperationalDistance() {
-        return operationalDistance;
     }
 }
