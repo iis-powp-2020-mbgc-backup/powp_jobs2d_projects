@@ -7,12 +7,14 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.manager.CommandHistoryController;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -81,6 +83,24 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnRunCommand, c);
+
+		DefaultListModel model = new DefaultListModel();
+		CommandHistoryController.setListModel(model);
+		JList commandHistoryList = new JList(model);
+		commandHistoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		commandHistoryList.addListSelectionListener(e -> {
+
+			if (!e.getValueIsAdjusting()) {
+
+				if (commandHistoryList.getSelectedIndex() != -1) {
+					int index = commandHistoryList.getSelectedIndex();
+					DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
+
+					manager.setCurrentCommand(CommandHistoryController.getCommandsFromList(index),CommandHistoryController.getCommandsNameFromList(index));
+				}
+			}
+		});
+		content.add(new JScrollPane(commandHistoryList), c);
 	}
 
 	private void clearCommand() {
@@ -90,6 +110,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void runCommand() {
 		commandManager.runCurrentCommand();
+		CommandHistoryController.addNewHistoryEntry(CommandsFeature.getDriverCommandManager().getCommandList(),CommandsFeature.getDriverCommandManager().getCommandName());
 	}
 
 	public void updateCurrentCommandField() {
