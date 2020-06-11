@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.command;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.drivers.DriverLevelTransformation;
 
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
@@ -15,6 +16,16 @@ public class OperateToCommand implements DriverCommand {
 
 	public int getPosY() {
 		return posY;
+	}
+
+	public OperateToCommand(int posX, int posY, DriverLevelTransformation transformation) {
+		super();
+		if (transformation == null) {
+			new SetPositionCommand(posX, posY);
+		} else {
+			this.posX = transformation.transformXPoint(posX, posY);
+			this.posY = transformation.transformYPoint(posX, posY);
+		}
 	}
 
 	public OperateToCommand(int posX, int posY) {
