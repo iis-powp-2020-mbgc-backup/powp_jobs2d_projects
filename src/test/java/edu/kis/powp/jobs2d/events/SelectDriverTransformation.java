@@ -24,12 +24,11 @@ public class SelectDriverTransformation implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = null;
-		if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
+		if (DriverFeature.getDriverManager().getCurrentDriver() instanceof LineDriverAdapter)
 		{
 			LineDriverAdapter temp = (LineDriverAdapter)DriverFeature.getDriverManager().getCurrentDriver();
-			driver = new ScaledLineDriver(drawerController, temp.getLine(), "inherited", transformation);
+			driver = new ScaledLineDriver(temp, transformation);
 		}
 
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
