@@ -1,13 +1,17 @@
 package edu.kis.powp.jobs2d.command;
 
+import edu.kis.powp.jobs2d.transformation.PointTransformation;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class CommandTransformation implements CommandVisitorInterface {
+public class CommandTransformationVisitor implements CommandVisitorInterface {
     private List<DriverCommand> commands;
+    private PointTransformation transformation;
 
-    public CommandTransformation(){
+    public CommandTransformationVisitor(PointTransformation transformation) {
+        this.transformation = transformation;
         commands = new ArrayList<>();
     }
 
@@ -17,13 +21,13 @@ public abstract class CommandTransformation implements CommandVisitorInterface {
 
     @Override
     public void visit(OperateToCommand driver) {
-        DriverCommand transformedCommand = new OperateToCommand(getTransformedX(driver.getPosX(), driver.getPosY()), getTransformedY(driver.getPosX(), driver.getPosY()));
+        DriverCommand transformedCommand = new OperateToCommand(transformation.getTransformedX(driver.getPosX(), driver.getPosY()), transformation.getTransformedY(driver.getPosX(), driver.getPosY()));
         commands.add(transformedCommand);
     }
 
     @Override
     public void visit(SetPositionCommand driver) {
-        SetPositionCommand transformedCommand = new SetPositionCommand(getTransformedX(driver.getPosX(), driver.getPosY()), getTransformedY(driver.getPosX(), driver.getPosY()));
+        SetPositionCommand transformedCommand = new SetPositionCommand(transformation.getTransformedX(driver.getPosX(), driver.getPosY()), transformation.getTransformedY(driver.getPosX(), driver.getPosY()));
         commands.add(transformedCommand);
     }
 
@@ -33,7 +37,4 @@ public abstract class CommandTransformation implements CommandVisitorInterface {
             i.next().accept(this);
         }
     }
-
-    abstract int getTransformedX(int x, int y);
-    abstract int getTransformedY(int x, int y);
 }
