@@ -57,7 +57,7 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-
+		application.addTest("Load from file", new SelectImportCommandFromFileOptionListener());
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
 		application.addTest("Load macro", new SelectLoadMacro(DriverFeature.getDriverManager(), MacroFeature.getMacroDriverDecorator(), CommandsFeature.getDriverCommandManager()));

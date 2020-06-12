@@ -1,0 +1,22 @@
+[
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.SetPositionCommand",
+    "DATA":{"posX":-100,"posY":-100}
+  },
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":100,"posY":-100}
+  },
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":100,"posY":100}
+  },
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":-100,"posY":100}
+  },
+  {
+    "CLASSNAME":"edu.kis.powp.jobs2d.command.OperateToCommand",
+    "DATA":{"posX":-100,"posY":-100}
+  }
+]

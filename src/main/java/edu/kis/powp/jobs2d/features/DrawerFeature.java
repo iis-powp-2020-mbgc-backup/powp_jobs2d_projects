@@ -15,7 +15,6 @@ public class DrawerFeature {
 	 */
 	public static void setupDrawerPlugin(Application application) {
 		SelectClearPanelOptionListener selectClearPanelOptionListener = new SelectClearPanelOptionListener();
-
 		drawerController = new DrawPanelController();
 		application.addComponentMenu(DrawPanelController.class, "Draw Panel", 0);
 		application.addComponentMenuElement(DrawPanelController.class, "Clear Panel", selectClearPanelOptionListener);
