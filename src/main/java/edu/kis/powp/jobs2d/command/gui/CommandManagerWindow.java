@@ -13,7 +13,14 @@ import javax.swing.JTextArea;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.parsers.InputDataModel;
+import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
 import edu.kis.powp.observer.Subscriber;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
@@ -23,6 +30,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private String observerListString;
     private JTextArea observerListField;
+    private JTextArea InputCommandsTextArea;
+
+    private JSONCommandParser jsonCommandParser = new JSONCommandParser();
 
     private List<Subscriber> observers;
     private boolean isDeleted = false;
@@ -60,6 +70,18 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(currentCommandField, c);
         updateCurrentCommandField();
 
+        InputCommandsTextArea = new JTextArea("");
+        InputCommandsTextArea.setEditable(true);
+        InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsTextArea.setLineWrap(true);
+
+        JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
+        content.add(InputCommandsField,c);
+
+        JButton jsonLoadCommands = new JButton("Load commands");
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonLoadCommands,c);
+
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -96,6 +118,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
         this.updateObserverListField();
         this.isDeleted = !this.isDeleted;
+    }
+
+    private void loadCommandsFromJSON(String jsonInput) {
+        InputDataModel inputDataModel = jsonCommandParser.parse(jsonInput);
+
+        commandManager.setCurrentCommand(
+                inputDataModel.getDriverCommand(),
+                inputDataModel.getDriverCommandName()
+        );
     }
 
     private void clearCommand() {
