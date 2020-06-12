@@ -4,15 +4,22 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.ScaledLineDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.transformations.CoordsRotateTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsFlipTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsTransformation;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SelectDriverTransformationRotating implements ActionListener
+public class SelectDriverTransformation implements ActionListener
 {
+	CoordsTransformation transformation;
+
+	public SelectDriverTransformation(CoordsTransformation transformation)
+	{
+		this.transformation = transformation;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -22,8 +29,9 @@ public class SelectDriverTransformationRotating implements ActionListener
 		if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
 		{
 			LineDriverAdapter temp = (LineDriverAdapter)DriverFeature.getDriverManager().getCurrentDriver();
-			driver = new ScaledLineDriver(drawerController, temp.getLine(), "inherited", new CoordsRotateTransformation(30));
+			driver = new ScaledLineDriver(drawerController, temp.getLine(), "inherited", transformation);
 		}
+
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
 	}
 }
