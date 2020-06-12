@@ -1,9 +1,10 @@
 package edu.kis.powp.jobs2d.drivers.transformations;
 
-public class DriverLevelRotateTransformation implements DriverLevelTransformation {
+public class CoordsRotateTransformation implements CoordsTransformation
+{
     private final double angle;
 
-    public DriverLevelRotateTransformation(double angle) {
+    public CoordsRotateTransformation(double angle) {
         super();
         this.angle = Math.toRadians(angle);
     }

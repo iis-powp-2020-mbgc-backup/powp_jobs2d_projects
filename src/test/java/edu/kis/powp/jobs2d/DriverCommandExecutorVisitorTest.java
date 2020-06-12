@@ -27,7 +27,7 @@ public class DriverCommandExecutorVisitorTest implements ActionListener
 	public void actionPerformed(ActionEvent actionEvent) {
 		logger.info("Testing Command Visitor");
 		CommandExecutorVisitor commandExecutorVisitor = new CommandExecutorVisitor(this.driver);
-		
+
 		DriverCommand driverCommand = CommandsFeature.getDriverCommandManager().getCurrentCommand();
 		driverCommand.accept(commandExecutorVisitor);
 

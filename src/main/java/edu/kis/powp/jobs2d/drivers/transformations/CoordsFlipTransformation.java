@@ -1,10 +1,11 @@
 package edu.kis.powp.jobs2d.drivers.transformations;
 
-public class DriverLevelFlipTransformation implements DriverLevelTransformation {
+public class CoordsFlipTransformation implements CoordsTransformation
+{
 
     private final boolean isHorizontal;
 
-    public DriverLevelFlipTransformation(boolean isHorizontal) {
+    public CoordsFlipTransformation(boolean isHorizontal) {
         this.isHorizontal = isHorizontal;
     }
 

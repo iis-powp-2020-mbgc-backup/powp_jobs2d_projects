@@ -3,7 +3,7 @@ package edu.kis.powp.jobs2d.drivers;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.ILine;
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsTransformation;
 
 /**
  * Line adapter - Job2dDriver with DrawPanelController object.
@@ -12,11 +12,11 @@ public class ScaledLineDriver implements Job2dDriver {
 	private ILine line;
 	private int startX = 0, startY = 0;
 	private String name;
-	private DriverLevelTransformation transformation;
+	private CoordsTransformation transformation;
 
 	private DrawPanelController drawController;
 
-	public ScaledLineDriver(DrawPanelController drawController, ILine line, String name, DriverLevelTransformation transformation) {
+	public ScaledLineDriver(DrawPanelController drawController, ILine line, String name, CoordsTransformation transformation) {
 		super();
 		this.drawController = drawController;
 		this.line = line;

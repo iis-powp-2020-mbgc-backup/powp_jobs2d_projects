@@ -1,10 +1,11 @@
 package edu.kis.powp.jobs2d.drivers.transformations;
 
-public class DriverLevelScaleTransformation implements DriverLevelTransformation{
+public class CoordsScaleTransformation implements CoordsTransformation
+{
     private final double scaleFactorX;
     private final double scaleFactorY;
 
-    public DriverLevelScaleTransformation(double scaleFactorX, double scaleFactorY) {
+    public CoordsScaleTransformation(double scaleFactorX, double scaleFactorY) {
         super();
         this.scaleFactorX = scaleFactorX;
         this.scaleFactorY = scaleFactorY;

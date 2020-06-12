@@ -4,7 +4,7 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.ScaledLineDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelScaleTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsScaleTransformation;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
@@ -22,7 +22,7 @@ public class SelectDriverTransformationScaling implements ActionListener
 		if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
 		{
 			LineDriverAdapter temp = (LineDriverAdapter)DriverFeature.getDriverManager().getCurrentDriver();
-			driver = new ScaledLineDriver(drawerController, temp.getLine(), "inherited", new DriverLevelScaleTransformation(1.5, 1));
+			driver = new ScaledLineDriver(drawerController, temp.getLine(), "inherited", new CoordsScaleTransformation(1.5, 1));
 		}
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
 	}
