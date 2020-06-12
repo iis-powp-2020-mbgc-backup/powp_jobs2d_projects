@@ -1,13 +1,11 @@
 package edu.kis.powp.jobs2d.command.manager.parsing;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class JsonParser implements Parser {
 
 
 	@Override
-	public DriverCommand parseFromImport(String commandAsString) {
+	public DriverCommand parseFromString(String commandAsString) {
 		Gson gson = new Gson();
 
 		JsonDriverCommand jsonDriverCommand = gson.fromJson(commandAsString, JsonDriverCommand.class);
@@ -34,25 +32,18 @@ public class JsonParser implements Parser {
 			if (op.opName.equals("SetPositionCommand")) driverCommands.add(new SetPositionCommand(op.x, op.y));
 			else if (op.opName.equals("OperateToCommand")) driverCommands.add(new OperateToCommand(op.x, op.y));
 
-		if(driverCommands.size()==1)
+		if (driverCommands.size() == 1)
 			return driverCommands.get(0);
 		return new CompoundCommand(driverCommands);
 	}
 
 	@Override
-	public void parseToExport(DriverCommand driverCommand, File fileToExportTo) {
-		try {
-			Gson gson = new Gson();
-			JsonWriter writer = new JsonWriter(new FileWriter(fileToExportTo));
-			JsonDriverCommand jsonDriverCommand = new JsonDriverCommand();
+	public String parseToString(DriverCommand driverCommand) {
+		Gson gson = new Gson();
+		JsonDriverCommand jsonDriverCommand = new JsonDriverCommand();
 
-			jsonDriverCommand.operations = getOperationFromDriverCommand(driverCommand);
-
-			gson.toJson(jsonDriverCommand, JsonDriverCommand.class, writer);
-			writer.close();
-		} catch (IOException exception) {
-			exception.printStackTrace();
-		}
+		jsonDriverCommand.operations = getOperationFromDriverCommand(driverCommand);
+		return gson.toJson(jsonDriverCommand, JsonDriverCommand.class);
 	}
 
 	private List<JsonDriverCommand.operation> getOperationFromDriverCommand(DriverCommand driverCommand) {

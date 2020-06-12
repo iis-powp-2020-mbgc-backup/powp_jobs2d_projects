@@ -3,10 +3,12 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.TextField;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.*;
@@ -30,7 +32,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea observerListField;
 
 	private JFileChooser fileChooser;
-	private TextField txtFieldToImport;
+	private JTextField txtFieldToImport;
+	private Parser parser;
 
 
 	/**
@@ -76,7 +79,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 				"JSON FILES", "json");
 		fileChooser.setFileFilter(filter);
 
-		txtFieldToImport = new TextField();
+		txtFieldToImport = new JTextField();
 		container.add(txtFieldToImport);
 
 		JButton btnImportCommand = new JButton("Import commands");
@@ -90,7 +93,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(container, c);
 
 		JButton btnExportCommand = new JButton("Export commands ");
-		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
+		btnExportCommand.addActionListener((ActionEvent e) -> {
+			try {
+				this.exportCommands();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+		});
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -123,17 +132,20 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void importCommands() {
-		Parser parser = new JsonParser();
-		commandManager.setCurrentCommand(parser.parseFromImport(txtFieldToImport.getText()));
+		parser = new JsonParser();
+		commandManager.setCurrentCommand(parser.parseFromString(txtFieldToImport.getText()));
 	}
 
-	private void exportCommands() {
+	private void exportCommands() throws IOException {
 		fileChooser.setDialogTitle("Specify a file to save");
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
-			Parser parser = new JsonParser();
-			parser.parseToExport(commandManager.getCurrentCommand(), fileToSave);
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileToSave));
+			parser = new JsonParser();
+			String commandAsString = parser.parseToString(commandManager.getCurrentCommand());
+			bufferedWriter.write(commandAsString);
+			bufferedWriter.close();
 		}
 	}
 
