@@ -6,6 +6,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.ScaledLineDriver;
+import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelFlipTransformation;
 import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelRotateTransformation;
 import edu.kis.powp.jobs2d.drivers.transformations.DriverLevelScaleTransformation;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -98,21 +99,11 @@ public class TestJobs2dApp {
 
 	private static void setupTransformations(Application application) {
 		application.addComponentMenu(null, "Transformations at driver level");
-		application.addComponentMenuElement(null, "Scaling", e -> {
-			DrawPanelController drawerController = DrawerFeature.getDrawerController();
-			Job2dDriver driver = null;
-			if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
-				driver = new ScaledLineDriver(drawerController, LineFactory.getBasicLine(), "basic", new DriverLevelScaleTransformation(1.5, 1));
-			DriverFeature.getDriverManager().setCurrentDriver(driver);
-		});
+		application.addComponentMenuElement(null,"Scaling", new SelectDriverTransformationScaling());
 
-		application.addComponentMenuElement(null, "Rotating", e -> {
-			DrawPanelController drawerController = DrawerFeature.getDrawerController();
-			Job2dDriver driver = null;
-			if (DriverFeature.getDriverManager().getCurrentDriver().getClass() == LineDriverAdapter.class)
-				driver = new ScaledLineDriver(drawerController, LineFactory.getBasicLine(), "basic", new DriverLevelRotateTransformation(30));
-			DriverFeature.getDriverManager().setCurrentDriver(driver);
-		});
+		application.addComponentMenuElement(null, "Rotating", new SelectDriverTransformationRotating());
+
+		application.addComponentMenuElement(null, "Flipping", new SelectDriverTransformationFlipping());
 	}
 
 	/**
