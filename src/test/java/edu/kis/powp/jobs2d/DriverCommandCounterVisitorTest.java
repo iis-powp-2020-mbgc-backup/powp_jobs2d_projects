@@ -1,6 +1,5 @@
 package edu.kis.powp.jobs2d;
 
-import edu.kis.powp.jobs2d.CommandDrawerPattern.CommandList;
 import edu.kis.powp.jobs2d.command.*;
 
 
@@ -35,7 +34,12 @@ public class DriverCommandCounterVisitorTest implements ActionListener {
 		int expectedOperateToCalls = 2;
 		int expectedAllCalls = 5;
 
-		List<DriverCommand> driverCommands = CommandList.drawingICharacter();
+		List<DriverCommand> driverCommands = new ArrayList<>();
+		driverCommands.add(new SetPositionCommand(-20, -50));
+		driverCommands.add(new OperateToCommand(-20, -50));
+		driverCommands.add(new SetPositionCommand(-20, -40));
+		driverCommands.add(new OperateToCommand(-20, 50));
+		driverCommands.add(new SetPositionCommand(0, -50));
 
 		ICompoundCommand compound = new ICompoundCommand() {
 			List<DriverCommand> commands = driverCommands;
