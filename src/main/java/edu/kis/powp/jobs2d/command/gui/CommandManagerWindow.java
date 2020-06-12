@@ -1,27 +1,38 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.Driver;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	public CommandFactory commandFactory = new CommandFactory();
+
+	private Container content;
+	private GridBagConstraints c;
 
 	private JTextArea currentCommandField;
-
+	private JTextArea currentCommandAnalyzerField;
+	private JLabel statisticsLabel;
 	private String observerListString;
 	private JTextArea observerListField;
+
+	//catalog
+	private JLabel labelCatalog;
+	private Choice choiceCatalog;
+	private JButton btnCatalogClearCommand;
+	private JButton btnCatalogSetCommand;
 
 	/**
 	 * 
@@ -31,50 +42,84 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public CommandManagerWindow(DriverCommandManager commandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
-		Container content = this.getContentPane();
+		content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
+		this.commandFactory.setCommandManagerPublisher(commandManager);
 		this.commandManager = commandManager;
 
-		GridBagConstraints c = new GridBagConstraints();
-
-		observerListField = new JTextArea("");
-		observerListField.setEditable(false);
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
 		c.weighty = 1;
+
+		observerListField = new JTextArea("");
+		observerListField.setEditable(false);
 		content.add(observerListField, c);
 		updateObserverListField();
 
 		currentCommandField = new JTextArea("");
 		currentCommandField.setEditable(false);
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+		statisticsLabel = new JLabel();
+		content.add(statisticsLabel, c);
+		statisticsLabel.setVisible(false);
+		statisticsLabel.setText("Foreseen usage statistics of command: ");
+
+		currentCommandAnalyzerField = new JTextArea("");
+		currentCommandAnalyzerField.setEditable(false);
+		content.add(currentCommandAnalyzerField, c);
+
 		JButton btnClearCommand = new JButton("Clear command");
-		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		JButton btnRunCommand = new JButton("Run command");
+
+		btnClearCommand.addActionListener((ActionEvent e) -> {
+			this.clearCommand();
+			btnRunCommand.setEnabled(false);
+		});
+
 		content.add(btnClearCommand, c);
 
+		btnRunCommand.setEnabled(false);
+		btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
+		content.add(btnRunCommand, c);
+
 		JButton btnClearObservers = new JButton("Delete observers");
-		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		JButton btnResetObservers = new JButton("Reset observers");
+		btnResetObservers.setEnabled(false);
+
+		btnResetObservers.addActionListener(e -> {
+			this.resetObservers();
+			btnClearObservers.setEnabled(true);
+			btnResetObservers.setEnabled(false);
+		});
+
+		btnClearObservers.addActionListener((ActionEvent e) -> {
+			this.deleteObservers();
+			btnClearObservers.setEnabled(false);
+			btnResetObservers.setEnabled(true);
+		});
+
 		content.add(btnClearObservers, c);
+		content.add(btnResetObservers, c);
+
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			btnRunCommand.setEnabled(true);
+			statisticsLabel.setVisible(true);
+			currentCommandAnalyzerField.setText(commandManager.getStatistics());
+		});
+
+		this.setupCatalogGUI();
+
 	}
 
 	private void clearCommand() {
 		commandManager.clearCurrentCommand();
+		currentCommandAnalyzerField.setText("");
+		statisticsLabel.setVisible(false);
 		updateCurrentCommandField();
 	}
 
@@ -83,7 +128,22 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void deleteObservers() {
-		commandManager.getChangePublisher().clearObservers();
+		commandManager.deleteCurrentObservers();
+		this.updateObserverListField();
+	}
+
+	/**
+	 * Invokes method of <code>DriverCommandManager</code> that runs stored command, if set.
+	 */
+	public void runCommand(){
+		commandManager.runCurrentCommand();
+	}
+
+	/**
+	 * Restores observers from cache of <code>DriverCommandManager</code>.
+	 */
+	public void resetObservers(){
+		commandManager.resetObservers();
 		this.updateObserverListField();
 	}
 
@@ -107,6 +167,43 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		} else {
 			this.setVisible(true);
 		}
+	}
+
+	private void setupCatalogGUI(){
+		//label for catalog
+		labelCatalog = new JLabel();
+		content.add(labelCatalog, c);
+		labelCatalog.setVisible(true);
+		labelCatalog.setText("Cataloged commands: ");
+
+		//choice list
+		choiceCatalog = new Choice();
+		content.add(choiceCatalog, c);
+
+		//buttons
+		btnCatalogClearCommand = new JButton("Clear catalog");
+		content.add(btnCatalogClearCommand, c);
+		btnCatalogSetCommand = new JButton("Set selected command");
+		content.add(btnCatalogSetCommand, c);
+
+		//buttons' actions
+		btnCatalogClearCommand.addActionListener(e -> {
+			commandFactory.clear();
+			choiceCatalog.removeAll();
+		});
+		btnCatalogSetCommand.addActionListener(e -> {
+			DriverCommand selected = commandFactory.get(choiceCatalog.getSelectedItem());
+			commandManager.setCurrentCommand(selected);
+		});
+
+		//update choice list when current command in commandManager has changed
+		this.commandManager.getChangePublisher().addSubscriber(() -> {
+			choiceCatalog.removeAll();
+			commandFactory.getNamesOfStored().forEach(name ->{
+				choiceCatalog.add(name);
+			});
+			choiceCatalog.select(commandManager.getCurrentCommandString());
+		});
 	}
 
 }
