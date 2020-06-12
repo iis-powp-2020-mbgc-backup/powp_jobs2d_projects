@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
@@ -31,7 +30,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private String observerListString;
 	private JTextArea observerListField;
 
-	private JFileChooser fileChooser;
 	private JTextField txtFieldToImport;
 	private Parser parser;
 
@@ -50,7 +48,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		this.commandManager = commandManager;
 
 		GridBagConstraints c = new GridBagConstraints();
-
 		observerListField = new JTextArea("");
 		observerListField.setEditable(false);
 		c.fill = GridBagConstraints.BOTH;
@@ -69,37 +66,17 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
-		Container container = new Container();
-		GridLayout gridLayout = new GridLayout(1, 2);
-		container.setLayout(gridLayout);
+		parser = new JsonParser();
 
-		fileChooser = new JFileChooser(new File(System.getProperty("user.dir")),
-				FileSystemView.getFileSystemView());
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"JSON FILES", "json");
-		fileChooser.setFileFilter(filter);
-
-		txtFieldToImport = new JTextField();
-		container.add(txtFieldToImport);
-
-		JButton btnImportCommand = new JButton("Import commands");
-		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
-		container.add(btnImportCommand);
-
+		Container container = getImportContainer();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
 		c.weighty = 1;
-		content.add(container, c);
+		content.add(container,c);
 
 		JButton btnExportCommand = new JButton("Export commands ");
-		btnExportCommand.addActionListener((ActionEvent e) -> {
-			try {
-				this.exportCommands();
-			} catch (IOException exception) {
-				exception.printStackTrace();
-			}
-		});
+		btnExportCommand.addActionListener((ActionEvent e) ->  this.exportCommands());
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -131,21 +108,41 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnRunCommand, c);
 	}
 
+	private Container getImportContainer() {
+		Container container = new Container();
+		GridLayout gridLayout = new GridLayout(1, 2);
+		container.setLayout(gridLayout);
+
+		txtFieldToImport = new JTextField();
+		container.add(txtFieldToImport);
+
+		JButton btnImportCommand = new JButton("Import commands");
+		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommands());
+		container.add(btnImportCommand);
+		return container;
+	}
+
 	private void importCommands() {
-		parser = new JsonParser();
 		commandManager.setCurrentCommand(parser.parseFromString(txtFieldToImport.getText()));
 	}
 
-	private void exportCommands() throws IOException {
+	private void exportCommands()   {
+		JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")),
+				FileSystemView.getFileSystemView());
 		fileChooser.setDialogTitle("Specify a file to save");
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileToSave));
-			parser = new JsonParser();
-			String commandAsString = parser.parseToString(commandManager.getCurrentCommand());
-			bufferedWriter.write(commandAsString);
-			bufferedWriter.close();
+			BufferedWriter bufferedWriter;
+			try {
+				bufferedWriter = new BufferedWriter(new FileWriter(fileToSave));
+				String commandAsString = parser.parseToString(commandManager.getCurrentCommand());
+				bufferedWriter.write(commandAsString);
+				bufferedWriter.close();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+
 		}
 	}
 
