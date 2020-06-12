@@ -1,22 +1,20 @@
 package edu.kis.powp.jobs2d.command.transformation;
 
-public class CommandTransformationScale extends CommandTransformation {
+public class TransformationScale implements Transformation {
+
     private final double scaleFactorX;
     private final double scaleFactorY;
 
-    public CommandTransformationScale(double scaleFactorX, double scaleFactorY) {
-        super();
+    public TransformationScale(double scaleFactorX, double scaleFactorY) {
         this.scaleFactorX = scaleFactorX;
         this.scaleFactorY = scaleFactorY;
     }
 
-    @Override
-    int transformXPoint(int x, int y) {
+    public int transformXPoint(int x, int y) {
         return (int) (x * this.scaleFactorX);
     }
 
-    @Override
-    int transformYPoint(int x, int y) {
+    public int transformYPoint(int x, int y) {
         return (int) (y * this.scaleFactorY);
     }
 }
