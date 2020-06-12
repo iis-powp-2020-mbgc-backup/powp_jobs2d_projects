@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d;
 
 import edu.kis.powp.jobs2d.CommandDrawerPattern.CommandList;
 import edu.kis.powp.jobs2d.command.*;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,32 +26,10 @@ public class DriverCommandExecutorVisitorTest implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		logger.info("Testing Command Visitor");
-		CommandExecutorVisitor commandCounterVisitor = new CommandExecutorVisitor(this.driver);
-
-		List<DriverCommand> driverCommands = CommandList.drawingICharacter();
-
-		ICompoundCommand compound = new ICompoundCommand() {
-			List<DriverCommand> commands = driverCommands;
-
-			@Override
-			public DriverCommand clone() throws CloneNotSupportedException {
-				return ICompoundCommand.super.clone();
-			}
-
-			@Override
-			public Iterator<DriverCommand> iterator()
-			{
-				return commands.iterator();
-			}
-
-			@Override
-			public void execute(Job2dDriver driver)
-			{
-				commands.forEach(c -> c.execute(driver));
-			}
-		};
-
-		compound.accept(commandCounterVisitor);
+		CommandExecutorVisitor commandExecutorVisitor = new CommandExecutorVisitor(this.driver);
+		
+		DriverCommand driverCommand = CommandsFeature.getDriverCommandManager().getCurrentCommand();
+		driverCommand.accept(commandExecutorVisitor);
 
 		logger.info("Visitor Command Executor test");
 	}
