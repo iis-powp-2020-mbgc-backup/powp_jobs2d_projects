@@ -18,16 +18,6 @@ public class SetPositionCommand implements DriverCommand {
 		return posY;
 	}
 
-//	public SetPositionCommand(int posX, int posY, DriverLevelTransformation transformation) {
-//		super();
-//		if (transformation == null) {
-//			new SetPositionCommand(posX, posY);
-//		} else {
-//			this.posX = transformation.transformXPoint(posX, posY);
-//			this.posY = transformation.transformYPoint(posX, posY);
-//		}
-//	}
-
 	public SetPositionCommand(int posX, int posY) {
 		super();
 		this.posX = posX;
