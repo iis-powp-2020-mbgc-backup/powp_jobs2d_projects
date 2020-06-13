@@ -18,4 +18,12 @@ public class SelectDriverMenuOptionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		driverManager.setCurrentDriver(driver);
 	}
+
+	public Job2dDriver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Job2dDriver driver) {
+		this.driver = driver;
+	}
 }
