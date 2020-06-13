@@ -16,14 +16,14 @@ public class AddInkWindow extends JFrame implements WindowComponent
     public AddInkWindow(InkUsageDriver driver)
     {
         this.setTitle("Add Ink");
-        this.setSize(500, 500);
+        this.setSize(250, 200);
         this.driver = driver;
 
         Container content = this.getContentPane();
 
         content.setLayout(new GridBagLayout());
 
-        JButton btnClearCommand = new JButton("Dodaj tusz");
+        JButton btnClearCommand = new JButton("Refuel Ink");
         btnClearCommand.addActionListener((ActionEvent e) -> this.AddInk());
         content.add(btnClearCommand);
 

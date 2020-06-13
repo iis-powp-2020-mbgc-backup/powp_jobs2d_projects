@@ -11,7 +11,7 @@ public class InkUsageDriver implements Job2dDriver {
     private int x0, y0;
     private double inkLimit;
     private double totalUsage;
-    Logger logger = Logger.getLogger("global");
+    private Logger logger = Logger.getLogger("global");
     private Job2dDriver driver;
 
     public InkUsageDriver(Job2dDriver driver, double inkLimit) {
@@ -20,6 +20,15 @@ public class InkUsageDriver implements Job2dDriver {
         this.x0 = 0;
         this.y0 = 0;
         this.totalUsage = 0;
+        this.inkLimit = inkLimit;
+    }
+
+    public InkUsageDriver(Job2dDriver driver, double inkLimit, double totalUsage) {
+        super();
+        this.driver = driver;
+        this.x0 = 0;
+        this.y0 = 0;
+        this.totalUsage = totalUsage;
         this.inkLimit = inkLimit;
     }
 
@@ -45,12 +54,10 @@ public class InkUsageDriver implements Job2dDriver {
     @Override
     public void operateTo(int x1, int y1) {
 
-        double wasted;
-        wasted = inkCounter(this.x0, x1, this.y0, y1);
+        double wasted = inkCounter(this.x0, x1, this.y0, y1);
 
         if((inkLimit-wasted) < 0) {
             this.logger.info("You don't have enough ink to do this!");
-            //this.inkLimit = 1000f;
         }
         else
         {
@@ -58,14 +65,22 @@ public class InkUsageDriver implements Job2dDriver {
             this.x0 = x1;
             this.y0 = y1;
 
-
             inkLimit -= wasted;
-
+            totalUsage += wasted;
             this.logger.info("Ink wasted per move: " + String.format ("%.3f", wasted) + "units");
             this.logger.info("Total used ink: " + String.format ("%.3f", totalUsage) + "units");
+            this.logger.info("Remaining ink: " + String.format ("%.3f", inkLimit) + "units");
             this.logger.info("-----------------------------------");
-            totalUsage += wasted;
         }
+    }
 
+    public double getInkLimit()
+    {
+        return this.inkLimit;
+    }
+
+    public double getTotalUsage()
+    {
+        return this.totalUsage;
     }
 }
