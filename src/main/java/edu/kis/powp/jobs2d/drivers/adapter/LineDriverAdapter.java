@@ -21,41 +21,6 @@ public class LineDriverAdapter implements Job2dDriver {
 		this.name = name;
 	}
 
-	public ILine getLine()
-	{
-		return line;
-	}
-
-	public int getStartX()
-	{
-		return startX;
-	}
-
-	public int getStartY()
-	{
-		return startY;
-	}
-
-	public void setStartX(int startX)
-	{
-		this.startX = startX;
-	}
-
-	public void setStartY(int startY)
-	{
-		this.startY = startY;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public DrawPanelController getDrawController()
-	{
-		return drawController;
-	}
-
 	@Override
 	public void setPosition(int x, int y) {
 		this.startX = x;
