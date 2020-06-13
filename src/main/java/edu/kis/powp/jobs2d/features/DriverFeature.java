@@ -4,11 +4,17 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import edu.kis.powp.jobs2d.drivers.adapter.TransformationAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverFeature {
 
 	private static DriverManager driverManager = new DriverManager();
 	private static Application app;
+	private static Map<String, SelectDriverMenuOptionListener> drivers = new HashMap<>();
 
 	public static DriverManager getDriverManager() {
 		return driverManager;
@@ -31,8 +37,16 @@ public class DriverFeature {
 	 * @param driver Job2dDriver object.
 	 */
 	public static void addDriver(String name, Job2dDriver driver) {
-		SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
-		app.addComponentMenuElement(DriverFeature.class, name, listener);
+
+		if(drivers.containsKey(name)){
+			drivers.get(name).setDriver(driver);
+		}
+		else{
+			SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
+			app.addComponentMenuElement(DriverFeature.class, name, listener);
+			drivers.put(name,listener);
+		}
+
 	}
 
 	/**
@@ -40,6 +54,11 @@ public class DriverFeature {
 	 */
 	public static void updateDriverInfo() {
 		app.updateInfo(driverManager.getCurrentDriver().toString());
+		DriverFeature.addDriver("scale 2x", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "scale 2x"));
+		DriverFeature.addDriver("scale 0.5x", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "scale 0.5x"));
+		DriverFeature.addDriver("rotate 30", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "rotate 30"));
+		DriverFeature.addDriver("flip horizontal", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "flip horizontal"));
+		DriverFeature.addDriver("flip vertical", new TransformationAdapter(DriverFeature.getDriverManager().getCurrentDriver(), "flip vertical"));
 	}
 
 }
