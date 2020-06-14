@@ -88,9 +88,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		DefaultListModel model = new DefaultListModel();
 		CommandHistoryController.setListModel(model);
 		JList commandHistoryList = new JList(model);
-		SelectHistoryListOptionListener selectHistoryListOptionListener = new SelectHistoryListOptionListener(commandManager, commandHistoryList);
 		commandHistoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		commandHistoryList.addListSelectionListener(selectHistoryListOptionListener::valueChanged);
+		commandHistoryList.addListSelectionListener(new SelectHistoryListOptionListener(commandManager, commandHistoryList));
 
 
 		content.add(new JScrollPane(commandHistoryList), c);
