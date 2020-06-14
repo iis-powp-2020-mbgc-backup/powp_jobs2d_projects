@@ -40,11 +40,13 @@ public class MacroDriverDecorator implements Job2dDriver {
 	@Override
 	public void setPosition(int x, int y) {
 		driverCommandList.add(new SetPositionCommand(x, y));
+		driver.setPosition(x,y);
 	}
 
 	@Override
 	public void operateTo(int x, int y) {
 		driverCommandList.add(new OperateToCommand(x, y));
+		driver.operateTo(x,y);
 	}
 
 	@Override
