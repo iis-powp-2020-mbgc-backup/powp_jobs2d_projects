@@ -54,9 +54,8 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
-		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
-		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
+		application.addTest("Draw triangle and count operations", new CommandCounterVisitorTest_drawTriangle());
+		application.addTest("Draw lock and count operations", new ICompoundCommandVisitorTest_drawLock());
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
     
