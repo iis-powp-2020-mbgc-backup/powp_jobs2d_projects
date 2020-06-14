@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.CommandHistoryController;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.events.SelectHistoryListOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.observer.Subscriber;
 
@@ -87,19 +88,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		DefaultListModel model = new DefaultListModel();
 		CommandHistoryController.setListModel(model);
 		JList commandHistoryList = new JList(model);
+		SelectHistoryListOptionListener selectHistoryListOptionListener = new SelectHistoryListOptionListener(commandManager, commandHistoryList);
 		commandHistoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		commandHistoryList.addListSelectionListener(e -> {
+		commandHistoryList.addListSelectionListener(selectHistoryListOptionListener::valueChanged);
 
-			if (!e.getValueIsAdjusting()) {
 
-				if (commandHistoryList.getSelectedIndex() != -1) {
-					int index = commandHistoryList.getSelectedIndex();
-					DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
-
-					manager.setCurrentCommand(CommandHistoryController.getCommandFromList(index));
-				}
-			}
-		});
 		content.add(new JScrollPane(commandHistoryList), c);
 	}
 
