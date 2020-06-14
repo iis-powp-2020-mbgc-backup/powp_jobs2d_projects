@@ -7,9 +7,16 @@ import java.util.List;
 
 public class CompoundCommand implements ICompoundCommand {
     private List<DriverCommand> commands;
+    private String name;
 
     public CompoundCommand(List<DriverCommand> commands) {
         this.commands = commands;
+        this.name = "unknown command";
+    }
+
+    public CompoundCommand(List<DriverCommand> commands, String name) {
+        this.commands = commands;
+        this.name = name;
     }
 
     @Override
@@ -25,5 +32,10 @@ public class CompoundCommand implements ICompoundCommand {
     @Override
     public void execute(Job2dDriver driver) {
         commands.forEach((command) -> command.execute(driver));
+    }
+
+    @Override
+    public String toString() {
+        return "CompoundCommand name: " + this.name;
     }
 }

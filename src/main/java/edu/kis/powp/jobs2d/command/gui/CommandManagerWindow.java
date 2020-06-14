@@ -96,7 +96,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 					int index = commandHistoryList.getSelectedIndex();
 					DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
 
-					manager.setCurrentCommand(CommandHistoryController.getCommandsFromList(index),CommandHistoryController.getCommandsNameFromList(index));
+					manager.setCurrentCommand(CommandHistoryController.getCommandFromList(index));
 				}
 			}
 		});
@@ -110,7 +110,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void runCommand() {
 		commandManager.runCurrentCommand();
-		CommandHistoryController.addNewHistoryEntry(CommandsFeature.getDriverCommandManager().getCommandList(),CommandsFeature.getDriverCommandManager().getCommandName());
 	}
 
 	public void updateCurrentCommandField() {

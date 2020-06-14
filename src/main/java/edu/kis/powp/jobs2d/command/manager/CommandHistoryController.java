@@ -8,32 +8,29 @@ import java.util.List;
 
 public class CommandHistoryController {
 
-    static DefaultListModel listModel;
-    static List<CommandHistoryEntry> historyEntries = new ArrayList<>();
+    private static DefaultListModel listModel;
+    private static List<CommandHistoryEntry> historyEntries = new ArrayList<>();
 
-    public static void addNewHistoryEntry(List<DriverCommand> commands, String name){
-        historyEntries.add(new CommandHistoryEntry(commands,name));
-        listModel.add(listModel.getSize(),name);
+    public static void addNewHistoryEntry(DriverCommand command, String name) {
+        historyEntries.add(new CommandHistoryEntry(command, name));
+        listModel.add(listModel.getSize(), name);
     }
 
-    static class CommandHistoryEntry{
-        List<DriverCommand> commands;
+    static class CommandHistoryEntry {
+        DriverCommand command;
         String name;
-        CommandHistoryEntry(List<DriverCommand> commands, String name){
-            this.commands=commands;
-            this.name=name;
+
+        CommandHistoryEntry(DriverCommand command, String name) {
+            this.command = command;
+            this.name = name;
         }
     }
 
     public static void setListModel(DefaultListModel model) {
-        listModel =  model;
+        listModel = model;
     }
 
-    public static List<DriverCommand> getCommandsFromList(int index){
-        return historyEntries.get(index).commands;
-    }
-
-    public static String getCommandsNameFromList(int index){
-        return historyEntries.get(index).name;
+    public static DriverCommand getCommandFromList(int index) {
+        return historyEntries.get(index).command;
     }
 }
