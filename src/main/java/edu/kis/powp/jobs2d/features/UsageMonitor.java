@@ -9,12 +9,18 @@ import java.util.logging.Logger;
 public class UsageMonitor implements CommandVisitorInterface {
 
     private Job2dDriver job2dDriver;
-    private int operateToDistance;
-    private int positionDistance;
-    private int currentX;
-    private int currentY;
+    private int operateToDistance = 0;
+    private int positionDistance = 0;
+    private int currentX = 0;
+    private int currentY = 0;
 
-    private Logger logger = Logger.getLogger("global");
+    public int getOperateToDistance() {
+        return operateToDistance;
+    }
+
+    public int getPositionDistance() {
+        return positionDistance;
+    }
 
     public UsageMonitor(Job2dDriver driver)
     {
@@ -27,8 +33,6 @@ public class UsageMonitor implements CommandVisitorInterface {
         operateToDistance += calculateDistance(driver.getPosX(), driver.getPosY());
         currentX = driver.getPosX();
         currentY = driver.getPosY();
-
-        logger.info("Operate distance: " + operateToDistance + "\nHead distance: " + positionDistance);
     }
 
     @Override
@@ -37,8 +41,6 @@ public class UsageMonitor implements CommandVisitorInterface {
         positionDistance += calculateDistance(driver.getPosX(), driver.getPosY());
         currentX = driver.getPosX();
         currentY = driver.getPosY();
-
-        logger.info("Operate distance: " + operateToDistance + "\nHead distance: " + positionDistance);
     }
 
     @Override
