@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.features;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
@@ -21,9 +22,8 @@ public class CommandFactory {
             return null;
         }
     }
-
     public void addCommand(CompoundCommand command) throws CloneNotSupportedException {
-        commandsMap.put(command.toString(), command.clone());
+        commandsMap.put(command.toString().replace("CompoundCommand name: ", ""), command.clone());
     }
 
     public void addCommand(DriverCommand command, String name) throws CloneNotSupportedException {
@@ -48,5 +48,13 @@ public class CommandFactory {
                 throw new RuntimeException();
             }
         });
+    }
+
+	public Set<String> getCommandsNames() {
+		return commandsMap.keySet();
+    }
+    
+    public void clearCommands() {
+        commandsMap.clear();
     }
 }
