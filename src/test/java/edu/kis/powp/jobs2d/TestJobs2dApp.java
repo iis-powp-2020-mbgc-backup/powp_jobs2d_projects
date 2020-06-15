@@ -6,6 +6,9 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsFlipTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsRotateTransformation;
+import edu.kis.powp.jobs2d.drivers.transformations.CoordsScaleTransformation;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -92,6 +95,15 @@ public class TestJobs2dApp {
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
 
+	private static void setupTransformations(Application application) {
+		application.addComponentMenu(null, "Transformations at driver level");
+		application.addComponentMenuElement(null,"Scaling", new SelectDriverTransformation(new CoordsScaleTransformation(1.5, 1)));
+
+		application.addComponentMenuElement(null, "Rotating", new SelectDriverTransformation(new CoordsRotateTransformation(30)));
+
+		application.addComponentMenuElement(null, "Flipping", new SelectDriverTransformation(new CoordsFlipTransformation(true)));
+	}
+
 	/**
 	 * Setup menu for adjusting logging settings.
 	 * 
@@ -128,6 +140,7 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				setupTransformations(app);
 				JPanel panel = app.getFreePanel();
 				panel.addMouseListener(new MouseDrawListener(panel, DriverFeature.getDriverManager()));
 
