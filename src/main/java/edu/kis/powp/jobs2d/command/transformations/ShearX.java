@@ -2,30 +2,25 @@ package edu.kis.powp.jobs2d.command.transformations;
 
 import java.util.List;
 
-import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.jobs2d.command.line.Line2d;
 
-public class ShearX implements Transformation {
+public class ShearX extends Transformation {
 
 	private int shearValue;
 	
 	public ShearX(int shearValue) {
+		super();
 		this.shearValue = shearValue;
 	}
 	
 	@Override
-	public ICompoundCommand transform(CommandCoordinatesVisitor visitor) {
+	protected void properTransformation(List<Line2d> lines) {
 		
-		List<Line2d> lines = visitor.getAllCommandsCoordinates();
-
 		int x = lines.get(0).getStartPosX();
 		int y = lines.get(0).getStartPosY();
 
 		// Move drawing to position 0,0
-		TransformationManager.moveToPosition(lines, -x, -y);
+		moveToPosition(lines, -x, -y);
 		int startX, startY, endX, endY;
 
 		for(int i = 0; i < lines.size(); i++) {
@@ -39,10 +34,6 @@ public class ShearX implements Transformation {
 		}
 
 		//move back to original position
-		TransformationManager.moveToPosition(lines, x, y);
-
-		List<DriverCommand> commandList = TransformationManager.buildCommandList(lines);
-
-		return new ImmutableComplexCommand(commandList);
+		moveToPosition(lines, x, y);
 	}
 }

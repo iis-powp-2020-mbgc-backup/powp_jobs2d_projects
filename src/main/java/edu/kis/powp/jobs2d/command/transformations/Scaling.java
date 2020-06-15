@@ -2,30 +2,24 @@ package edu.kis.powp.jobs2d.command.transformations;
 
 import java.util.List;
 
-import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.jobs2d.command.line.Line2d;
 
-public class Scaling implements Transformation {
+public class Scaling extends Transformation {
 
 	private int scaleFactor;
 	
 	public Scaling(int scaleFactor) {
+		super();
 		this.scaleFactor = scaleFactor;
 	}
 	
 	@Override
-	public ICompoundCommand transform(CommandCoordinatesVisitor visitor) {
-		
-		List<Line2d> lines = visitor.getAllCommandsCoordinates();
-
+	protected void properTransformation(List<Line2d> lines) {
 		int x = lines.get(0).getStartPosX();
 		int y = lines.get(0).getStartPosY();
 
 		// Move drawing to position 0,0
-		TransformationManager.moveToPosition(lines, -x, -y);
+		moveToPosition(lines, -x, -y);
 
 		// scaling
 		for(int i = 0; i < lines.size(); i++) {
@@ -36,10 +30,6 @@ public class Scaling implements Transformation {
 		}
 
 		// move back to original position
-		TransformationManager.moveToPosition(lines, x, y);
-
-		List<DriverCommand> commandList = TransformationManager.buildCommandList(lines);
-
-		return new ImmutableComplexCommand(commandList);
+		moveToPosition(lines, x, y);
 	}
 }

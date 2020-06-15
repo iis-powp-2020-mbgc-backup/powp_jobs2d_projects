@@ -12,7 +12,7 @@ import edu.kis.powp.jobs2d.command.transformations.Rotation;
 import edu.kis.powp.jobs2d.command.transformations.Scaling;
 import edu.kis.powp.jobs2d.command.transformations.ShearX;
 import edu.kis.powp.jobs2d.command.transformations.ShearY;
-import edu.kis.powp.jobs2d.command.transformations.Transformation;
+import edu.kis.powp.jobs2d.command.transformations.ITransformation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -148,7 +148,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
     }
     
-    private void transform(Transformation transformation) {
+    private void transform(ITransformation transformation) {
     	CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
         DriverCommand driverCommand = transformation.transform(visitor);
