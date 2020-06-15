@@ -5,7 +5,14 @@ import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.command.transformations.TransformationManager;
+import edu.kis.powp.jobs2d.command.transformations.FlipHorizontal;
+import edu.kis.powp.jobs2d.command.transformations.FlipVertical;
+import edu.kis.powp.jobs2d.command.transformations.Move;
+import edu.kis.powp.jobs2d.command.transformations.Rotation;
+import edu.kis.powp.jobs2d.command.transformations.Scaling;
+import edu.kis.powp.jobs2d.command.transformations.ShearX;
+import edu.kis.powp.jobs2d.command.transformations.ShearY;
+import edu.kis.powp.jobs2d.command.transformations.Transformation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +24,6 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private DriverCommandManager commandManager;
-    private TransformationManager transformationManager;
     private JTextArea shiftXValueField;
     private JTextArea shiftYValueField;
     private JTextArea scaleValueField;
@@ -25,14 +31,13 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
     private JTextArea shearXValueField;
     private JTextArea shearYValueField;
 
-    public CommandTransformationWindow(DriverCommandManager commandManager, TransformationManager transformationManager) {
+    public CommandTransformationWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Transformation Manager");
         this.setSize(400, 600);
         Container content = this.getContentPane();
         content.setLayout(new GridBagLayout());
 
         this.commandManager = commandManager;
-        this.transformationManager = transformationManager;
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -53,7 +58,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(shiftYValueField, c);
 
         JButton btnLoadTransformCommand = new JButton("Transform command");
-        btnLoadTransformCommand.addActionListener((ActionEvent e) -> this.moveCommand());
+        btnLoadTransformCommand.addActionListener((ActionEvent e) -> this.transform(new Move(getFieldValue(shiftXValueField.getText()), getFieldValue(shiftYValueField.getText()))));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -69,7 +74,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(scaleValueField, c);
 
         JButton btnLoadScaleCommand = new JButton("Scale command");
-        btnLoadScaleCommand.addActionListener((ActionEvent e) -> this.scaleCommand());
+        btnLoadScaleCommand.addActionListener((ActionEvent e) -> this.transform(new Scaling(getFieldValue(scaleValueField.getText()))));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -85,7 +90,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(angleValueField, c);
 
         JButton btnLoadRotateCommand = new JButton("Rotate command");
-        btnLoadRotateCommand.addActionListener((ActionEvent e) -> this.rotateCommand());
+        btnLoadRotateCommand.addActionListener((ActionEvent e) -> this.transform(new Rotation(getFieldValue(angleValueField.getText()))));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -101,7 +106,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(shearXValueField, c);
 
         JButton btnLoadShearXCommand = new JButton("Shear X command");
-        btnLoadShearXCommand.addActionListener((ActionEvent e) -> this.shearXCommand());
+        btnLoadShearXCommand.addActionListener((ActionEvent e) -> this.transform(new ShearX(getFieldValue(shearXValueField.getText()))));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -117,7 +122,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(shearYValueField, c);
 
         JButton btnLoadShearYCommand = new JButton("Shear Y command");
-        btnLoadShearYCommand.addActionListener((ActionEvent e) -> this.shearYCommand());
+        btnLoadShearYCommand.addActionListener((ActionEvent e) -> this.transform(new ShearY(getFieldValue(shearYValueField.getText()))));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -126,7 +131,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
 
         JButton btnLoadhorizontalCommand = new JButton("Flip horizontal command");
-        btnLoadhorizontalCommand.addActionListener((ActionEvent e) -> this.flipHorizontalCommand());
+        btnLoadhorizontalCommand.addActionListener((ActionEvent e) -> this.transform(new FlipHorizontal()));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -134,7 +139,7 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(btnLoadhorizontalCommand, c);
 
         JButton btnLoadVerticalCommand = new JButton("Flip vertical command");
-        btnLoadVerticalCommand.addActionListener((ActionEvent e) -> this.flipVerticalCommand());
+        btnLoadVerticalCommand.addActionListener((ActionEvent e) -> this.transform(new FlipVertical()));
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.gridx = 0;
@@ -142,54 +147,11 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
         content.add(btnLoadVerticalCommand, c);
 
     }
-
-    private void moveCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-    	visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.moveCommand(visitor, getFieldValue(shiftXValueField.getText()), getFieldValue(shiftYValueField.getText()));
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-    private void flipHorizontalCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
+    
+    private void transform(Transformation transformation) {
+    	CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
         visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.flipHorizontalCommand(visitor);
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-    private void flipVerticalCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.flipVerticalCommand(visitor);
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-    private void scaleCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.scaleCommand(visitor,getFieldValue(scaleValueField.getText()));
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-    private void shearXCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.shearXCommand(visitor,getFieldValue(shearXValueField.getText()));
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-    private void shearYCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.shearYCommand(visitor,getFieldValue(shearYValueField.getText()));
-        commandManager.setCurrentCommand(driverCommand);
-    }
-
-
-    private void rotateCommand() {
-        CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
-        DriverCommand driverCommand = transformationManager.rotateCommand(visitor,getFieldValue(angleValueField.getText()));
+        DriverCommand driverCommand = transformation.transform(visitor);
         commandManager.setCurrentCommand(driverCommand);
     }
     
