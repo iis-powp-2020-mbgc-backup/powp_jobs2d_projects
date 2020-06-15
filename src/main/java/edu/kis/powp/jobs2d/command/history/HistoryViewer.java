@@ -21,10 +21,10 @@ public class HistoryViewer extends JFrame implements WindowComponent {
             throws HeadlessException {
         this.historyCommandList = new JList<HistoryEntry>(historyCommandList);
         this.driverCommandManager = driverCommandManager;
-        setUpWindow();
+        setupWindow();
     }
 
-    private void setUpWindow() {
+    private void setupWindow() {
         this.setMinimumSize(new Dimension(600, 300));
         this.setTitle("History");
         this.add(historyCommandList);

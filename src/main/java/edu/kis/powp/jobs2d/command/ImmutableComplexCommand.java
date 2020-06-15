@@ -17,6 +17,10 @@ public class ImmutableComplexCommand implements ICompoundCommand {
         this.commandName = commandName;
     }
 
+    public ImmutableComplexCommand(List<DriverCommand> driverCommandList) {
+        this(driverCommandList, "Unknown immutable command");
+    }
+
     @Override
     public void execute(Job2dDriver driver) {
         for (DriverCommand c : this.driverCommandList) {
