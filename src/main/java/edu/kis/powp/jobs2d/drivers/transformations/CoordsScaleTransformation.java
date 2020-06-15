@@ -20,4 +20,10 @@ public class CoordsScaleTransformation implements CoordsTransformation
     public int transformYPoint(int x, int y) {
         return (int) (y * this.scaleFactorY);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Scale Transformation (" + scaleFactorX + "x, " + scaleFactorY + "y)";
+    }
 }

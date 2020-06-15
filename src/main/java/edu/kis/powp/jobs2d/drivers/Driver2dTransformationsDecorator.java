@@ -30,7 +30,7 @@ public class Driver2dTransformationsDecorator implements Job2dDriver
 	@Override
 	public String toString()
 	{
-		return "Scaled " + driver.toString();
+		return driver.toString() + " " + transformation.toString();
 	}
 }
 

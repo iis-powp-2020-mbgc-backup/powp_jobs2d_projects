@@ -18,4 +18,10 @@ public class CoordsFlipTransformation implements CoordsTransformation
     public int transformYPoint(int x, int y) {
         return isHorizontal ? y : -y;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Flip Transformation";
+    }
 }

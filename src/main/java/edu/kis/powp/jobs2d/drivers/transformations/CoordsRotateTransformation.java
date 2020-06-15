@@ -18,4 +18,10 @@ public class CoordsRotateTransformation implements CoordsTransformation
     public int transformYPoint(int x, int y) {
         return (int) (x * Math.sin(angle) + y * Math.cos(angle));
     }
+
+    @Override
+    public String toString()
+    {
+        return "Rotate Transformation (" + Math.round(Math.toDegrees(angle)) + " degrees)";
+    }
 }
