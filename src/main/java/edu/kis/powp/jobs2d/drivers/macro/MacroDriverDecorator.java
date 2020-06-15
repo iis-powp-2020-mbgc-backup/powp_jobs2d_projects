@@ -17,11 +17,13 @@ public class MacroDriverDecorator implements Job2dDriver {
 	public MacroDriverDecorator() {
 		this.driverCommandList = new ArrayList<>();
 	}
-	/**Set list of operations*/
+	/**Set list of operations
+	 * @param driverCommandList list of operations to set*/
 	public MacroDriverDecorator(List<DriverCommand> driverCommandList) {
 		this.driverCommandList = driverCommandList;
 	}
-	/**Set driver*/
+	/**Set driver
+	 * @param driver driver to set*/
 	public void setDriver(Job2dDriver driver) {
 		this.driver = driver;
 	}
@@ -29,11 +31,13 @@ public class MacroDriverDecorator implements Job2dDriver {
 	public void clearCommandSet() {
 		driverCommandList = new ArrayList<>();
 	}
-	/**Get list of operations*/
+	/**Get list of operations
+	 * @return list of commands*/
 	public List<DriverCommand> getDriverCommandList() {
 		return driverCommandList;
 	}
-	/**Get driver*/
+	/**Get driver
+	 * @return driver*/
 	public Job2dDriver getDriver() {
 		return driver;
 	}

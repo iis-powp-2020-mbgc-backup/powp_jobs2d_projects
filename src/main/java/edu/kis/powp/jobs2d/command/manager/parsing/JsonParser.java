@@ -8,7 +8,9 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
 import java.util.ArrayList;
 import java.util.List;
-/**Class responsible for creating @see edu.kis.powp.jobs2d.command.DriverCommand.java from String in JSON format
+/**Class responsible for creating
+ * command
+ * from String in JSON format
  *  and exporting it to .json file*/
 public class JsonParser implements Parser {
 	/**Inner class needed to parse JSON */
