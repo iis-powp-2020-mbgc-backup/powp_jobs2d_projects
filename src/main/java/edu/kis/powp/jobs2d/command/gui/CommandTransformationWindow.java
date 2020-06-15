@@ -3,14 +3,18 @@ package edu.kis.powp.jobs2d.command.gui;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.transformations.TransformationManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.logging.Logger;
 
 public class CommandTransformationWindow extends JFrame implements WindowComponent {
+	
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private DriverCommandManager commandManager;
     private TransformationManager transformationManager;
@@ -141,52 +145,52 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
 
     private void moveCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.moveCommand(visitor, getFieldValue(shiftXValueField.getText()), getFieldValue(shiftYValueField.getText()));
-        commandManager.setCurrentCommand(d);
+    	visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.moveCommand(visitor, getFieldValue(shiftXValueField.getText()), getFieldValue(shiftYValueField.getText()));
+        commandManager.setCurrentCommand(driverCommand);
     }
 
     private void flipHorizontalCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.flipHorizontalCommand(visitor);
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.flipHorizontalCommand(visitor);
+        commandManager.setCurrentCommand(driverCommand);
     }
 
     private void flipVerticalCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.flipVerticalCommand(visitor);
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.flipVerticalCommand(visitor);
+        commandManager.setCurrentCommand(driverCommand);
     }
 
     private void scaleCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.scaleCommand(visitor,getFieldValue(scaleValueField.getText()));
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.scaleCommand(visitor,getFieldValue(scaleValueField.getText()));
+        commandManager.setCurrentCommand(driverCommand);
     }
 
     private void shearXCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.shearXCommand(visitor,getFieldValue(shearXValueField.getText()));
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.shearXCommand(visitor,getFieldValue(shearXValueField.getText()));
+        commandManager.setCurrentCommand(driverCommand);
     }
 
     private void shearYCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.shearYCommand(visitor,getFieldValue(shearYValueField.getText()));
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.shearYCommand(visitor,getFieldValue(shearYValueField.getText()));
+        commandManager.setCurrentCommand(driverCommand);
     }
 
 
     private void rotateCommand() {
         CommandCoordinatesVisitor visitor = new CommandCoordinatesVisitor();
-        visitor.visit(commandManager.getCurrentCommand());
-        DriverCommand d = transformationManager.rotateCommand(visitor,getFieldValue(angleValueField.getText()));
-        commandManager.setCurrentCommand(d);
+        visitor.visit(castToICompoundCommand(commandManager.getCurrentCommand()));
+        DriverCommand driverCommand = transformationManager.rotateCommand(visitor,getFieldValue(angleValueField.getText()));
+        commandManager.setCurrentCommand(driverCommand);
     }
     
     private Integer getFieldValue(String input) {
@@ -202,5 +206,15 @@ public class CommandTransformationWindow extends JFrame implements WindowCompone
     @Override
     public void HideIfVisibleAndShowIfHidden() {
         this.setVisible(!this.isVisible());
+    }
+    
+    private ICompoundCommand castToICompoundCommand(DriverCommand driverCommand) {
+    	if(driverCommand instanceof ICompoundCommand) {
+    		return (ICompoundCommand) driverCommand;
+    	}
+    	else {
+    		logger.info("Command cannot be transformed");
+    		return null;
+    	}
     }
 }

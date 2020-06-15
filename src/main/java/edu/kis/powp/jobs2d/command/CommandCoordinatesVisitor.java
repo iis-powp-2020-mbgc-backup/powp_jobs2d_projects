@@ -9,7 +9,7 @@ import edu.kis.powp.jobs2d.command.line.Line2d;
 
 public class CommandCoordinatesVisitor implements Visitor {
 	
-	List<Line2d> lines = new ArrayList<>();
+	private List<Line2d> lines = new ArrayList<>();
 
 	public List<Line2d> getAllCommandsCoordinates() {
 		return lines;
@@ -39,13 +39,6 @@ public class CommandCoordinatesVisitor implements Visitor {
 		{
 			DriverCommand driverCommand = iterator.next();
 			driverCommand.accept(this);
-		}
-	}
-
-	public void visit(DriverCommand compoundCommand) {
-		if(compoundCommand instanceof ICompoundCommand) {
-			ICompoundCommand iCompoundCommand = (ICompoundCommand) compoundCommand;
-			visit(iCompoundCommand);
 		}
 	}
 }
