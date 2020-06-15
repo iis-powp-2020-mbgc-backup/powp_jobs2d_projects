@@ -12,12 +12,22 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.*;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import javax.swing.filechooser.FileSystemView;
 
+
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.manager.CommandHistoryController;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+
+import edu.kis.powp.jobs2d.events.SelectHistoryListOptionListener;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.command.manager.parsing.JsonParser;
 import edu.kis.powp.jobs2d.command.manager.parsing.Parser;
+
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -106,6 +116,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnRunCommand, c);
+
+		DefaultListModel model = new DefaultListModel();
+		CommandHistoryController.setListModel(model);
+		JList commandHistoryList = new JList(model);
+		commandHistoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		commandHistoryList.addListSelectionListener(new SelectHistoryListOptionListener(commandManager, commandHistoryList));
+
+
+		content.add(new JScrollPane(commandHistoryList), c);
 	}
 
 	private Container getImportContainer() {

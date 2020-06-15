@@ -22,7 +22,7 @@ public class DriverCommandManager {
 
 	/**
 	 * Set current command.
-	 * 
+	 *
 	 * @param commandList Set the command as current.
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
@@ -35,6 +35,7 @@ public class DriverCommandManager {
 	}
 
 	public synchronized void runCurrentCommand() {
+		CommandHistoryController.addNewHistoryEntry(currentCommand, getCurrentCommandString());
 		currentCommand.execute(driverManager.getCurrentDriver());
 	}
 
@@ -46,12 +47,12 @@ public class DriverCommandManager {
 	 */
 
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new CompoundCommand(commandList));
+		setCurrentCommand(new CompoundCommand(commandList, name));
 	}
 
 	/**
 	 * Return current command.
-	 * 
+	 *
 	 * @return Current command.
 	 */
 	public synchronized DriverCommand getCurrentCommand() {
