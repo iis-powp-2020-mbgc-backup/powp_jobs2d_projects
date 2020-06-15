@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d;
 
 import edu.kis.powp.jobs2d.command.*;
 
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,30 +10,33 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ICompoundCommandVisitorTest implements ActionListener {
+public class ICompoundCommandVisitorTest_drawLock implements ActionListener {
 
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		logger.info("Testing ICompoundCommandVisitor");
+		logger.info("Drawing lock and counting operations...");
 		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
 		Job2dStub job2dStub = new Job2dStub();
+		Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
 
-		int expectedNumberOfSetPositionMethodCall = 3;
-		int expectedNumberOfOperateMethodCall = 5;
-		int expectedNumberOfAllOperationsCall = 8;
+		int expectedNumberOfSetPositionMethodCall = 2;
+		int expectedNumberOfOperateMethodCall = 9;
+		int expectedNumberOfAllOperationsCall = 11;
 
 		List<DriverCommand> commands = new ArrayList<>();
-		commands.add(new SetPositionCommand(-20, -50));
-		commands.add(new OperateToCommand(-20, -50));
-		commands.add(new SetPositionCommand(-20, -40));
-		commands.add(new OperateToCommand(-20, 50));
-		commands.add(new SetPositionCommand(0, -50));
-		commands.add(new OperateToCommand(-56, 40));
-		commands.add(new OperateToCommand(-25, 21));
-		commands.add(new OperateToCommand(-11, 23));
-
+		commands.add(new SetPositionCommand(10, -10));
+		commands.add(new OperateToCommand(10,0));
+		commands.add(new OperateToCommand(0, 10));
+		commands.add(new OperateToCommand(-10,0));
+		commands.add(new OperateToCommand(-10,-10));
+		commands.add(new OperateToCommand(10,-10));
+		commands.add(new SetPositionCommand(100, -100));
+		commands.add(new OperateToCommand(100,100));
+		commands.add(new OperateToCommand(-100,100));
+		commands.add(new OperateToCommand(-100,-100));
+		commands.add(new OperateToCommand(100,-100));
 
 		ICompoundCommand iCompoundCommand = new ICompoundCommand() {
 
@@ -71,12 +75,13 @@ public class ICompoundCommandVisitorTest implements ActionListener {
 
 		CommandCounterVisitor commandCounter = commandCounterVisitor;
 		iCompoundCommand.accept(commandCounter);
+		iCompoundCommand.execute(job2dDriver);
 
 		if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
 			&& expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
-			logger.info("ICompound Command Visitor Test Passed");
+			logger.info("While drawing a triangle program executed: " + expectedNumberOfAllOperationsCall + " operations");
 		} else {
-			logger.info("ICompound Command Visitor TestFailed");
+			logger.info("Problem with counting operations, check ICompound Command Visitor Test");
 		}
 
 	}
