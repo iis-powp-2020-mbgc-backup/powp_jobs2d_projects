@@ -23,7 +23,7 @@ public class CommandFactory {
         }
     }
     public void addCommand(CompoundCommand command) throws CloneNotSupportedException {
-        commandsMap.put(command.toString().replace("CompoundCommand name: ", ""), command.clone());
+        commandsMap.put(command.getName(), command.clone());
     }
 
     public void addCommand(DriverCommand command, String name) throws CloneNotSupportedException {

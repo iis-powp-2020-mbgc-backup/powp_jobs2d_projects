@@ -19,6 +19,10 @@ public class CompoundCommand implements ICompoundCommand {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public DriverCommand clone() throws CloneNotSupportedException {
         return ICompoundCommand.super.clone();
