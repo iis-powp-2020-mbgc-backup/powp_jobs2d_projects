@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class SelectLoadMacroListener implements ActionListener {
 
+	/**After click event starts recording commands*/
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
