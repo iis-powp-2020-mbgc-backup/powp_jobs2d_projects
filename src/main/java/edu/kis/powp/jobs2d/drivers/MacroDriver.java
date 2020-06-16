@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MacroDriverComposite implements Job2dDriver {
+public class MacroDriver implements Job2dDriver {
     private List<DriverCommand> driverCommandList = new ArrayList<>();
     private Job2dDriver job2dDriver;
 

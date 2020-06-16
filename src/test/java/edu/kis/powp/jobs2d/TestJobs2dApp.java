@@ -139,7 +139,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app, app.getFreePanel());
 				CommandsFeature.setupCommandManager();
-				MacroFeature.setupMacroDriverDecorator();
+				MacroFeature.setupMacroDriver();
 				DriverFeature.setupDriverPlugin(app);
 
 				setupDrivers(app);
