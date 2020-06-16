@@ -28,6 +28,9 @@ public class DriverManager {
 		return currentDriver;
 	}
 
+	/**
+	 * @return Change publisher.
+	 */
 	public Publisher getChangePublisher() {
 		return changePublisher;
 	}
