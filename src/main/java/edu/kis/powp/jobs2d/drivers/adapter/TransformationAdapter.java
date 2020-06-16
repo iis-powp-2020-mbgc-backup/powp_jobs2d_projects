@@ -2,16 +2,15 @@ package edu.kis.powp.jobs2d.drivers.adapter;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.features.Transformations.Transformation;
-import edu.kis.powp.jobs2d.features.Transformations.TransformationDecorator;
 
 public class TransformationAdapter implements Job2dDriver {
     private Job2dDriver driver;
     private String name;
     private Transformation transformator;
 
-    public TransformationAdapter(Job2dDriver driver, String name) {
+    public TransformationAdapter(Job2dDriver driver, Transformation transformation) {
         this.driver = driver;
-        this.transformator = new TransformationDecorator(name);
+        this.transformator = transformation;
         this.name = name;
     }
 
