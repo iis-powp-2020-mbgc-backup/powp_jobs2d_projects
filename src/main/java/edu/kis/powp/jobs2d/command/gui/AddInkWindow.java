@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 public class AddInkWindow extends JFrame implements WindowComponent
 {
     InkUsageDriver driver;
-    public AddInkWindow(InkUsageDriver driver)
+    private AddInkWindow(InkUsageDriver driver)
     {
         this.setTitle("Add Ink");
         this.setSize(250, 200);
@@ -33,11 +33,7 @@ public class AddInkWindow extends JFrame implements WindowComponent
     
     @Override
     public void HideIfVisibleAndShowIfHidden() {
-        if (this.isVisible()) {
-            this.setVisible(false);
-        } else {
-            this.setVisible(true);
-        }
+        this.setVisible(!this.isVisible());
     }
 
     private void AddInk(){

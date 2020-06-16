@@ -1,12 +1,10 @@
 package edu.kis.powp.jobs2d.drivers;
-import edu.kis.legacy.drawer.panel.DrawPanelController;
-import edu.kis.legacy.drawer.shape.ILine;
+
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.command.gui.AddInkWindow;
 
 import java.util.logging.Logger;
 
-public class InkUsageDriver implements Job2dDriver {
+public class InkUsageDriverAdapter implements Job2dDriver {
 
     private int x0, y0;
     private double inkLimit;
@@ -14,7 +12,7 @@ public class InkUsageDriver implements Job2dDriver {
     private Logger logger = Logger.getLogger("global");
     private Job2dDriver driver;
 
-    public InkUsageDriver(Job2dDriver driver, double inkLimit) {
+    public InkUsageDriverAdapter(Job2dDriver driver, double inkLimit) {
         super();
         this.driver = driver;
         this.x0 = 0;
@@ -23,7 +21,7 @@ public class InkUsageDriver implements Job2dDriver {
         this.inkLimit = inkLimit;
     }
 
-    public InkUsageDriver(Job2dDriver driver, double inkLimit, double totalUsage) {
+    public InkUsageDriverAdapter(Job2dDriver driver, double inkLimit, double totalUsage) {
         super();
         this.driver = driver;
         this.x0 = 0;
