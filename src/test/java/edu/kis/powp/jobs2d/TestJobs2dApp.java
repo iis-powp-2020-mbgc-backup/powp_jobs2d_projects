@@ -3,13 +3,10 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.command.history.CommandHistory;
 import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
 import edu.kis.powp.jobs2d.command.history.HistoryViewer;
+import edu.kis.powp.jobs2d.command.gui.*;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -57,15 +54,15 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
-		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
-		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
+		application.addTest("Draw triangle and count operations", new CommandCounterVisitorTest_drawTriangle());
+		application.addTest("Draw lock and count operations", new ICompoundCommandVisitorTest_drawLock());
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
     
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 		application.addTest("Clear History", new SelectClearHistoryListener());
+		application.addTest("Run custom command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 	}
 
 	/**
@@ -113,6 +110,9 @@ public class TestJobs2dApp {
 		application.addWindowComponent("History", historyViewer);
 		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);
+
+    CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
+		application.addWindowComponent("Transformation", commandTransformationWindow);
 
 
     windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);

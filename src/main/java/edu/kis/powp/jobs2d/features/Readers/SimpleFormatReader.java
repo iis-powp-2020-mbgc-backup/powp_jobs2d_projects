@@ -24,7 +24,7 @@ public class SimpleFormatReader implements Reader {
             }else if(command[0].equals("operateTo")){
                 commandList.add(new OperateToCommand(Integer.valueOf(command[1]),Integer.valueOf(command[2])));
             }else{
-                System.out.println("Blad odczytu komendy w lini " + (i+1));
+                System.out.println("Error reading command on line " + (i+1));
             }
         }
 
