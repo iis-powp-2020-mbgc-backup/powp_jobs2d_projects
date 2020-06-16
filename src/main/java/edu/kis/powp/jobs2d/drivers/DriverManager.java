@@ -10,15 +10,15 @@ import edu.kis.powp.observer.Publisher;
  */
 public class DriverManager {
 
+	private Publisher publisher = new Publisher();
 	private Job2dDriver currentDriver = new LoggerDriver();
-	private Publisher driverChange = new Publisher();
 
 	/**
 	 * @param driver Set the driver as current.
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
 		currentDriver = driver;
-		driverChange.notifyObservers();
+		publisher.notifyObservers();
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class DriverManager {
 		return currentDriver;
 	}
 
-	public Publisher getChangePublisher() {
-		return driverChange;
+	public Publisher getPublisher() {
+		return publisher;
 	}
 }

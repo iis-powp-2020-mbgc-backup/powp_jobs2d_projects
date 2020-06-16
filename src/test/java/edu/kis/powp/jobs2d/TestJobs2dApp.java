@@ -8,12 +8,10 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.AddInkWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
-import edu.kis.powp.jobs2d.drivers.InkUsageDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
+import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -72,7 +70,11 @@ public class TestJobs2dApp {
 		DriverFeature.updateDriverInfo();
 
 		DriverChangeObserver obs = new DriverChangeObserver();
-		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(obs);
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(obs);
+
+		//InkUsageObserver obs2 = new InkUsageObserver();
+		//DriverFeature.getDriverManager().getChangePublisher().addSubscriber(obs2);
+
 	}
 
 	private static void setupWindows(Application application) {
