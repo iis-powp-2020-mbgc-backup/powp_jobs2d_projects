@@ -14,7 +14,7 @@ import java.util.List;
  *  and exporting it to .json file*/
 public class JsonParser implements Parser {
 	/**Inner class needed to parse JSON */
-	private static class JsonDriverCommand {
+	public static class JsonDriverCommand {
 		/**Operation structure*/
 		static class operation {
 			/**name of operation*/
@@ -52,41 +52,10 @@ public class JsonParser implements Parser {
 	public String parseToString(DriverCommand driverCommand) {
 		Gson gson = new Gson();
 		JsonDriverCommand jsonDriverCommand = new JsonDriverCommand();
-
-		jsonDriverCommand.operations = getOperationFromDriverCommand(driverCommand);
+		JsonParsingVisitorExecutor visitor = new JsonParsingVisitorExecutor();
+		driverCommand.accept(visitor);
+		jsonDriverCommand.operations = visitor.getResult();
 		return gson.toJson(jsonDriverCommand, JsonDriverCommand.class);
-	}
-	/**Creating a list of commands
-	 * @param driverCommand command
-	 * @return list of operations*/
-	private List<JsonDriverCommand.operation> getOperationFromDriverCommand(DriverCommand driverCommand) {
-		List<JsonDriverCommand.operation> operationList = new ArrayList<>();
-		if (driverCommand instanceof OperateToCommand) {
-			JsonDriverCommand.operation op = new JsonDriverCommand.operation();
-			OperateToCommand command = (OperateToCommand) driverCommand;
-			op.opName = "OperateToCommand";
-			op.x = command.getPosX();
-			op.y = command.getPosY();
-			operationList.add(op);
-		} else if (driverCommand instanceof SetPositionCommand) {
-			JsonDriverCommand.operation op = new JsonDriverCommand.operation();
-			SetPositionCommand command = (SetPositionCommand) driverCommand;
-			op.opName = "SetPositionCommand";
-			op.x = command.getPosX();
-			op.y = command.getPosY();
-			operationList.add(op);
-		} else if (driverCommand instanceof CompoundCommand) {
-			CompoundCommand commands = (CompoundCommand) driverCommand;
-			for (DriverCommand command : commands) {
-				if (command instanceof SetPositionCommand) {
-					operationList.addAll(getOperationFromDriverCommand(command));
-				} else if (command instanceof OperateToCommand) {
-					operationList.addAll(getOperationFromDriverCommand(command));
-				}
-			}
-		}
-
-		return operationList;
 	}
 
 }
