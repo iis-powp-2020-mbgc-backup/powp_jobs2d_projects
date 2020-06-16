@@ -1,6 +1,7 @@
-package edu.kis.powp.jobs2d;
+package edu.kis.powp.jobs2d.events;
 
 import edu.kis.powp.jobs2d.CommandDrawerPattern.CommandList;
+import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -25,7 +26,7 @@ public class DriverCommandExecutorVisitorTest implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		logger.info("Testing Command Visitor");
+		logger.info("Testing Command Executor Visitor");
 		CommandExecutorVisitor commandExecutorVisitor = new CommandExecutorVisitor(this.driver);
 
 		DriverCommand driverCommand = CommandsFeature.getDriverCommandManager().getCurrentCommand();

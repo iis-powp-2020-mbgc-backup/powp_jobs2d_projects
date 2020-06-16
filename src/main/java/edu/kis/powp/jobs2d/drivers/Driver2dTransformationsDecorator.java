@@ -6,8 +6,8 @@ import edu.kis.powp.jobs2d.drivers.transformations.CoordsTransformation;
 
 public class Driver2dTransformationsDecorator implements Job2dDriver
 {
-	Job2dDriver driver;
-	CoordsTransformation transformation;
+	private Job2dDriver driver;
+	private CoordsTransformation transformation;
 
 	public Driver2dTransformationsDecorator(Job2dDriver driver, CoordsTransformation transformation)
 	{

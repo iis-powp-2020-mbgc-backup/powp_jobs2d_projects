@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class SelectDriverTransformation implements ActionListener
 {
-	CoordsTransformation transformation;
+	private CoordsTransformation transformation;
 
 	public SelectDriverTransformation(CoordsTransformation transformation)
 	{
