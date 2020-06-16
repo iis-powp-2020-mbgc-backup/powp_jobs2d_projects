@@ -11,7 +11,7 @@ public class ImmutableComplexCommand implements ICompoundCommand {
     private List<DriverCommand> driverCommandList;
 
     public ImmutableComplexCommand(List<DriverCommand> driverCommandList) {
-        this.driverCommandList = Collections.unmodifiableList(driverCommandList);
+        this.driverCommandList = Collections.unmodifiableList(new ArrayList<>(driverCommandList));
     }
 
     @Override
