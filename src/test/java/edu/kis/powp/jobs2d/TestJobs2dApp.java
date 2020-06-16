@@ -52,7 +52,7 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("Deep secret command copy", new SelectDeepCopySecretCommand());
-		application.addTest("Visitor Command Counting", new DriverCommandCounterVisitorTest());
+		application.addTest("Visitor Command Counting", new DriverCommandCounterVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
 		application.addTest("Visitor Command Execution", new DriverCommandExecutorVisitorTest(DriverFeature.getDriverManager().getCurrentDriver()));
 
 		application.addTest("Rotate command 90 deg clockwise", new SelectCommandTransformationRotateOptionListener(90));
