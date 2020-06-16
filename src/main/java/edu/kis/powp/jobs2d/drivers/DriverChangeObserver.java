@@ -4,7 +4,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Subscriber;
 
-public class DriverChangeOnserver implements Subscriber {
+public class DriverChangeObserver implements Subscriber {
 
     private InkUsageDriverAdapter previousIUD;
 

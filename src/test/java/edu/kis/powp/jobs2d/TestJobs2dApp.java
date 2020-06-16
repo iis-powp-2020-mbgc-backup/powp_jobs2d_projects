@@ -11,7 +11,9 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.AddInkWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
+import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
+import edu.kis.powp.jobs2d.drivers.InkUsageDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -20,7 +22,6 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.drivers.InkUsageDriver;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -70,14 +71,14 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-		InkUsageObserver obs = new InkUsageObserver();
+		DriverChangeObserver obs = new DriverChangeObserver();
 		DriverFeature.getDriverManager().getChangePublisher().addSubscriber(obs);
 	}
 
 	private static void setupWindows(Application application) {
 		//rozwiazanie tymczasowe z new, ale docelowo nalezy pobrac current
-		AddInkWindow addInkWindow = new AddInkWindow(new InkUsageDriver(DriverFeature.getDriverManager().getCurrentDriver(),10000f));
-		application.addWindowComponent("Add Ink", addInkWindow);
+		//AddInkWindow addInkWindow = new AddInkWindow(new InkUsageDriverAdapter(DriverFeature.getDriverManager().getCurrentDriver(),10000f));
+		//application.addWindowComponent("Add Ink", addInkWindow);
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);

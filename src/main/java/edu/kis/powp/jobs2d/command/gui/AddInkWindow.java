@@ -3,8 +3,8 @@ package edu.kis.powp.jobs2d.command.gui;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.drivers.InkUsageDriver;
-import edu.kis.powp.jobs2d.drivers.InkUsageObserver;
+import edu.kis.powp.jobs2d.drivers.InkUsageDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 
 public class AddInkWindow extends JFrame implements WindowComponent
 {
-    InkUsageDriver driver;
-    private AddInkWindow(InkUsageDriver driver)
+    InkUsageDriverAdapter driver;
+    private AddInkWindow(InkUsageDriverAdapter driver)
     {
         this.setTitle("Add Ink");
         this.setSize(250, 200);
