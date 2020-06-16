@@ -34,4 +34,8 @@ public class DriverComposite implements Job2dDriver {
             job2dDriver.operateTo(x, y);
         }
     }
+
+    public List<Job2dDriver> getJob2dDriverList() {
+        return job2dDriverList;
+    }
 }

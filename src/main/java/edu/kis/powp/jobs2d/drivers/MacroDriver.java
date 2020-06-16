@@ -10,14 +10,26 @@ import java.util.List;
 
 public class MacroDriver implements Job2dDriver {
     private List<DriverCommand> driverCommandList = new ArrayList<>();
-    private Job2dDriver job2dDriver;
+    private DriverComposite driverComposite;
 
-    public void setCoreJob2dDriver(Job2dDriver job2dDriver) {
-        this.job2dDriver = job2dDriver;
+    @Override
+    public void setPosition(int x, int y) {
+        driverCommandList.add(new SetPositionCommand(x, y));
+        driverComposite.setPosition(x,y);
     }
 
-    public Job2dDriver getCoreJob2dDriver() {
-        return job2dDriver;
+    @Override
+    public void operateTo(int x, int y) {
+        driverCommandList.add(new OperateToCommand(x, y));
+        driverComposite.operateTo(x,y);
+    }
+
+    public DriverComposite getDriverComposite() {
+        return driverComposite;
+    }
+
+    public void setDriverComposite(DriverComposite driverComposite) {
+        this.driverComposite = driverComposite;
     }
 
     public List<DriverCommand> getDriverCommandList() {
@@ -26,18 +38,6 @@ public class MacroDriver implements Job2dDriver {
 
     public void clearMemory() {
         driverCommandList.clear();
-    }
-
-    @Override
-    public void setPosition(int x, int y) {
-        driverCommandList.add(new SetPositionCommand(x, y));
-        job2dDriver.setPosition(x, y);
-    }
-
-    @Override
-    public void operateTo(int x, int y) {
-        driverCommandList.add(new OperateToCommand(x, y));
-        job2dDriver.operateTo(x, y);
     }
 
     @Override

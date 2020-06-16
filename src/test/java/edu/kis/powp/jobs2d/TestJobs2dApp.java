@@ -7,6 +7,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
+import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.*;
@@ -81,7 +82,10 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
 
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriver());
-		MacroFeature.getMacroDriver().setCoreJob2dDriver(basicLineDriver);
+
+		DriverComposite driverComposite = new DriverComposite();
+		driverComposite.addDriver(basicLineDriver);
+		MacroFeature.getMacroDriver().setDriverComposite(driverComposite);
     
     	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
