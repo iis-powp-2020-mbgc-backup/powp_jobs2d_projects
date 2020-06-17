@@ -2,22 +2,25 @@ package edu.kis.powp.jobs2d.features.Transformations;
 
 public class TransformationDecorator implements Transformation{
     private Transformation transformation;
+    final String SCALE2 = "scale 2x", SCALE05 = "scale 0.5x",
+            ROTATE30 = "rotate 30", FLIPH = "flip horizontal",FLIPV = "flip vertical";
+
 
     public TransformationDecorator(String transformationName){
         switch (transformationName){
-            case "scale 2x":
+            case SCALE2:
                 transformation = new ScaleTransformation(2);
                 break;
-            case "scale 0.5x":
+            case SCALE05:
                 transformation = new ScaleTransformation(0.5);
                 break;
-            case "rotate 30":
+            case ROTATE30:
                 transformation = new RotateTransformation(30);
                 break;
-            case "flip horizontal":
+            case FLIPH:
                 transformation = new FlipTransformation(false);
                 break;
-            case "flip vertical":
+            case FLIPV:
                 transformation = new FlipTransformation(true);
                 break;
         }
