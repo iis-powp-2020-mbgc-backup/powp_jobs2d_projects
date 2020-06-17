@@ -12,8 +12,9 @@ public class InkUsageDriverAdapter implements Job2dDriver {
     private double totalUsage;
     private Logger logger = Logger.getLogger("global");
     private Job2dDriver driver;
-    private Publisher pub = null;
+    private Publisher pub;
     private boolean bool = false;
+
     public InkUsageDriverAdapter(Job2dDriver driver, double inkLimit) {
         super();
         this.driver = driver;
@@ -44,12 +45,9 @@ public class InkUsageDriverAdapter implements Job2dDriver {
             this.x0 = x;
             this.y0 = y;
         }
-
-
     }
 
-    public void restoreInk(double amount)
-    {
+    void restoreInk(double amount) {
         this.inkLimit = amount;
     }
 
@@ -58,12 +56,11 @@ public class InkUsageDriverAdapter implements Job2dDriver {
         count = Math.sqrt(Math.pow(xStart - xEnd, 2.0) + Math.pow(yStart - yEnd, 2.0));
         return count;
     }
+
     void setBool(){
         this.bool = false;
     }
-    boolean getBool(){
-        return this.bool;
-    }
+
     @Override
     public void operateTo(int x1, int y1) {
 
@@ -75,7 +72,6 @@ public class InkUsageDriverAdapter implements Job2dDriver {
                 pub.notifyObservers();
                 bool = true;
             }
-
         }
         else
         {
