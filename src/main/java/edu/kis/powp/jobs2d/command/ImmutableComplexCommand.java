@@ -12,11 +12,12 @@ public class ImmutableComplexCommand implements ICompoundCommand {
 
     public ImmutableComplexCommand(List<DriverCommand> driverCommandList){
         List<DriverCommand> commands = new ArrayList<>();
+
         for (DriverCommand command : driverCommandList) {
             try {
                 commands.add(command.clone());
             } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
+                commands.add(command);
             }
         }
         this.driverCommandList = Collections.unmodifiableList(commands);
