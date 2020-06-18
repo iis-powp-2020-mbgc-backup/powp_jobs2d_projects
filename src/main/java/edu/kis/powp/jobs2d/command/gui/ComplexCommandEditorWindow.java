@@ -4,9 +4,9 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 
 import javax.swing.*;
 
-public class ComplexCommandEditor extends JFrame implements WindowComponent {
+public class ComplexCommandEditorWindow extends JFrame implements WindowComponent {
 
-    public ComplexCommandEditor() {
+    public ComplexCommandEditorWindow() {
         this.setTitle("Complex command editor");
         this.setSize(640, 480);
     }
