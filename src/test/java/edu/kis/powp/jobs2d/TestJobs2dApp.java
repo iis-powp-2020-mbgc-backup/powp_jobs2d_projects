@@ -10,6 +10,7 @@ import edu.kis.powp.jobs2d.drivers.transformations.CoordsFlipTransformation;
 import edu.kis.powp.jobs2d.drivers.transformations.CoordsRotateTransformation;
 import edu.kis.powp.jobs2d.drivers.transformations.CoordsScaleTransformation;
 import edu.kis.powp.jobs2d.events.*;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -134,6 +135,9 @@ public class TestJobs2dApp {
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
 				MacroFeature.setupMacroDriver();
+
+				CommandFactory.getInstance();
+
 
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);

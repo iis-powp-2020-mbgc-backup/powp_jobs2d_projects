@@ -9,6 +9,7 @@ import edu.kis.powp.jobs2d.command.CommandVisitorInterface;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Publisher;
 
 /**

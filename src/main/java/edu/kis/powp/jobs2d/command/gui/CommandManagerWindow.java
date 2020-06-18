@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.command.gui;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -18,12 +19,12 @@ import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileSystemView;
 
-
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.CommandHistoryController;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 
 import edu.kis.powp.jobs2d.events.SelectHistoryListOptionListener;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.command.manager.parsing.JsonParser;
 import edu.kis.powp.jobs2d.command.manager.parsing.Parser;
@@ -43,6 +44,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextField txtFieldToImport;
 	private Parser parser;
 
+	private DefaultListModel factoryModel;
 
 	/**
 	 *
@@ -51,7 +53,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	public CommandManagerWindow(DriverCommandManager commandManager) {
 		this.setTitle("Command Manager");
-		this.setSize(400, 400);
+		this.setSize(500, 700);
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
@@ -63,15 +65,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
-		c.weighty = 1;
+		c.weighty = 0;
 		content.add(observerListField, c);
 		updateObserverListField();
 
 		currentCommandField = new JTextArea("");
 		currentCommandField.setEditable(false);
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
 		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
@@ -79,52 +78,71 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		parser = new JsonParser();
 
 		Container container = getImportContainer();
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
-		content.add(container,c);
+		c.weighty = 2;
+		content.add(container, c);
 
 		JButton btnExportCommand = new JButton("Export commands ");
-		btnExportCommand.addActionListener((ActionEvent e) ->  this.exportCommands());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommands());
+		c.weighty = 3;
 		content.add(btnExportCommand, c);
 
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		c.weighty = 4;
 		content.add(btnClearCommand, c);
 
 		JButton btnClearObservers = new JButton("Delete observers");
 		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers(btnClearObservers));
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		c.weighty = 5;
 		content.add(btnClearObservers, c);
 
 		JButton btnRunCommand = new JButton("Run command");
 		btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		c.weighty = 6;
 		content.add(btnRunCommand, c);
 
+		CommandFactory.getInstance().addObserver(this);
 		DefaultListModel model = new DefaultListModel();
 		CommandHistoryController.setListModel(model);
 		JList commandHistoryList = new JList(model);
 		commandHistoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		commandHistoryList.addListSelectionListener(new SelectHistoryListOptionListener(commandManager, commandHistoryList));
-
-
+		commandHistoryList
+				.addListSelectionListener(new SelectHistoryListOptionListener(commandManager, commandHistoryList));
+		c.weighty = 6;
 		content.add(new JScrollPane(commandHistoryList), c);
+
+		factoryModel = new DefaultListModel();
+		JList commandFactoryList = new JList(factoryModel);
+		JButton btnRunCommandFromFactory = new JButton("Run command");
+		JButton btnRemoveCommandFromFactory = new JButton("Remove command");
+		btnRunCommandFromFactory.addActionListener((ActionEvent event) -> {
+			if (commandFactoryList.getSelectedIndex() != -1) {
+				try {
+					CommandFactory.getInstance().runCommand((String) commandFactoryList.getSelectedValue());
+				} catch (CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnRemoveCommandFromFactory.addActionListener((ActionEvent event) -> {
+			if (commandFactoryList.getSelectedIndex() != -1) {
+				factoryModel.remove(commandFactoryList.getSelectedIndex());
+			}
+		});
+		c.weighty = 8;
+		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
+		scrollPane.setPreferredSize(new Dimension(0, 100));
+		content.add(scrollPane, c);
+		c.weighty = 9;
+		content.add(btnRunCommandFromFactory, c);
+		c.weighty = 10;
+		content.add(btnRemoveCommandFromFactory, c);
+	}
+
+	public void addCommandToFactoryList(String commandName) {
+        if (!factoryModel.contains(commandName)) {
+            factoryModel.add(factoryModel.getSize(), commandName);
+        }
 	}
 
 	private Container getImportContainer() {
@@ -216,6 +234,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		observerListField.setText(observerListString);
 	}
+
+
 
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
