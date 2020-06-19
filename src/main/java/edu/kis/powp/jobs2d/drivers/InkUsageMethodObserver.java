@@ -7,19 +7,16 @@ import edu.kis.powp.observer.Subscriber;
 public class InkUsageMethodObserver implements Subscriber {
     private InkUsageDriverDecorator previousIUD;
 
+    public InkUsageMethodObserver(double inkLimit){
+        previousIUD = new InkUsageDriverDecorator(DriverFeature.getDriverManager().getCurrentDriver(), inkLimit);
+    }
+
     @Override public void update()
     {
         Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
         InkUsageDriverDecorator driver;
 
-        if(previousIUD != null)
-        {
-            driver = new InkUsageDriverDecorator(currentDriver, previousIUD.getInkLimit(), previousIUD.getTotalUsage());
-        }
-        else
-        {
-            driver = new InkUsageDriverDecorator(currentDriver, 10000f);
-        }
+        driver = new InkUsageDriverDecorator(currentDriver, previousIUD.getInkLimit(), previousIUD.getTotalUsage());
 
         DriverFeature.getDriverManager().setCurrentDriver(driver);
         previousIUD = driver;
