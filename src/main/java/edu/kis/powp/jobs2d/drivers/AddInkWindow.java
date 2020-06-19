@@ -32,8 +32,8 @@ public class AddInkWindow extends JFrame implements WindowComponent
     }
 
     private void AddInk(){
-        InkUsageDriverAdapter cd = (InkUsageDriverAdapter) driver;
-        cd.setBool();
+        InkUsageDriverDecorator cd = (InkUsageDriverDecorator) driver;
+        cd.setIsAvailable();
         cd.restoreInk(10000f);
         HideIfVisibleAndShowIfHidden();
     }

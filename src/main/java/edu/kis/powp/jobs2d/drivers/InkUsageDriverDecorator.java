@@ -5,17 +5,16 @@ import edu.kis.powp.observer.Publisher;
 
 import java.util.logging.Logger;
 
-public class InkUsageDriverAdapter implements Job2dDriver {
-
+public class InkUsageDriverDecorator implements Job2dDriver {
     private int x0, y0;
     private double inkLimit;
     private double totalUsage;
     private Logger logger = Logger.getLogger("global");
     private Job2dDriver driver;
     private Publisher pub;
-    private boolean bool = false;
+    private boolean isAvailable = false;
 
-    public InkUsageDriverAdapter(Job2dDriver driver, double inkLimit) {
+    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit) {
         super();
         this.driver = driver;
         this.x0 = 0;
@@ -23,10 +22,10 @@ public class InkUsageDriverAdapter implements Job2dDriver {
         this.totalUsage = 0;
         this.inkLimit = inkLimit;
         pub = new Publisher();
-        pub.addSubscriber(new InkUsageObserver(this));
+        pub.addSubscriber(new NoInkObserver(this));
     }
 
-    public InkUsageDriverAdapter(Job2dDriver driver, double inkLimit, double totalUsage) {
+    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit, double totalUsage) {
         super();
         this.driver = driver;
         this.x0 = 0;
@@ -34,7 +33,7 @@ public class InkUsageDriverAdapter implements Job2dDriver {
         this.totalUsage = totalUsage;
         this.inkLimit = inkLimit;
         pub = new Publisher();
-        pub.addSubscriber(new InkUsageObserver(this));
+        pub.addSubscriber(new NoInkObserver(this));
     }
 
     @Override
@@ -57,8 +56,8 @@ public class InkUsageDriverAdapter implements Job2dDriver {
         return count;
     }
 
-    void setBool(){
-        this.bool = false;
+    void setIsAvailable(){
+        this.isAvailable = false;
     }
 
     @Override
@@ -68,9 +67,9 @@ public class InkUsageDriverAdapter implements Job2dDriver {
 
         if((inkLimit-wasted) < 0) {
             this.logger.info("You don't have enough ink to do this!");
-            if(!bool){
+            if(!isAvailable){
                 pub.notifyObservers();
-                bool = true;
+                isAvailable = true;
             }
         }
         else
