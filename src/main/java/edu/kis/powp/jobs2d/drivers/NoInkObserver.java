@@ -12,6 +12,6 @@ public class NoInkObserver implements Subscriber {
 
     @Override
     public void update() {
-        RefuelInkWindow addinkwindow = new RefuelInkWindow(this.driver);
+        new RefuelInkWindow(this.driver);
     }
 }

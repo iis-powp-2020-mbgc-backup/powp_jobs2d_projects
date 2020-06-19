@@ -13,25 +13,28 @@ public class InkUsageDriverDecorator implements Job2dDriver {
     private Job2dDriver driver;
     private Publisher pub;
     private boolean isUnAvailable = false;
+    private double maxInkLimit;
 
-    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit) {
+    public InkUsageDriverDecorator(Job2dDriver driver, double maxInkLimit) {
         super();
         this.driver = driver;
         this.x0 = 0;
         this.y0 = 0;
         this.totalUsage = 0;
-        this.inkLimit = inkLimit;
+        this.inkLimit = maxInkLimit;
+        this.maxInkLimit = this.inkLimit;
         pub = new Publisher();
         pub.addSubscriber(new NoInkObserver(this));
     }
 
-    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit, double totalUsage) {
+    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit, double totalUsage, double maxInkLimit) {
         super();
         this.driver = driver;
         this.x0 = 0;
         this.y0 = 0;
         this.totalUsage = totalUsage;
         this.inkLimit = inkLimit;
+        this.maxInkLimit = maxInkLimit;
         pub = new Publisher();
         pub.addSubscriber(new NoInkObserver(this));
     }
@@ -48,7 +51,10 @@ public class InkUsageDriverDecorator implements Job2dDriver {
     }
 
     public void restoreInk(double amount) {
-        this.inkLimit = amount;
+        if(amount > maxInkLimit || amount < inkLimit)
+            this.inkLimit = maxInkLimit;
+        else
+            this.inkLimit = amount;
     }
 
     private double inkCounter(int xStart, int xEnd, int yStart, int yEnd){
@@ -95,5 +101,10 @@ public class InkUsageDriverDecorator implements Job2dDriver {
     public double getTotalUsage()
     {
         return this.totalUsage;
+    }
+
+    public double getMaxInkLimit()
+    {
+        return this.maxInkLimit;
     }
 }
