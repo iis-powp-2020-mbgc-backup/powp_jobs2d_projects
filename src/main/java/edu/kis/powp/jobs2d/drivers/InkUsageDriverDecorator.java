@@ -12,7 +12,7 @@ public class InkUsageDriverDecorator implements Job2dDriver {
     private Logger logger = Logger.getLogger("global");
     private Job2dDriver driver;
     private Publisher pub;
-    private boolean isAvailable = false;
+    private boolean isUnAvailable = false;
 
     public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit) {
         super();
@@ -36,6 +36,7 @@ public class InkUsageDriverDecorator implements Job2dDriver {
         pub.addSubscriber(new NoInkObserver(this));
     }
 
+
     @Override
     public void setPosition(int x, int y) {
         double wasted = inkCounter(this.x0, x, this.y0, y);
@@ -46,18 +47,18 @@ public class InkUsageDriverDecorator implements Job2dDriver {
         }
     }
 
-    void restoreInk(double amount) {
+    public void restoreInk(double amount) {
         this.inkLimit = amount;
     }
 
-    double inkCounter(int xStart, int xEnd, int yStart, int yEnd){
+    private double inkCounter(int xStart, int xEnd, int yStart, int yEnd){
         double count = 0.0;
         count = Math.sqrt(Math.pow(xStart - xEnd, 2.0) + Math.pow(yStart - yEnd, 2.0));
         return count;
     }
 
-    void setIsAvailable(){
-        this.isAvailable = false;
+    public void setIsAvailable(){
+        this.isUnAvailable = false;
     }
 
     @Override
@@ -67,9 +68,9 @@ public class InkUsageDriverDecorator implements Job2dDriver {
 
         if((inkLimit-wasted) < 0) {
             this.logger.info("You don't have enough ink to do this!");
-            if(!isAvailable){
+            if(!isUnAvailable){
                 pub.notifyObservers();
-                isAvailable = true;
+                isUnAvailable = true;
             }
         }
         else

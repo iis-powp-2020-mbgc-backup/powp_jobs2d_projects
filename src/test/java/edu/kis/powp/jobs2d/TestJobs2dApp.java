@@ -10,7 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.drivers.DriverChangeObserver;
+import edu.kis.powp.jobs2d.drivers.InkUsageMethodObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -68,7 +68,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-		DriverChangeObserver obs = new DriverChangeObserver();
+        InkUsageMethodObserver obs = new InkUsageMethodObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(obs);
 	}
 
