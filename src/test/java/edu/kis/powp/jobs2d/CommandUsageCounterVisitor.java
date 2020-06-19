@@ -4,8 +4,8 @@ import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.visitor.CommandVisitorInterface;
 
 public class CommandUsageCounterVisitor implements CommandVisitorInterface {
-    public int operateToCounter = 0;
-    public int setPositionCounter = 0;
+    private int operateToCounter = 0;
+    private int setPositionCounter = 0;
 
     public void visit(ICompoundCommand command) {
         for (DriverCommand partOfCompoundCommand : command) {
@@ -21,4 +21,11 @@ public class CommandUsageCounterVisitor implements CommandVisitorInterface {
         this.operateToCounter++;
     }
 
+    public int getOperateToCounter() {
+        return operateToCounter;
+    }
+
+    public int getSetPositionCounter() {
+        return setPositionCounter;
+    }
 }

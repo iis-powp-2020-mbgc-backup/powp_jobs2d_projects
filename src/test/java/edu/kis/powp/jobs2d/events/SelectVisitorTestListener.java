@@ -72,7 +72,7 @@ public class SelectVisitorTestListener implements ActionListener {
         };
         CommandUsageCounterVisitor visitor = new CommandUsageCounterVisitor();
         command.accept(visitor);
-        logger.info("OperateTo Counter: " + visitor.operateToCounter);
-        logger.info("SetPosition Counter: " + visitor.setPositionCounter);
+        logger.info("OperateTo Counter: " + visitor.getOperateToCounter());
+        logger.info("SetPosition Counter: " + visitor.getSetPositionCounter());
     }
 }
