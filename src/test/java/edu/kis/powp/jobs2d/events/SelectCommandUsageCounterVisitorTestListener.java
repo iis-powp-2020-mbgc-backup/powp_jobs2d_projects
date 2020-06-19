@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class SelectVisitorTestListener implements ActionListener {
+public class SelectCommandUsageCounterVisitorTestListener implements ActionListener {
     private Logger logger = Logger.getLogger("global");
 
     @Override
