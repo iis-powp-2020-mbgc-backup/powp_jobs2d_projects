@@ -8,17 +8,12 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.adapter.TransformationAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.features.Readers.Reader;
 import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
-import edu.kis.powp.jobs2d.features.MacroFeature;
 
-import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,6 +88,9 @@ public class TestJobs2dApp {
     
     	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
+
+		TransformationChangeObserver transformationChangeObserver = new TransformationChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(transformationChangeObserver);
     
 		DriverFeature.updateDriverInfo();
 	}
