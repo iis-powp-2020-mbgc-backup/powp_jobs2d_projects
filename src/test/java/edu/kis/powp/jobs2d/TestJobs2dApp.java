@@ -55,6 +55,8 @@ public class TestJobs2dApp {
 
         application.addTest("Flip: horizontal", new SelectCommandTransformationFlipOptionListener(true));
         application.addTest("Flip: vertical", new SelectCommandTransformationFlipOptionListener(false));
+
+        application.addTest("test VisitorCommandPattern", new SelectCommandUsageCounterVisitorTestListener());
     }
 
     /**
