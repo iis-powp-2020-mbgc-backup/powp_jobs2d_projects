@@ -23,5 +23,10 @@ public class DriverTransformationDecorator implements Job2dDriver {
         driver.operateTo(
                 transformator.transformX(x, y), transformator.transformY(x, y));
     }
+
+    @Override
+    public String toString() {
+        return driver.toString();
+    }
 }
 
