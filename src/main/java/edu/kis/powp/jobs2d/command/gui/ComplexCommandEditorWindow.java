@@ -4,12 +4,15 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ComplexCommandEditorWindow extends JFrame implements WindowComponent {
 
-    public ComplexCommandEditorWindow() {
+    private final JLabel commandNameValue;
+    private final CommandManager commandManager;
+
+    public ComplexCommandEditorWindow(CommandManager commandManager) {
+        this.commandManager = commandManager;
+
         Container content = this.getContentPane();
         content.setLayout(new BorderLayout());
         this.setTitle("Complex command editor");
@@ -50,7 +53,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
         // Controls
         JLabel commandName = new JLabel("Current command: ");
         topNamePanel.add(commandName);
-        JLabel commandNameValue = new JLabel("[Example command name]");
+        commandNameValue = new JLabel("no command loaded");
         topNamePanel.add(commandNameValue);
 
         JLabel numberOfCommands = new JLabel("Number of commands: ");
@@ -68,6 +71,10 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
         mainLeftPanel.setViewportView(commandList);
 
         content.setVisible(true);
+    }
+
+    public void updateCurrentCommand() {
+        commandNameValue.setText(commandManager.getCurrentCommandString());
     }
 
     @Override
