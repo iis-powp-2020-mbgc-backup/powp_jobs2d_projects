@@ -5,14 +5,10 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DriverFeature {
 
 	private static DriverManager driverManager = new DriverManager();
 	private static Application app;
-	private static Map<String, SelectDriverMenuOptionListener> drivers = new HashMap<>();
 
 	public static DriverManager getDriverManager() {
 		return driverManager;
