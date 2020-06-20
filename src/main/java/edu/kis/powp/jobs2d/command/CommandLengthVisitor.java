@@ -4,43 +4,27 @@ import java.awt.geom.Point2D;
 import java.util.Iterator;
 
 
-public class CommandStatisticVisitor implements Visitor {
+public class CommandLengthVisitor implements Visitor {
 
-	private int operateToCommandCounter = 0;
-	private int setPositionCommandCounter = 0;
 	private int currentPosX = 0;
 	private int currentPosY = 0;
-	private double totalLengthCommand = 0;
+	private double length = 0;
 
-	public int getOperateToCommandCounter() {
-		return operateToCommandCounter;
-	}
-
-	public int getSetPositionCommandCounter() {
-		return setPositionCommandCounter;
-	}
-
-	public int getAllCommandsCounter() {
-		return setPositionCommandCounter + operateToCommandCounter;
-	}
-
-	public double getTotalLengthCommand() {
-		return totalLengthCommand;
+	public double getLength() {
+		return length;
 	}
 
 	@Override
 	public void visit(OperateToCommand operateToCommand) {
-		totalLengthCommand += Point2D.distance(this.currentPosX, this.currentPosY, operateToCommand.getPosX(), operateToCommand.getPosY());
+		length += Point2D.distance(this.currentPosX, this.currentPosY, operateToCommand.getPosX(), operateToCommand.getPosY());
 		this.currentPosX = operateToCommand.getPosX();
 		this.currentPosY = operateToCommand.getPosY();
-		operateToCommandCounter++;
 	}
 
 	@Override
 	public void visit(SetPositionCommand setPositionCommand) {
 		this.currentPosX = setPositionCommand.getPosX();
 		this.currentPosY = setPositionCommand.getPosY();
-		setPositionCommandCounter++;
 	}
 
 	@Override

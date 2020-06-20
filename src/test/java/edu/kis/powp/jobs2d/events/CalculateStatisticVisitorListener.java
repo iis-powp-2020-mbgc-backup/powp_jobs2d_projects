@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
-import edu.kis.powp.jobs2d.command.CommandStatisticVisitor;
+import edu.kis.powp.jobs2d.command.CommandCounterVisitor;
+import edu.kis.powp.jobs2d.command.CommandLengthVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import java.awt.event.ActionEvent;
@@ -20,11 +21,13 @@ public class CalculateStatisticVisitorListener implements ActionListener {
 			logger.info("Command is not loaded.");
 			return;
 		}
-		CommandStatisticVisitor commandCounterVisitor = new CommandStatisticVisitor();
-		command.accept(commandCounterVisitor);
 
-		DecimalFormat dec = new DecimalFormat("#0.000");
-		logger.info("Statistics of command :\nProgram command executed : " + dec.format(commandCounterVisitor.getAllCommandsCounter())
-			+ " operations. \nTotal length of command was: "  +  dec.format( commandCounterVisitor.getTotalLengthCommand()));
+		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+		CommandLengthVisitor commandLengthVisitor = new CommandLengthVisitor();
+		command.accept(commandCounterVisitor);
+		command.accept(commandLengthVisitor);
+
+		logger.info("Statistics of command :\nProgram command executed : " +commandCounterVisitor.getAllCommandsCounter()
+			+ " operations. \nTotal length of command was: "  +  new DecimalFormat("#0.000").format( commandLengthVisitor.getLength()));
 	}
 }
