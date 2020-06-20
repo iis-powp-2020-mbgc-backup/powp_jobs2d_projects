@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ public class ICompoundCommandVisitorTest_drawLock implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		logger.info("Drawing lock and counting operations...");
-		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+		CommandStatisticVisitor commandCounterVisitor = new CommandStatisticVisitor();
 		Job2dStub job2dStub = new Job2dStub();
 		Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
 
@@ -73,13 +74,15 @@ public class ICompoundCommandVisitorTest_drawLock implements ActionListener {
 			}
 		};
 
-		CommandCounterVisitor commandCounter = commandCounterVisitor;
+		CommandStatisticVisitor commandCounter = commandCounterVisitor;
 		iCompoundCommand.accept(commandCounter);
 		iCompoundCommand.execute(job2dDriver);
 
+		DecimalFormat dec = new DecimalFormat("#0.000");
 		if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
 			&& expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
-			logger.info("While drawing a triangle program executed: " + expectedNumberOfAllOperationsCall + " operations");
+			logger.info("Statistics of command :\nProgram command executed : " + dec.format(commandCounterVisitor.getAllCommandsCounter())
+				+ " operations. \nTotal length of command was: "  +  dec.format( commandCounterVisitor.getTotalLengthCommand()));
 		} else {
 			logger.info("Problem with counting operations, check ICompound Command Visitor Test");
 		}

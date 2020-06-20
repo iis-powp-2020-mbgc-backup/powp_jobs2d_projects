@@ -60,6 +60,8 @@ public class TestJobs2dApp {
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 
 		application.addTest("Run custom command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Calculate statistics of current command", new CalculateStatisticVisitorListener());
 	}
 
 	/**

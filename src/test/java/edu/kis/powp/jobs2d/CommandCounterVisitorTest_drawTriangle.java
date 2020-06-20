@@ -1,14 +1,13 @@
 package edu.kis.powp.jobs2d;
 
-import edu.kis.powp.jobs2d.command.CommandCounterVisitor;
+import edu.kis.powp.jobs2d.command.CommandStatisticVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -20,7 +19,7 @@ public class CommandCounterVisitorTest_drawTriangle implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		logger.info("Drawing triangle and counting operations...");
-		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+		CommandStatisticVisitor commandCounterVisitor = new CommandStatisticVisitor();
 		Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
 		int expectedNumberOfSetPositionMethodCall = 1;
 		int expectedNumberOfOperateMethodCall = 3;
@@ -36,11 +35,13 @@ public class CommandCounterVisitorTest_drawTriangle implements ActionListener {
 			driverCommand.accept(commandCounterVisitor);
 		}
 
+		DecimalFormat dec = new DecimalFormat("#0.000");
 		if (expectedNumberOfOperateMethodCall == commandCounterVisitor.getOperateToCommandCounter() && expectedNumberOfSetPositionMethodCall == commandCounterVisitor.getSetPositionCommandCounter()
 			&& expectedNumberOfAllOperationsCall == commandCounterVisitor.getAllCommandsCounter()) {
-			logger.info("While drawing a triangle program executed: " + expectedNumberOfAllOperationsCall + " operations");
+			logger.info("Statistics of command :\nProgram command executed : " + dec.format(commandCounterVisitor.getAllCommandsCounter())
+				+ " operations. \nTotal length of command was: "  +  dec.format( commandCounterVisitor.getTotalLengthCommand()));
 		} else {
-			logger.info("Problem with counting operations, check Driver Command Visitor Test");
+			logger.info("Problem with counting operations, check ICompound Command Visitor Test");
 		}
 	}
 }
