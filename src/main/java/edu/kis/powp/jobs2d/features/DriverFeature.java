@@ -35,16 +35,8 @@ public class DriverFeature {
 	 * @param driver Job2dDriver object.
 	 */
 	public static void addDriver(String name, Job2dDriver driver) {
-
-		if(drivers.containsKey(name)){
-			drivers.get(name).setDriver(driver);
-		}
-		else{
-			SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
-			app.addComponentMenuElement(DriverFeature.class, name, listener);
-			drivers.put(name,listener);
-		}
-
+		SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
+		app.addComponentMenuElement(DriverFeature.class, name, listener);
 	}
 
 	/**
