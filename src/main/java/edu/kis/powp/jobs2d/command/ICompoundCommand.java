@@ -15,14 +15,25 @@ public interface ICompoundCommand extends DriverCommand, Iterable<DriverCommand>
 	@Override
 	default DriverCommand clone() throws CloneNotSupportedException{
 		List<DriverCommand> commands = new ArrayList<>();
-
 		for (DriverCommand c : this) {
 			commands.add(c.clone());
 		}
 
 		return new CompoundCommand(commands);
   }
-    
+
+	default ICompoundCommand moveUpCommand(DriverCommand command){
+		return this;
+	}
+
+	default ICompoundCommand moveDownCommand(DriverCommand command){
+		return this;
+	}
+
+	default ICompoundCommand changeCoordinates(DriverCommand commandToChange, DriverCommand newCommand){
+		return this;
+	}
+
 	default public void accept(CommandVisitorInterface visitor) {
 		visitor.visit(this);
 	}
