@@ -33,8 +33,14 @@ public class OperateToCommand implements DriverCommand {
 		return (DriverCommand) super.clone();
 	}
 
-  @Override
+  	@Override
 	public void accept(CommandVisitorInterface visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "OperateTo(" + posX + ", " + posY + ")";
+	}
+
 }
