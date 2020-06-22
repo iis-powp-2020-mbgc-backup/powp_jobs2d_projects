@@ -113,7 +113,7 @@ public class TestJobs2dApp {
 		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);
 
-    CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
+    	CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Transformation", commandTransformationWindow);
 
 
