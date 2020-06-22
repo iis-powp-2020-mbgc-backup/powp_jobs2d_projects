@@ -3,12 +3,7 @@ package edu.kis.powp.jobs2d.command.transformations;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.line.Line2d;
 
 public class Transformation implements ITransformation {
@@ -26,7 +21,12 @@ public class Transformation implements ITransformation {
 		
 		List<DriverCommand> commandList = buildCommandList(lines);
 
-		return new ImmutableComplexCommand(commandList);
+		try {
+			return new ImmutableComplexCommand(commandList);
+		} catch (ImmutableCommandCreationException e) {
+			System.out.println(e.getMessage());
+			return new ComplexCommand(commandList);
+		}
 	}
 	
 	protected void properTransformation(List<Line2d> lines) {

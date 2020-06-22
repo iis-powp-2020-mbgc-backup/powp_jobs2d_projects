@@ -2,7 +2,9 @@ package edu.kis.powp.jobs2d.command.manager;
 
 import java.util.List;
 
+import edu.kis.powp.jobs2d.command.ComplexCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ImmutableCommandCreationException;
 import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.jobs2d.command.gui.CommandManager;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -35,7 +37,12 @@ public class DriverCommandManager implements CommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new ImmutableComplexCommand(commandList, name));
+		try {
+			setCurrentCommand(new ImmutableComplexCommand(commandList, name));
+		} catch (ImmutableCommandCreationException e) {
+			System.out.println(e.getMessage());
+			setCurrentCommand(new ComplexCommand(commandList));
+		}
 	}
 
 	/**
