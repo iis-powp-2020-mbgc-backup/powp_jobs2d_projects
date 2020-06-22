@@ -9,15 +9,11 @@ import edu.kis.powp.jobs2d.command.history.HistoryViewer;
 import edu.kis.powp.jobs2d.command.gui.*;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.features.Readers.Reader;
 import edu.kis.powp.jobs2d.features.Readers.SimpleFormatReader;
-import edu.kis.powp.jobs2d.features.MacroFeature;
 
-import edu.kis.powp.jobs2d.features.DriverInfoChangeObserver;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,11 +81,17 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", driver);
 
+
+
+
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
 		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
     
-    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+    	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
+
+		TransformationChangeObserver transformationChangeObserver = new TransformationChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(transformationChangeObserver);
     
 		DriverFeature.updateDriverInfo();
 	}
