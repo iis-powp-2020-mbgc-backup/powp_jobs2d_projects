@@ -117,11 +117,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		JButton btnRemoveCommandFromFactory = new JButton("Remove command");
 		btnRunCommandFromFactory.addActionListener((ActionEvent event) -> {
 			if (commandFactoryList.getSelectedIndex() != -1) {
-				try {
-					CommandFactory.getInstance().runCommand((String) commandFactoryList.getSelectedValue());
-				} catch (CloneNotSupportedException e1) {
-					e1.printStackTrace();
-				}
+				CommandFactory.getInstance().runCommand((String) commandFactoryList.getSelectedValue());
 			}
 		});
 		btnRemoveCommandFromFactory.addActionListener((ActionEvent event) -> {
@@ -131,7 +127,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		});
 		c.weighty = 8;
 		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
-		scrollPane.setPreferredSize(new Dimension(0, 100));
 		content.add(scrollPane, c);
 		c.weighty = 9;
 		content.add(btnRunCommandFromFactory, c);

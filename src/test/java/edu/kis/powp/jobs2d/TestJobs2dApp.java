@@ -136,9 +136,6 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
 				MacroFeature.setupMacroDriver();
 
-				CommandFactory.getInstance();
-
-
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);

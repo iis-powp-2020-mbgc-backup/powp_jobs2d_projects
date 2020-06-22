@@ -10,7 +10,7 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandFactory implements Subscriber {
-    public Map<String, DriverCommand> commandsMap = new HashMap<>();
+    private Map<String, DriverCommand> commandsMap = new HashMap<>();
     private DriverCommandManager driverCommandManager;
     private CommandManagerWindow window;
 
@@ -28,48 +28,46 @@ public class CommandFactory implements Subscriber {
         driverCommandManager.getChangePublisher().addSubscriber(this);
     }
 
-
-    public DriverCommand getCommand(String commandName) throws CloneNotSupportedException {
-        DriverCommand resultCommand=null;
-        if(commandsMap.keySet().contains(commandName)){
-            resultCommand = commandsMap.get(commandName).clone();
-        }else{
+    public DriverCommand getCommand(String commandName) {
+        DriverCommand resultCommand = null;
+        if (commandsMap.keySet().contains(commandName)) {
+            try {
+                resultCommand = commandsMap.get(commandName).clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        } else {
             throw new IllegalArgumentException("Name not found");
-        }
-
-        if (resultCommand instanceof CompoundCommand) {
-            ((CompoundCommand) resultCommand).setName(commandName);
         }
         return resultCommand;
     }
 
-    public void setCommand(DriverCommand command) {
-        commandsMap.put(command.toString(), command);
+    public void addCommand(DriverCommand command) throws CloneNotSupportedException {
+        commandsMap.put(command.toString(), command.clone());
     }
 
     public void removeCommand(String commandName) {
-        if(commandsMap.keySet().contains(commandName)){
+        if (commandsMap.keySet().contains(commandName)) {
             commandsMap.remove(commandName);
-        }else{
+        } else {
             throw new IllegalArgumentException("Name not found");
         }
     }
 
-    public void runCommand(String commandName) throws CloneNotSupportedException {
-        if(commandsMap.keySet().contains(commandName)){
+    public void runCommand(String commandName) {
+        if (commandsMap.keySet().contains(commandName)) {
             driverCommandManager.setCurrentCommand(getCommand(commandName));
             driverCommandManager.runCurrentCommand();
-        }else{
+        } else {
             throw new IllegalArgumentException("Name not found");
         }
     }
-
 
     public Set<String> getCommandNames() {
         return commandsMap.keySet();
     }
 
-    public void addObserver(CommandManagerWindow window){
+    public void addObserver(CommandManagerWindow window) {
         this.window = window;
     }
 
