@@ -1,16 +1,16 @@
 package edu.kis.powp.jobs2d.features;
 
-import edu.kis.powp.jobs2d.drivers.MacroDriverDecorator;
+import edu.kis.powp.jobs2d.drivers.MacroDriver;
 
 public class MacroFeature {
 
-    private static MacroDriverDecorator macroDriverDecorator;
+    private static MacroDriver macroDriver;
 
-    public static void setupMacroDriverDecorator() {
-        macroDriverDecorator = new MacroDriverDecorator();
+    public static void setupMacroDriver() {
+        macroDriver = new MacroDriver();
     }
 
-    public static MacroDriverDecorator getMacroDriverDecorator() {
-        return macroDriverDecorator;
+    public static MacroDriver getMacroDriver() {
+        return macroDriver;
     }
 }

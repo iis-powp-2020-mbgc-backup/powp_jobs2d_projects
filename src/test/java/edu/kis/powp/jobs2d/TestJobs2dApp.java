@@ -3,6 +3,8 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+
+import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.command.history.CommandHistory;
 import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
 import edu.kis.powp.jobs2d.command.history.HistoryViewer;
@@ -24,7 +26,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test concerning preset figures in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
@@ -44,7 +46,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
@@ -54,7 +56,7 @@ public class TestJobs2dApp {
 		application.addTest("Draw lock and count operations", new ICompoundCommandVisitorTest_drawLock());
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
-    
+
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 		application.addTest("Clear History", new SelectClearHistoryListener());
@@ -63,7 +65,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
@@ -71,28 +73,26 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
-		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		DriverFeature.addDriver("Line Simulator", driver);
-		DriverFeature.getDriverManager().setCurrentDriver(driver);
+		Job2dDriver basicLineDriver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		DriverFeature.addDriver("Line Simulator", basicLineDriver);
+		DriverFeature.getDriverManager().setCurrentDriver(basicLineDriver);
 
-		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
-		DriverFeature.addDriver("Special line Simulator", driver);
+		Job2dDriver specialLineDriver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
+		DriverFeature.addDriver("Special line Simulator", specialLineDriver);
 
-		driver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
-		DriverFeature.addDriver("Dotted line Simulator", driver);
+		Job2dDriver dottedLineDriver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
+		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
 
+		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriver());
 
-
-
-		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriverDecorator());
-		MacroFeature.getMacroDriverDecorator().setCoreJob2dDriver(driver);
-    
-    	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
+
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(new DriverChangeObserver());
 
 		TransformationChangeObserver transformationChangeObserver = new TransformationChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(transformationChangeObserver);
-    
+
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -123,7 +123,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup menu for adjusting logging settings.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
@@ -153,7 +153,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app, app.getFreePanel());
 				CommandsFeature.setupCommandManager();
-				MacroFeature.setupMacroDriverDecorator();
+				MacroFeature.setupMacroDriver();
 				DriverFeature.setupDriverPlugin(app);
 
 				setupDrivers(app);
