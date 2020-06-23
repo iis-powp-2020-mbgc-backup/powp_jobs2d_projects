@@ -5,7 +5,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 /**
  * Implementation of Job2dDriverCommand for setPosition command functionality.
  */
-public class SetPositionCommand implements DriverCommand {
+public class SetPositionCommand implements DriverCommand, HasCoordinates {
 
 	private int posX, posY;
 
@@ -37,4 +37,13 @@ public class SetPositionCommand implements DriverCommand {
 		return posY;
 	}
 
+	@Override
+	public int getX() {
+		return posX;
+	}
+
+	@Override
+	public int getY() {
+		return posY;
+	}
 }

@@ -141,16 +141,11 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private void handleListSelectionEvent(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 			int index = commandList.getSelectedIndex();
-			// Jak poprawnie wydobyć koordynaty z DriverCommand?
 			DriverCommand driverCommand = listModel.getElementAt(index);
-			if(driverCommand instanceof OperateToCommand) {
-				OperateToCommand opcmd = (OperateToCommand) driverCommand;
-				paramXInput.setText(String.valueOf(opcmd.getPosX()));
-				paramYInput.setText(String.valueOf(opcmd.getPosY()));
-			} else if(driverCommand instanceof SetPositionCommand) {
-				SetPositionCommand opcmd = (SetPositionCommand) driverCommand;
-				paramXInput.setText(String.valueOf(opcmd.getPosX()));
-				paramYInput.setText(String.valueOf(opcmd.getPosY()));
+			if(driverCommand instanceof HasCoordinates) {
+				HasCoordinates command = (HasCoordinates) driverCommand;
+				paramXInput.setText(String.valueOf(command.getX()));
+				paramYInput.setText(String.valueOf(command.getY()));
 			}
 
 		}
