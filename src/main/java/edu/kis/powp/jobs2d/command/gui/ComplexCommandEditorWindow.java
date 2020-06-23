@@ -167,8 +167,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		updateJList(complexCommandEditor.getEditedComplexCommand());
 		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
 		commandList.setSelectedIndex(listModel.size()-1);
-
-
 	}
 
 
