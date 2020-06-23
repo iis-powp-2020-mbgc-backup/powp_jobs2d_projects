@@ -114,15 +114,59 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		confirmButton.addActionListener(this::handleConfirmButton);
 		mainRightBottomPanel.add(confirmButton);
 
+		JButton newOperateToCommandButton = new JButton("New operate to command");
+		newOperateToCommandButton.addActionListener(this::addOperateToCommand);
+		mainRightBottomPanel.add(newOperateToCommandButton);
+
+		JButton newSetToCommandButton = new JButton("New set to command");
+		newSetToCommandButton.addActionListener(this::addNewSetToCommand);
+		mainRightBottomPanel.add(newSetToCommandButton);
+
+		JButton deleteCommandButton = new JButton("Delete");
+		deleteCommandButton.addActionListener(this::deleteCommand);
+		mainRightBottomPanel.add(deleteCommandButton);
 
 		updateViewToCurrentCommand();
 
 		content.setVisible(true);
 	}
 
-
 	private void handleConfirmButton(ActionEvent actionEvent) {
+
 	}
+
+	private void deleteCommand(ActionEvent actionEvent) {
+		int index = commandList.getSelectedIndex();
+		complexCommandEditor.deleteCommand(commandList.getSelectedIndex());
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index);
+	}
+
+
+	private void addNewSetToCommand(ActionEvent actionEvent) {
+		SetPositionCommand setPositionCommand = new SetPositionCommand(Integer.parseInt(paramXInput.getText()),
+			Integer.parseInt(paramYInput.getText()));
+
+		complexCommandEditor.addCommand(setPositionCommand);
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(listModel.size()-1);
+	}
+
+	private void addOperateToCommand(ActionEvent actionEvent) {
+		OperateToCommand operateToCommand = new OperateToCommand(Integer.parseInt(paramXInput.getText()),
+			Integer.parseInt(paramYInput.getText()));
+
+		complexCommandEditor.addCommand(operateToCommand);
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(listModel.size()-1);
+
+
+	}
+
+
 
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
 		complexCommandEditor.moveCommandDown(commandList.getSelectedIndex());
