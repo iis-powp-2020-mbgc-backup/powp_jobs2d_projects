@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DriverComposite implements Job2dDriver {
 
-    List<Job2dDriver> job2dDriverList;
+    private List<Job2dDriver> job2dDriverList;
 
     public DriverComposite() {
         job2dDriverList = new ArrayList<>();

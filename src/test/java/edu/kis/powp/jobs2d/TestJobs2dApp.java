@@ -3,7 +3,6 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-
 import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.command.gui.*;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -23,7 +22,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test concerning preset figures in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
@@ -43,7 +42,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
@@ -53,7 +52,7 @@ public class TestJobs2dApp {
 		application.addTest("Draw lock and count operations", new ICompoundCommandVisitorTest_drawLock());
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
-    
+
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 
@@ -62,7 +61,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
@@ -82,11 +81,7 @@ public class TestJobs2dApp {
 
 		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriver());
 
-		DriverComposite driverComposite = new DriverComposite();
-		driverComposite.addDriver(basicLineDriver);
-		MacroFeature.getMacroDriver().setDriverComposite(driverComposite);
-    
-    	DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+        DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
 
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(new DriverChangeObserver());
@@ -115,7 +110,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup menu for adjusting logging settings.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
