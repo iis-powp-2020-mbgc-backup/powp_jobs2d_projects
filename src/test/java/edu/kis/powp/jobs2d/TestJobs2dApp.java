@@ -105,8 +105,13 @@ public class TestJobs2dApp {
 		CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Transformation", commandTransformationWindow);
 
-		ComplexCommandEditorWindow complexCommandEditorWindow = new ComplexCommandEditorWindow();
+		ComplexCommandEditorWindow complexCommandEditorWindow =
+				new ComplexCommandEditorWindow();
 		application.addWindowComponent("Complex command editor", complexCommandEditorWindow);
+
+		ComplexCommandEditorWindowCommandChangeObserver editorWindowCommandChangeObserver =
+				new ComplexCommandEditorWindowCommandChangeObserver(complexCommandEditorWindow);
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(editorWindowCommandChangeObserver);
 
 		windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);

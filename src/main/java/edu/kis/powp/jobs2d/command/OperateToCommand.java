@@ -5,7 +5,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
  */
-public class OperateToCommand implements DriverCommand {
+public class OperateToCommand implements DriverCommand, HasCoordinates {
 
 	private int posX, posY;
 
@@ -34,6 +34,16 @@ public class OperateToCommand implements DriverCommand {
 	}
 	
 	public int getPosY() {
+		return posY;
+	}
+
+	@Override
+	public int getX() {
+		return posX;
+	}
+
+	@Override
+	public int getY() {
 		return posY;
 	}
 }
