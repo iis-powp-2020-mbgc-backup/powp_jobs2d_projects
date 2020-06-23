@@ -4,6 +4,7 @@ import edu.kis.powp.jobs2d.command.ComplexCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +21,17 @@ public class ComplexCommandBuilder implements CommandBuilder {
 		commands.add(command);
 	}
 
-	public void deleteCommand(int commandIndex) {
+	public void deleteCommand(int commandIndex) throws InvalidCommandIndex {
 		if (commands.size() == 0 || commandIndex >= commands.size() || commandIndex < 0) {
-			return; // tu rzucic wyjatkiem
+			throw new InvalidCommandIndex();
 		}
 
 		commands.remove(commandIndex);
 	}
 
-	public void interchangeCommands(int commandIndex1, int commandIndex2) {
+	public void interchangeCommands(int commandIndex1, int commandIndex2) throws InvalidCommandIndex {
 		if (commands.size() == 0 || commandIndex1 >= commands.size() || commandIndex1 < 0 || commandIndex2 >= commands.size() || commandIndex2 < 0) {
-			return; // tu rzucic wyjatkiem
+			throw new InvalidCommandIndex();
 		}
 
 		DriverCommand tmp = commands.get(commandIndex1);
@@ -38,9 +39,9 @@ public class ComplexCommandBuilder implements CommandBuilder {
 		commands.set(commandIndex2, tmp);
 	}
 
-	public void modifyCoordinates(int commandIndex, int x, int y) {
+	public void modifyCoordinates(int commandIndex, int x, int y) throws InvalidCommandIndex {
 		if (commands.size() == 0 || commandIndex >= commands.size() || commandIndex < 0) {
-			return; // tu rzucic wyjatkiem
+			throw new InvalidCommandIndex();
 		}
 
 		DriverCommand command = commands.get(commandIndex);

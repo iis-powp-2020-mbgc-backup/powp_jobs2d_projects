@@ -4,4 +4,7 @@ public class InvalidCommandIndex extends Exception {
 	public InvalidCommandIndex(String errorMessage) {
 		super(errorMessage);
 	}
+	public InvalidCommandIndex() {
+		super("Invalid Command Index");
+	}
 }
