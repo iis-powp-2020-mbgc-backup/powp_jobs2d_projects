@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ComplexCommandBuilder implements CommandBuilder {
 
-	private List<DriverCommand> commands;
+	private final List<DriverCommand> commands;
 
 	public ComplexCommandBuilder() {
 		commands = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ComplexCommandBuilder implements CommandBuilder {
 	}
 
 	public void deleteCommand(int commandIndex) throws InvalidCommandIndex {
-		if (commands.size() == 0 || commandIndex >= commands.size() || commandIndex < 0) {
+		if (commands.isEmpty() || commandIndex >= commands.size() || commandIndex < 0) {
 			throw new InvalidCommandIndex();
 		}
 
@@ -30,7 +30,7 @@ public class ComplexCommandBuilder implements CommandBuilder {
 	}
 
 	public void interchangeCommands(int commandIndex1, int commandIndex2) throws InvalidCommandIndex {
-		if (commands.size() == 0 || commandIndex1 >= commands.size() || commandIndex1 < 0 || commandIndex2 >= commands.size() || commandIndex2 < 0) {
+		if (commands.isEmpty() || commandIndex1 >= commands.size() || commandIndex1 < 0 || commandIndex2 >= commands.size() || commandIndex2 < 0) {
 			throw new InvalidCommandIndex();
 		}
 
@@ -40,7 +40,7 @@ public class ComplexCommandBuilder implements CommandBuilder {
 	}
 
 	public void modifyCoordinates(int commandIndex, int x, int y) throws InvalidCommandIndex {
-		if (commands.size() == 0 || commandIndex >= commands.size() || commandIndex < 0) {
+		if (commands.isEmpty() || commandIndex >= commands.size() || commandIndex < 0) {
 			throw new InvalidCommandIndex();
 		}
 
