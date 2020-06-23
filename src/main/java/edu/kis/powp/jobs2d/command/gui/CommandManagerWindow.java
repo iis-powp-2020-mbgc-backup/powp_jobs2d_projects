@@ -112,7 +112,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     public void deleteObservers() {
-        this.observers = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
+        //this.observers = List.copyOf(this.commandManager.getChangePublisher().getSubscribers());
         commandManager.getChangePublisher().clearObservers();
     }
 
