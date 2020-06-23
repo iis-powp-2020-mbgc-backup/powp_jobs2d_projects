@@ -6,6 +6,7 @@ import edu.kis.powp.jobs2d.command.complexCommandEditor.ComplexCommandEditor;
 import edu.kis.powp.jobs2d.command.line.Line2d;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
@@ -132,7 +133,11 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	}
 
 	private void handleConfirmButton(ActionEvent actionEvent) {
-
+		java.util.List<DriverCommand> driverCommandList = new ArrayList<>();
+		if(complexCommandEditor != null) {
+			complexCommandEditor.getEditedComplexCommand().iterator().forEachRemaining(command -> driverCommandList.add(command));
+		}
+		CommandsFeature.getDriverCommandManager().setCurrentCommand(driverCommandList, "Command made in Complex Command Editor");
 	}
 
 	private void deleteCommand(ActionEvent actionEvent) {
@@ -180,6 +185,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		if(editedComplexCommand != null) {
 			editedComplexCommand.iterator().forEachRemaining(command -> listModel.addElement(command));
 		}
+
 	}
 
 
