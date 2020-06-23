@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.*;
+import edu.kis.powp.jobs2d.command.complexCommandEditor.ComplexCommandEditor;
 import edu.kis.powp.jobs2d.command.line.Line2d;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
@@ -21,6 +22,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private final JLabel numberOfCommandsValue;
 	private final JLabel commandLengthValue;
 
+	private ComplexCommandEditor complexCommandEditor;
 	private ICompoundCommand currentCommand;
 
 	public ComplexCommandEditorWindow() {
@@ -112,30 +114,32 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		confirmButton.addActionListener(this::handleConfirmButton);
 		mainRightBottomPanel.add(confirmButton);
 
+
 		updateViewToCurrentCommand();
 
 		content.setVisible(true);
 	}
 
+
 	private void handleConfirmButton(ActionEvent actionEvent) {
 	}
 
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
-		int index = commandList.getSelectedIndex();
-		if (index < listModel.getSize() - 1) {
-			swap(index, index + 1);
-			commandList.setSelectedIndex(index + 1);
-			commandList.ensureIndexIsVisible(index + 1);
+		complexCommandEditor.moveCommandDown(commandList.getSelectedIndex());
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+	}
+
+	private void updateJList(ICompoundCommand editedComplexCommand) {
+		listModel.clear();
+		if(editedComplexCommand != null) {
+			editedComplexCommand.iterator().forEachRemaining(command -> listModel.addElement(command));
 		}
 	}
 
+
 	private void handleButtonUpClickedEvent(ActionEvent actionEvent) {
-		int index = commandList.getSelectedIndex();
-		if (index > 0) {
-			swap(index, index - 1);
-			commandList.setSelectedIndex(index - 1);
-			commandList.ensureIndexIsVisible(index - 1);
-		}
+		complexCommandEditor.moveCommandUp(commandList.getSelectedIndex());
+		updateJList(complexCommandEditor.getEditedComplexCommand());
 	}
 
 	private void handleListSelectionEvent(ListSelectionEvent e) {
@@ -147,50 +151,31 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 				paramXInput.setText(String.valueOf(command.getX()));
 				paramYInput.setText(String.valueOf(command.getY()));
 			}
-
 		}
 	}
 
-	private void swap(int a, int b) {
-		DriverCommand aObject = listModel.getElementAt(a);
-		DriverCommand bObject = listModel.getElementAt(b);
-		listModel.set(a, bObject);
-		listModel.set(b, aObject);
-	}
 
 	public void updateViewToCurrentCommand() {
 		currentCommand = (ICompoundCommand) CommandsFeature.getDriverCommandManager().getCurrentCommand();
-		int numberOfCommands = updateCommandList();
-		numberOfCommandsValue.setText(String.valueOf(numberOfCommands));
-		commandLengthValue.setText(String.valueOf(getCommandLength(currentCommand)));
+
+		if(currentCommand!= null) {
+			updateCommandStatistics(currentCommand);
+			complexCommandEditor = new ComplexCommandEditor(currentCommand);
+			updateJList(complexCommandEditor.getEditedComplexCommand());
+		}
+
 		paramXInput.setText("");
 		paramYInput.setText("");
-		commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
 	}
 
-	private double getCommandLength(ICompoundCommand currentCommand) {
-		if(currentCommand != null) {
-			CommandLengthVisitor lengthVisitor = new CommandLengthVisitor();
-			lengthVisitor.visit(currentCommand);
-			return lengthVisitor.getLength();
-		} else {
-			return 0;
-		}
-	}
+	private void updateCommandStatistics(ICompoundCommand iCompoundCommand) {
+		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+		CommandLengthVisitor commandLengthVisitor = new CommandLengthVisitor();
+		commandCounterVisitor.visit(iCompoundCommand);
+		commandLengthVisitor.visit(iCompoundCommand);
 
-	private int updateCommandList() {
-		listModel.clear();
-		int numberOfCommands = 0;
-		if(currentCommand != null) {
-			Iterator<DriverCommand> iterator = currentCommand.iterator();
-			while (iterator.hasNext()) {
-				DriverCommand driverCommand = iterator.next();
-				listModel.addElement(driverCommand);
-				numberOfCommands++;
-			}
-		}
-
-		return numberOfCommands;
+		numberOfCommandsValue.setText(String.valueOf(commandCounterVisitor.getAllCommandsCounter()));
+		commandLengthValue.setText(String.valueOf(commandLengthVisitor.getLength()));
 	}
 
 	@Override

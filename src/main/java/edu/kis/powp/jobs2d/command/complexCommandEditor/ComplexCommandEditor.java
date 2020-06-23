@@ -6,13 +6,17 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.builders.ComplexCommandBuilder;
 import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	ComplexCommandEditor(ICompoundCommand complexCommand){
+
+
+	public ComplexCommandEditor(ICompoundCommand complexCommand){
 		this.complexCommand = complexCommand;
 		this.complexCommandBuilder = new ComplexCommandBuilder();
+
 		this.complexCommand.iterator().forEachRemaining(command -> this.complexCommandBuilder.addCommand(command));
 
 	}
@@ -62,4 +66,6 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 			logger.info(invalidCommandIndex.toString());
 		}
 	}
+
+
 }
