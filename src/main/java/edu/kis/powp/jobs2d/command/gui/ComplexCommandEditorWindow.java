@@ -18,6 +18,9 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private final JTextField paramYInput;
 	private final JList<DriverCommand> commandList;
 	private final DefaultListModel<DriverCommand> listModel;
+	private final JLabel numberOfCommandsValue;
+	private final JLabel commandLengthValue;
+
 	private ICompoundCommand currentCommand;
 
 	public ComplexCommandEditorWindow() {
@@ -77,12 +80,12 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 
 		JLabel numberOfCommands = new JLabel("Number of commands: ");
 		topStatisticsNumberPanel.add(numberOfCommands);
-		JLabel numberOfCommandsValue = new JLabel("N/A");
+		numberOfCommandsValue = new JLabel("N/A");
 		topStatisticsNumberPanel.add(numberOfCommandsValue);
 
 		JLabel commandLength = new JLabel("Total length: ");
 		topStatisticsLengthPanel.add(commandLength);
-		JLabel commandLengthValue = new JLabel("N/A");
+		commandLengthValue = new JLabel("N/A");
 		topStatisticsLengthPanel.add(commandLengthValue);
 
 		listModel = new DefaultListModel<>();
@@ -110,11 +113,15 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		mainRightOrderPanel.add(changeOrderDownButton);
 
 		JButton confirmButton = new JButton("Apply changes");
+		confirmButton.addActionListener(this::handleConfirmButton);
 		mainRightBottomPanel.add(confirmButton);
 
 		updateViewToCurrentCommand();
 
 		content.setVisible(true);
+	}
+
+	private void handleConfirmButton(ActionEvent actionEvent) {
 	}
 
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
@@ -163,20 +170,31 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	public void updateViewToCurrentCommand() {
 		currentCommand = (ICompoundCommand) CommandsFeature.getDriverCommandManager().getCurrentCommand();
 		if (currentCommand != null) {
-			updateCommandList();
+			int numberOfCommands = updateCommandList();
+			numberOfCommandsValue.setText(String.valueOf(numberOfCommands));
+			commandLengthValue.setText(String.valueOf(getCommandLength(currentCommand)));
 			paramXInput.setText("");
 			paramYInput.setText("");
 		}
 		commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
 	}
 
-	private void updateCommandList() {
+	private double getCommandLength(ICompoundCommand currentCommand) {
+		CommandLengthVisitor lengthVisitor = new CommandLengthVisitor();
+		lengthVisitor.visit(currentCommand);
+		return lengthVisitor.getLength();
+	}
+
+	private int updateCommandList() {
 		listModel.clear();
+		int commandLength = 0;
 		Iterator<DriverCommand> iterator = currentCommand.iterator();
 		while (iterator.hasNext()) {
 			DriverCommand driverCommand = iterator.next();
 			listModel.addElement(driverCommand);
+			commandLength++;
 		}
+		return commandLength;
 	}
 
 	@Override
