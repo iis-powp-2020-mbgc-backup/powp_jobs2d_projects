@@ -68,7 +68,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
 
-        InkUsageMethodObserver obs = new InkUsageMethodObserver(10000f);
+		InkUsageMethodObserver obs = new InkUsageMethodObserver(10000f);
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(obs);
 	}
 

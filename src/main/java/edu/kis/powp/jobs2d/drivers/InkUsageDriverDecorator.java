@@ -5,7 +5,7 @@ import edu.kis.powp.observer.Publisher;
 
 import java.util.logging.Logger;
 
-public class InkUsageDriverDecorator implements Job2dDriver {
+public class InkUsageDriverDecorator implements Job2dDriver, InkOperator {
     private int x0, y0;
     private double inkLimit;
     private double totalUsage;
