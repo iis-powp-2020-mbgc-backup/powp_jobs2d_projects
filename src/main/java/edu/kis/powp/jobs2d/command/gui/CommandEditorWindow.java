@@ -7,8 +7,10 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Collections;
 
-public class CommandEditorWindow extends JFrame implements WindowComponent {
+public class CommandEditorWindow extends JFrame implements WindowComponent, CommandVisitorInterface {
+
     private static final long serialVersionUID = 9204679248304669949L;
     private DriverCommandManager commandManager;
     private JTextArea currentCommandField;
@@ -20,6 +22,7 @@ public class CommandEditorWindow extends JFrame implements WindowComponent {
     private JTextArea coordinatesX;
     private JTextArea coordinatesY;
     private JButton changeCoordinates;
+    private DefaultListModel<DriverCommand> listModel;
 
     public CommandEditorWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Editor");
@@ -42,7 +45,8 @@ public class CommandEditorWindow extends JFrame implements WindowComponent {
         updateCurrentCommandField();
 
         commandPartsList = new JList<>();
-        commandPartsList.setModel(new DefaultListModel<>());
+        listModel = new DefaultListModel<>();
+        commandPartsList.setModel(listModel);
         c.gridy = 1;
         c.weighty = 0.75;
         content.add(commandPartsList, c);
@@ -62,7 +66,7 @@ public class CommandEditorWindow extends JFrame implements WindowComponent {
         moveDown.addActionListener((ActionEvent e) -> this.moveDown(commandPartsList.getSelectedValue()));
         content.add(moveDown, c);
 
-        c.gridy =4;
+        c.gridy = 4;
         c.fill = GridBagConstraints.HORIZONTAL;
         Container container = new Container();
         GridLayout gridLayout = new GridLayout(1, 4);
@@ -86,43 +90,44 @@ public class CommandEditorWindow extends JFrame implements WindowComponent {
         c.fill = GridBagConstraints.BOTH;
         changeCoordinates = new JButton("Change coordinates ");
         changeCoordinates.setPreferredSize(new Dimension(300, 30));
-        changeCoordinates.addActionListener((ActionEvent e) -> this.changeCoordinates(Integer.parseInt(coordX.getText()), Integer.parseInt(coordY.getText()),commandPartsList.getSelectedValue()));
+        changeCoordinates.addActionListener(
+                (ActionEvent e) -> this.changeCoordinates(Integer.parseInt(coordX.getText()), Integer.parseInt(coordY.getText()),
+                        commandPartsList.getSelectedValue()));
         content.add(changeCoordinates, c);
     }
 
     public void changeCoordinates(int x, int y, DriverCommand command) {
-        if(commandManager.getCurrentCommand() instanceof ICompoundCommand) {
-            if (command instanceof SetPositionCommand) {
-                commandManager.setCurrentCommand(
-                        ((ICompoundCommand) commandManager.getCurrentCommand()).changeCoordinates(command, new SetPositionCommand(x, y)));
-            } else if (command instanceof OperateToCommand) {
-                commandManager.setCurrentCommand(
-                        ((ICompoundCommand) commandManager.getCurrentCommand()).changeCoordinates(command, new OperateToCommand(x, y)));
-            }
-        }
+        int index = commandPartsList.getSelectedIndex();
+        try {
+            listModel.set(index, command.getClass().getDeclaredConstructor(int.class, int.class).newInstance(x, y));
+        } catch (ReflectiveOperationException ignored) { }
+        commandManager.setCurrentCommand(Collections.list(listModel.elements()), "Custom command");
     }
 
     public void moveUp(DriverCommand command) {
-        if (commandManager.getCurrentCommand() instanceof ICompoundCommand) {
-            commandManager.setCurrentCommand(((ICompoundCommand) commandManager.getCurrentCommand()).moveUpCommand(command));
+        int index = commandPartsList.getSelectedIndex();
+        if (index > 0) {
+            listModel.set(index, listModel.get(index - 1));
+            listModel.set(index - 1, command);
         }
-        updateCurrentCommandField();
+        commandManager.setCurrentCommand(Collections.list(listModel.elements()), "Custom command");
+        if(index > 0)
+            commandPartsList.setSelectedIndex(index - 1);
     }
 
     public void moveDown(DriverCommand command) {
-        if (commandManager.getCurrentCommand() instanceof ICompoundCommand) {
-            commandManager.setCurrentCommand(((ICompoundCommand) commandManager.getCurrentCommand()).moveDownCommand(command));
+        int index = commandPartsList.getSelectedIndex();
+        if (index < listModel.getSize() - 1) {
+            listModel.set(index, listModel.get(index + 1));
+            listModel.set(index + 1, command);
         }
-        updateCurrentCommandField();
+        commandManager.setCurrentCommand(Collections.list(listModel.elements()), "Custom command");
+        if(index < listModel.getSize() - 1)
+            commandPartsList.setSelectedIndex(index + 1);
     }
 
-    @Override
-    public void HideIfVisibleAndShowIfHidden() {
-        if (this.isVisible()) {
-            this.setVisible(false);
-        } else {
-            this.setVisible(true);
-        }
+    @Override public void HideIfVisibleAndShowIfHidden() {
+        this.setVisible(!this.isVisible());
     }
 
     public void updateCurrentCommandField() {
@@ -131,20 +136,21 @@ public class CommandEditorWindow extends JFrame implements WindowComponent {
 
     public void updateCurrentCommandPartList() {
         DriverCommand command = commandManager.getCurrentCommand();
-        DefaultListModel<DriverCommand> listModel = (DefaultListModel<DriverCommand>) commandPartsList.getModel();
         listModel.removeAllElements();
-        addCommandsToList(listModel, command);
+        if (command != null) {
+            command.accept(this);
+        }
     }
 
-    private void addCommandsToList(DefaultListModel<DriverCommand> listModel, DriverCommand command) {
-        if (command instanceof ICompoundCommand) {
-            ((ICompoundCommand) command).iterator().forEachRemaining(cmd -> {
-                if (cmd instanceof ICompoundCommand) {
-                    addCommandsToList(listModel, cmd);
-                } else {
-                    listModel.addElement(cmd);
-                }
-            });
-        }
+    @Override public void visit(OperateToCommand driver) {
+        listModel.addElement(driver);
+    }
+
+    @Override public void visit(SetPositionCommand driver) {
+        listModel.addElement(driver);
+    }
+
+    @Override public void visit(ICompoundCommand driver) {
+        driver.iterator().forEachRemaining(command -> command.accept(this));
     }
 }
