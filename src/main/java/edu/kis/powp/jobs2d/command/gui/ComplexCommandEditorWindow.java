@@ -3,12 +3,15 @@ package edu.kis.powp.jobs2d.command.gui;
 import edu.kis.powp.appbase.gui.WindowComponent;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 
 public class ComplexCommandEditorWindow extends JFrame implements WindowComponent {
 
     private final JLabel commandNameValue;
     private final CommandManager commandManager;
+    private final JTextField paramXInput;
+    private final JTextField paramYInput;
 
     public ComplexCommandEditorWindow(CommandManager commandManager) {
         this.commandManager = commandManager;
@@ -47,8 +50,18 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
         mainPanel.add(mainLeftPanel);
 
         JPanel mainRightPanel = new JPanel();
-        mainRightPanel.setBackground(Color.BLUE);
+        mainRightPanel.setLayout(new BoxLayout(mainRightPanel, BoxLayout.Y_AXIS));
         mainPanel.add(mainRightPanel);
+
+        JPanel mainRightParametersPanel = new JPanel();
+        mainRightPanel.add(mainRightParametersPanel);
+
+        JPanel mainRightOrderPanel = new JPanel();
+        mainRightPanel.add(mainRightOrderPanel);
+
+        JPanel mainRightBottomPanel = new JPanel();
+        mainRightBottomPanel.setBackground(Color.PINK);
+        mainRightPanel.add(mainRightBottomPanel);
 
         // Controls
         JLabel commandName = new JLabel("Current command: ");
@@ -68,9 +81,38 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 
         String[] data = {"one", "two", "three", "four", "one", "two", "three", "four", "one", "two", "three", "four"};
         JList<String> commandList = new JList<>(data);
+        commandList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mainLeftPanel.setViewportView(commandList);
+        commandList.addListSelectionListener(this::handleListSelectionEvent);
+
+        JLabel paramXLabel = new JLabel("X: ");
+        mainRightParametersPanel.add(paramXLabel);
+        paramXInput = new JTextField(5);
+        mainRightParametersPanel.add(paramXInput);
+
+        JLabel paramYLabel = new JLabel("Y: ");
+        mainRightParametersPanel.add(paramYLabel);
+        paramYInput = new JTextField(5);
+        mainRightParametersPanel.add(paramYInput);
+
+        JButton changeOrderUpButton = new JButton("Up");
+        mainRightOrderPanel.add(changeOrderUpButton);
+
+        JButton changeOrderDownButton = new JButton("Down");
+        mainRightOrderPanel.add(changeOrderDownButton);
+
+        JButton confirmButton = new JButton("Apply changes");
+        mainRightBottomPanel.add(confirmButton);
 
         content.setVisible(true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void handleListSelectionEvent(ListSelectionEvent e) {
+        JList<String> list = (JList<String>)e.getSource();
+        if(!e.getValueIsAdjusting()) {
+            paramXInput.setText(String.valueOf(list.getSelectedIndex()));
+        }
     }
 
     public void updateCurrentCommand() {
