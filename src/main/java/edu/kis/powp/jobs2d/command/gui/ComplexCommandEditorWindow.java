@@ -38,11 +38,9 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		content.add(topPanel, BorderLayout.PAGE_START);
 
 		JPanel topNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topNamePanel.setBackground(Color.CYAN);
 		topPanel.add(topNamePanel);
 
 		JPanel topStatisticsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topStatisticsPanel.setBackground(Color.ORANGE);
 		topPanel.add(topStatisticsPanel);
 
 		JPanel topStatisticsNumberPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -55,7 +53,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		content.add(mainPanel, BorderLayout.CENTER);
 
 		JScrollPane mainLeftPanel = new JScrollPane();
-		mainLeftPanel.setBackground(Color.LIGHT_GRAY);
 		mainPanel.add(mainLeftPanel);
 
 		JPanel mainRightPanel = new JPanel();
@@ -69,7 +66,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		mainRightPanel.add(mainRightOrderPanel);
 
 		JPanel mainRightBottomPanel = new JPanel();
-		mainRightBottomPanel.setBackground(Color.PINK);
 		mainRightPanel.add(mainRightBottomPanel);
 
 		// Controls
