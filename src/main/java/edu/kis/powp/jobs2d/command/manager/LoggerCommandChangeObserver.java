@@ -12,7 +12,13 @@ public class LoggerCommandChangeObserver implements Subscriber {
 
 	public void update() {
 		DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
-		logger.info("Current command set to: " + command.toString());
+		String txt;
+		if(command == null) {
+			txt = "no command selected";
+		} else {
+			txt = command.toString();
+		}
+		logger.info("Current command set to: " + txt);
 	}
 
 	public String toString() {

@@ -56,6 +56,7 @@ public class DriverCommandManager implements CommandManager {
 	@Override 
 	public synchronized void clearCurrentCommand() {
 		currentCommand = null;
+		commandChangePublisher.notifyObservers();
 	}
 
 	@Override

@@ -160,32 +160,37 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 
 	public void updateViewToCurrentCommand() {
 		currentCommand = (ICompoundCommand) CommandsFeature.getDriverCommandManager().getCurrentCommand();
-		if (currentCommand != null) {
-			int numberOfCommands = updateCommandList();
-			numberOfCommandsValue.setText(String.valueOf(numberOfCommands));
-			commandLengthValue.setText(String.valueOf(getCommandLength(currentCommand)));
-			paramXInput.setText("");
-			paramYInput.setText("");
-		}
+		int numberOfCommands = updateCommandList();
+		numberOfCommandsValue.setText(String.valueOf(numberOfCommands));
+		commandLengthValue.setText(String.valueOf(getCommandLength(currentCommand)));
+		paramXInput.setText("");
+		paramYInput.setText("");
 		commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
 	}
 
 	private double getCommandLength(ICompoundCommand currentCommand) {
-		CommandLengthVisitor lengthVisitor = new CommandLengthVisitor();
-		lengthVisitor.visit(currentCommand);
-		return lengthVisitor.getLength();
+		if(currentCommand != null) {
+			CommandLengthVisitor lengthVisitor = new CommandLengthVisitor();
+			lengthVisitor.visit(currentCommand);
+			return lengthVisitor.getLength();
+		} else {
+			return 0;
+		}
 	}
 
 	private int updateCommandList() {
 		listModel.clear();
-		int commandLength = 0;
-		Iterator<DriverCommand> iterator = currentCommand.iterator();
-		while (iterator.hasNext()) {
-			DriverCommand driverCommand = iterator.next();
-			listModel.addElement(driverCommand);
-			commandLength++;
+		int numberOfCommands = 0;
+		if(currentCommand != null) {
+			Iterator<DriverCommand> iterator = currentCommand.iterator();
+			while (iterator.hasNext()) {
+				DriverCommand driverCommand = iterator.next();
+				listModel.addElement(driverCommand);
+				numberOfCommands++;
+			}
 		}
-		return commandLength;
+
+		return numberOfCommands;
 	}
 
 	@Override
