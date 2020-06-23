@@ -10,7 +10,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.historyComponent.HistoryController;
+import edu.kis.powp.jobs2d.command.historyComponent.HistoryFeature;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -108,7 +108,7 @@ public class TestJobs2dApp {
                 CommandsFeature.setupCommandManager();
 
                 DriverFeature.setupDriverPlugin(app);
-                HistoryController.setupHistoryController(app);
+                HistoryFeature.setupHistoryFeature(app);
                 setupDrivers(app);
                 setupPresetTests(app);
                 setupCommandTests(app);

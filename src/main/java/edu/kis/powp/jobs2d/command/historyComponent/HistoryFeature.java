@@ -5,9 +5,9 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
 
-public class HistoryController {
+public class HistoryFeature {
 
-    public static void setupHistoryController(Application application) {
+    public static void setupHistoryFeature(Application application) {
         HistoryManagerWindow history = new HistoryManagerWindow(CommandsFeature.getDriverCommandManager());
         HistoryWindowCommandChangeObserver historyObserver = new HistoryWindowCommandChangeObserver(history);
         CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(historyObserver);
