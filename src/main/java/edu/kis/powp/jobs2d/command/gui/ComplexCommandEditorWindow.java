@@ -126,7 +126,9 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
 		complexCommandEditor.moveCommandDown(commandList.getSelectedIndex());
+		int index = commandList.getSelectedIndex();
 		updateJList(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index + 1);
 	}
 
 	private void updateJList(ICompoundCommand editedComplexCommand) {
@@ -139,17 +141,21 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 
 	private void handleButtonUpClickedEvent(ActionEvent actionEvent) {
 		complexCommandEditor.moveCommandUp(commandList.getSelectedIndex());
+		int index = commandList.getSelectedIndex();
 		updateJList(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index - 1);
 	}
 
 	private void handleListSelectionEvent(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 			int index = commandList.getSelectedIndex();
-			DriverCommand driverCommand = listModel.getElementAt(index);
-			if(driverCommand instanceof HasCoordinates) {
-				HasCoordinates command = (HasCoordinates) driverCommand;
-				paramXInput.setText(String.valueOf(command.getX()));
-				paramYInput.setText(String.valueOf(command.getY()));
+			if(index > -1) {
+				DriverCommand driverCommand = listModel.getElementAt(index);
+				if (driverCommand instanceof HasCoordinates) {
+					HasCoordinates command = (HasCoordinates) driverCommand;
+					paramXInput.setText(String.valueOf(command.getX()));
+					paramYInput.setText(String.valueOf(command.getY()));
+				}
 			}
 		}
 	}
@@ -162,6 +168,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 			updateCommandStatistics(currentCommand);
 			complexCommandEditor = new ComplexCommandEditor(currentCommand);
 			updateJList(complexCommandEditor.getEditedComplexCommand());
+			commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
 		}
 
 		paramXInput.setText("");
