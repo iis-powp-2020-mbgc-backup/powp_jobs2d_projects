@@ -4,6 +4,7 @@ import edu.kis.powp.jobs2d.command.ComplexCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.builders.ComplexCommandBuilder;
+import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
 public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 
@@ -26,21 +27,40 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 
 	@Override
 	public void deleteCommand(int commandIndex) {
-		complexCommandBuilder.deleteCommand(commandIndex);
+		try {
+			complexCommandBuilder.deleteCommand(commandIndex);
+		} catch (InvalidCommandIndex invalidCommandIndex) {
+			invalidCommandIndex.printStackTrace();
+		}
 	}
 
 	@Override
 	public void moveCommandUp(int commandIndex) {
-		complexCommandBuilder.interchangeCommands(commandIndex, commandIndex - 1);
+		try {
+			complexCommandBuilder.interchangeCommands(commandIndex, commandIndex - 1);
+		} catch (InvalidCommandIndex invalidCommandIndex) {
+			//TODO should return error in the application logs, not in the console
+			invalidCommandIndex.printStackTrace();
+		}
 	}
 
 	@Override
 	public void moveCommandDown(int commandIndex) {
-		complexCommandBuilder.interchangeCommands(commandIndex, commandIndex + 1);
+		try {
+			complexCommandBuilder.interchangeCommands(commandIndex, commandIndex + 1);
+		} catch (InvalidCommandIndex invalidCommandIndex) {
+			//TODO should return error in the application logs, not in the console
+			invalidCommandIndex.printStackTrace();
+		}
 	}
 
 	@Override
 	public void modifyCoordinates(int commandIndex, int x, int y) {
-		complexCommandBuilder.modifyCoordinates(commandIndex, x, y);
+		try {
+			complexCommandBuilder.modifyCoordinates(commandIndex, x, y);
+		} catch (InvalidCommandIndex invalidCommandIndex) {
+			//TODO should return error in the application logs, not in the console
+			invalidCommandIndex.printStackTrace();
+		}
 	}
 }
