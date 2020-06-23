@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CommandEditorTest {
 
@@ -14,43 +13,30 @@ public class CommandEditorTest {
     void editor() {
         SetPositionCommand setPositionCommand = new SetPositionCommand(1, 1);
         CommandEditor editorS = new CommandEditor(setPositionCommand);
-        assertThrows(ImproperCommandTypeException.class, () -> editorS.changeOrder(1, 1));
-        try {
-            editorS.changeCoordinates(2, 3);
-            SetPositionCommand result = (SetPositionCommand) editorS.getCommand();
-            assertEquals(result.getPosX(), 2);
-            assertEquals(result.getPosY(), 3);
-        } catch (ImproperCommandTypeException e) {
-            e.printStackTrace();
-        }
+
+        editorS.edit(2, 3);
+        SetPositionCommand resultS = (SetPositionCommand) editorS.getCommand();
+        assertEquals(resultS.getPosX(), 2);
+        assertEquals(resultS.getPosY(), 3);
 
         OperateToCommand operateToCommand = new OperateToCommand(1, 1);
         CommandEditor editorO = new CommandEditor(operateToCommand);
-        assertThrows(ImproperCommandTypeException.class, () -> editorO.changeOrder(1, 1));
-        try {
-            editorO.changeCoordinates(2, 3);
-            OperateToCommand result = (OperateToCommand) editorO.getCommand();
-            assertEquals(result.getPosX(), 2);
-            assertEquals(result.getPosY(), 3);
-        } catch (ImproperCommandTypeException e) {
-            e.printStackTrace();
-        }
+
+        editorO.edit(2, 3);
+        OperateToCommand resultO = (OperateToCommand) editorO.getCommand();
+        assertEquals(resultO.getPosX(), 2);
+        assertEquals(resultO.getPosY(), 3);
 
         ArrayList<DriverCommand> comms = new ArrayList<>();
         comms.add(setPositionCommand);
         comms.add(operateToCommand);
         ICompoundCommand compoundCommand = new ImmutableComplexCommand(comms);
         CommandEditor editorC = new CommandEditor(compoundCommand);
-        assertThrows(ImproperCommandTypeException.class, () -> editorC.changeCoordinates(1, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> editorC.changeOrder(3, 1));
-        try {
-            editorC.changeOrder(0, 1);
-            ICompoundCommand result = (ICompoundCommand) editorC.getCommand();
-            Iterator<DriverCommand> it = result.iterator();
-            assertEquals(it.next(), operateToCommand);
-            assertEquals(it.next(), setPositionCommand);
-        } catch (ImproperCommandTypeException e) {
-            e.printStackTrace();
-        }
+
+        editorC.edit(0, 1);
+        ICompoundCommand resultC = (ICompoundCommand) editorC.getCommand();
+        Iterator<DriverCommand> it = resultC.iterator();
+        assertEquals(it.next(), operateToCommand);
+        assertEquals(it.next(), setPositionCommand);
     }
 }
