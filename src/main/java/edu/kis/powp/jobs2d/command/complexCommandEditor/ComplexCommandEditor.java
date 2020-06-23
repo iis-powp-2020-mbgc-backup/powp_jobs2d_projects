@@ -6,8 +6,10 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.builders.ComplexCommandBuilder;
 import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
-public class ComplexCommandEditor extends AbstractComplexCommandEditor{
+import java.util.logging.Logger;
 
+public class ComplexCommandEditor extends AbstractComplexCommandEditor{
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	ComplexCommandEditor(ICompoundCommand complexCommand){
 		this.complexCommand = complexCommand;
 		this.complexCommandBuilder = new ComplexCommandBuilder();
@@ -30,7 +32,7 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 		try {
 			complexCommandBuilder.deleteCommand(commandIndex);
 		} catch (InvalidCommandIndex invalidCommandIndex) {
-			invalidCommandIndex.printStackTrace();
+			logger.info(invalidCommandIndex.toString());
 		}
 	}
 
@@ -39,8 +41,7 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 		try {
 			complexCommandBuilder.interchangeCommands(commandIndex, commandIndex - 1);
 		} catch (InvalidCommandIndex invalidCommandIndex) {
-			//TODO should return error in the application logs, not in the console
-			invalidCommandIndex.printStackTrace();
+			logger.info(invalidCommandIndex.toString());
 		}
 	}
 
@@ -49,8 +50,7 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 		try {
 			complexCommandBuilder.interchangeCommands(commandIndex, commandIndex + 1);
 		} catch (InvalidCommandIndex invalidCommandIndex) {
-			//TODO should return error in the application logs, not in the console
-			invalidCommandIndex.printStackTrace();
+			logger.info(invalidCommandIndex.toString());
 		}
 	}
 
@@ -59,8 +59,7 @@ public class ComplexCommandEditor extends AbstractComplexCommandEditor{
 		try {
 			complexCommandBuilder.modifyCoordinates(commandIndex, x, y);
 		} catch (InvalidCommandIndex invalidCommandIndex) {
-			//TODO should return error in the application logs, not in the console
-			invalidCommandIndex.printStackTrace();
+			logger.info(invalidCommandIndex.toString());
 		}
 	}
 }
