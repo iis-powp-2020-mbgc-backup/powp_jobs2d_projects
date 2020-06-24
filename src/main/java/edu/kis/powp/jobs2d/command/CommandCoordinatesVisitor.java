@@ -18,13 +18,9 @@ public class CommandCoordinatesVisitor implements Visitor {
 	@Override
 	public void visit(OperateToCommand operateToCommand) {
 		Line2d line = lines.get(lines.size() - 1);
-		if(line.checkIfSameCoordinates()) {
-			line.setEndCoordinates(operateToCommand.getPosX(), operateToCommand.getPosY());
-		}
-		else {
-			lines.add(new Line2d(line.getEndPosX(), line.getEndPosY(),
-					operateToCommand.getPosX(), operateToCommand.getPosY()));
-		}
+		lines.add(new Line2d(line.getEndPosX(), line.getEndPosY(),
+				operateToCommand.getPosX(), operateToCommand.getPosY()));
+
 	}
 
 	@Override
@@ -35,8 +31,7 @@ public class CommandCoordinatesVisitor implements Visitor {
 	@Override
 	public void visit(ICompoundCommand compoundCommand) {
 		Iterator<DriverCommand> iterator = compoundCommand.iterator();
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			DriverCommand driverCommand = iterator.next();
 			driverCommand.accept(this);
 		}
