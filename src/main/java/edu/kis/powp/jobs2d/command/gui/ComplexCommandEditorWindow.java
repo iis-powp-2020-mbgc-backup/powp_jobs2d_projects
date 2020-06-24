@@ -206,8 +206,8 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 				DriverCommand driverCommand = listModel.getElementAt(index);
 				if (driverCommand instanceof HasCoordinates) {
 					HasCoordinates command = (HasCoordinates) driverCommand;
-					paramXInput.setText(String.valueOf(command.getX()));
-					paramYInput.setText(String.valueOf(command.getY()));
+					paramXInput.setText(String.valueOf(command.getPosX()));
+					paramYInput.setText(String.valueOf(command.getPosY()));
 				}
 			}
 		}

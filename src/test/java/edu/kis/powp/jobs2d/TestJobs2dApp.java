@@ -4,7 +4,6 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 
-import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.command.history.CommandHistory;
 import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
 import edu.kis.powp.jobs2d.command.history.HistoryViewer;
@@ -59,7 +58,7 @@ public class TestJobs2dApp {
 		application.addTest("Clear History", new SelectClearHistoryListener());
 		application.addTest("Run custom command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Calculate statistics of current command", new CalculateStatisticVisitorListener());
+		application.addTest("Calculate statistics of current command", new CalculateStatisticListener());
 	}
 
 	/**

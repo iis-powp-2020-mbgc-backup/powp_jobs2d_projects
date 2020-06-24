@@ -28,22 +28,14 @@ public class SetPositionCommand implements DriverCommand, HasCoordinates {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
-	
+
+	@Override
 	public int getPosX() {
 		return posX;
 	}
-	
+
+	@Override
 	public int getPosY() {
-		return posY;
-	}
-
-	@Override
-	public int getX() {
-		return posX;
-	}
-
-	@Override
-	public int getY() {
 		return posY;
 	}
 }
