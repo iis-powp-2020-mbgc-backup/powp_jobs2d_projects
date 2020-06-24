@@ -6,6 +6,7 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.builders.ComplexCommandBuilder;
 import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 public class ComplexCommandEditor implements IComplexCommandEditor {
@@ -62,7 +63,8 @@ public class ComplexCommandEditor implements IComplexCommandEditor {
 	public void modifyCoordinates(int commandIndex, int x, int y) {
 		try {
 			complexCommandBuilder.modifyCoordinates(commandIndex, x, y);
-		} catch (InvalidCommandIndex invalidCommandIndex) {
+		} catch (InvalidCommandIndex | NoSuchMethodException | IllegalAccessException | InvocationTargetException |
+				InstantiationException invalidCommandIndex) {
 			logger.info(invalidCommandIndex.toString());
 		}
 	}

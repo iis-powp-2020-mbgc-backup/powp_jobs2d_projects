@@ -6,6 +6,7 @@ import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class ComplexCommandBuilder implements CommandBuilder {
 		commands.set(commandIndex2, tmp);
 	}
 
-	public void modifyCoordinates(int commandIndex, int x, int y) throws InvalidCommandIndex {
+	public void modifyCoordinates(int commandIndex, int x, int y) throws InvalidCommandIndex,
+			NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		if(commands.isEmpty() ){
 			throw new InvalidCommandIndex("commands is empty");
 		}
@@ -54,11 +56,9 @@ public class ComplexCommandBuilder implements CommandBuilder {
 		}
 
 		DriverCommand command = commands.get(commandIndex);
-		if (command instanceof OperateToCommand) {
-			commands.set(commandIndex, new OperateToCommand(x, y));
-		} else if (command instanceof SetPositionCommand) {
-			commands.set(commandIndex, new SetPositionCommand(x, y));
-		}
+
+		commands.set(commandIndex, command.getClass().getDeclaredConstructor(int.class, int.class).newInstance(x, y));
+
 	}
 
 	@Override
