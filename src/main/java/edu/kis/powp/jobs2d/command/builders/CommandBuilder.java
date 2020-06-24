@@ -4,6 +4,6 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 
 public interface CommandBuilder {
 
-    DriverCommand build();
+	DriverCommand build();
 
 }
