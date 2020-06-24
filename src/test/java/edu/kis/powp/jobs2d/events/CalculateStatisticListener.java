@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
-public class CalculateStatisticVisitorListener implements ActionListener {
+public class CalculateStatisticListener implements ActionListener {
 
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
