@@ -14,10 +14,7 @@ public class InkUsageMethodObserver implements Subscriber {
     @Override public void update()
     {
         Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
-        InkUsageDriverDecorator driver = new InkUsageDriverDecorator(currentDriver, previousIUD.getInkLimit(),
-                previousIUD.getTotalUsage(), previousIUD.getMaxInkLimit());
-
-        DriverFeature.getDriverManager().setCurrentDriver(driver);
-        previousIUD = driver;
+        previousIUD.setDriver(currentDriver);
+        DriverFeature.getDriverManager().setCurrentDriver(this.previousIUD);
     }
 }

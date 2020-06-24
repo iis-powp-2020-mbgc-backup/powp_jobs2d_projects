@@ -27,18 +27,12 @@ public class InkUsageDriverDecorator implements Job2dDriver {
         pub.addSubscriber(new NoInkObserver(this));
     }
 
-    public InkUsageDriverDecorator(Job2dDriver driver, double inkLimit, double totalUsage, double maxInkLimit) {
-        super();
+    public void setDriver(Job2dDriver driver)
+    {
         this.driver = driver;
-        this.x0 = 0;
-        this.y0 = 0;
-        this.totalUsage = totalUsage;
-        this.inkLimit = inkLimit;
-        this.maxInkLimit = maxInkLimit;
         pub = new Publisher();
         pub.addSubscriber(new NoInkObserver(this));
     }
-
 
     @Override
     public void setPosition(int x, int y) {
