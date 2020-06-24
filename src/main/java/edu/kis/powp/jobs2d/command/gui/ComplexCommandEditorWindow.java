@@ -4,6 +4,8 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.complexCommandEditor.ComplexCommandEditor;
 import edu.kis.powp.jobs2d.command.complexCommandEditor.IComplexCommandEditor;
+import edu.kis.powp.jobs2d.command.visitor.CommandCounterVisitor;
+import edu.kis.powp.jobs2d.command.visitor.CommandLengthVisitor;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.util.ArrayList;

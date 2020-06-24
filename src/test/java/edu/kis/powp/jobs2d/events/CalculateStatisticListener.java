@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.events;
 
-import edu.kis.powp.jobs2d.command.CommandCounterVisitor;
-import edu.kis.powp.jobs2d.command.CommandLengthVisitor;
+import edu.kis.powp.jobs2d.command.visitor.CommandCounterVisitor;
+import edu.kis.powp.jobs2d.command.visitor.CommandLengthVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import java.awt.event.ActionEvent;
