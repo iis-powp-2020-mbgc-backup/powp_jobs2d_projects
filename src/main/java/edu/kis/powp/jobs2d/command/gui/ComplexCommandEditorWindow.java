@@ -103,6 +103,10 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		paramYInput = new JTextField(5);
 		mainRightParametersPanel.add(paramYInput);
 
+		JButton changeCoordinates = new JButton("Change coordinates");
+		changeCoordinates.addActionListener(this::handleChangeCoordinatesButtonClicked);
+		mainRightParametersPanel.add(changeCoordinates);
+
 		JButton changeOrderUpButton = new JButton("Up");
 		changeOrderUpButton.addActionListener(this::handleButtonUpClickedEvent);
 		mainRightOrderPanel.add(changeOrderUpButton);
@@ -132,10 +136,17 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		content.setVisible(true);
 	}
 
+	private void handleChangeCoordinatesButtonClicked(ActionEvent actionEvent) {
+		complexCommandEditor.modifyCoordinates(
+				commandList.getSelectedIndex(),
+				Integer.parseInt(paramXInput.getText()),
+				Integer.parseInt(paramYInput.getText()));
+	}
+
 	private void handleConfirmButton(ActionEvent actionEvent) {
 		java.util.List<DriverCommand> driverCommandList = new ArrayList<>();
 		if(complexCommandEditor != null) {
-			complexCommandEditor.getEditedComplexCommand().iterator().forEachRemaining(command -> driverCommandList.add(command));
+			complexCommandEditor.getEditedComplexCommand().iterator().forEachRemaining(driverCommandList::add);
 		}
 		CommandsFeature.getDriverCommandManager().setCurrentCommand(driverCommandList, "Command made in Complex Command Editor");
 	}
@@ -147,7 +158,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
 		commandList.setSelectedIndex(index);
 	}
-
 
 	private void addNewSetToCommand(ActionEvent actionEvent) {
 		SetPositionCommand setPositionCommand = new SetPositionCommand(Integer.parseInt(paramXInput.getText()),
@@ -169,8 +179,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		commandList.setSelectedIndex(listModel.size()-1);
 	}
 
-
-
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
 		complexCommandEditor.moveCommandDown(commandList.getSelectedIndex());
 		int index = commandList.getSelectedIndex();
@@ -181,11 +189,10 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private void updateJList(ICompoundCommand editedComplexCommand) {
 		listModel.clear();
 		if(editedComplexCommand != null) {
-			editedComplexCommand.iterator().forEachRemaining(command -> listModel.addElement(command));
+			editedComplexCommand.iterator().forEachRemaining(listModel::addElement);
 		}
 
 	}
-
 
 	private void handleButtonUpClickedEvent(ActionEvent actionEvent) {
 		complexCommandEditor.moveCommandUp(commandList.getSelectedIndex());
