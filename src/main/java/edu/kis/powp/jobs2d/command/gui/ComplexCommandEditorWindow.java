@@ -3,7 +3,7 @@ package edu.kis.powp.jobs2d.command.gui;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.*;
 import edu.kis.powp.jobs2d.command.complexCommandEditor.ComplexCommandEditor;
-import edu.kis.powp.jobs2d.command.line.Line2d;
+import edu.kis.powp.jobs2d.command.complexCommandEditor.IComplexCommandEditor;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
 
 public class ComplexCommandEditorWindow extends JFrame implements WindowComponent {
 
@@ -23,7 +22,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private final JLabel numberOfCommandsValue;
 	private final JLabel commandLengthValue;
 
-	private ComplexCommandEditor complexCommandEditor;
+	private IComplexCommandEditor complexCommandEditor;
 	private ICompoundCommand currentCommand;
 
 	public ComplexCommandEditorWindow() {
@@ -32,7 +31,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		content.setLayout(new BorderLayout());
 		this.setTitle("Complex command editor");
 		this.setSize(640, 480);
-
 
 		// Layout
 		JPanel topPanel = new JPanel();
