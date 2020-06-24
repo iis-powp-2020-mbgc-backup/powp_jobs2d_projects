@@ -11,6 +11,8 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.transformation.Scale;
+import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -64,6 +66,11 @@ public class TestJobs2dApp {
 
         driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
         DriverFeature.addDriver("Special line Simulator", driver);
+        DriverFeature.updateDriverInfo();
+
+        TransformationDriver transformationDriver = new TransformationDriver(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
+        transformationDriver.addTransformation(new Scale(-1, 1));
+        DriverFeature.addDriver("Transformation Driver (V Flip)", transformationDriver);
         DriverFeature.updateDriverInfo();
     }
 
