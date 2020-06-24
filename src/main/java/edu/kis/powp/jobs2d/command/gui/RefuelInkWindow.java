@@ -1,12 +1,13 @@
 package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.drivers.InkOperator;
 import edu.kis.powp.jobs2d.drivers.InkUsageDriverDecorator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class RefuelInkWindow extends JFrame implements WindowComponent
+public class RefuelInkWindow extends JFrame implements WindowComponent, InkOperator
 {
     private InkUsageDriverDecorator driver;
     public RefuelInkWindow(InkUsageDriverDecorator driver)
@@ -56,5 +57,13 @@ public class RefuelInkWindow extends JFrame implements WindowComponent
 
         this.driver.setIsAvailable();
         HideIfVisibleAndShowIfHidden();
+    }
+
+    @Override
+    public void restoreInk(double amount, InkUsageDriverDecorator driver) {
+        if(amount > driver.getMaxInkLimit() || amount < driver.getInkLimit())
+            driver.setInkLimit(driver.getMaxInkLimit());
+        else
+            driver.setInkLimit(amount);
     }
 }
