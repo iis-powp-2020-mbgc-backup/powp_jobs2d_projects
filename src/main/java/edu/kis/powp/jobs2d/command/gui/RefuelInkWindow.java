@@ -49,10 +49,10 @@ public class RefuelInkWindow extends JFrame implements WindowComponent, InkOpera
     private void RefuelInk(String amount){
         try{
             int inkAmount = Integer.parseInt(amount);
-            this.driver.restoreInk(inkAmount);
+            restoreInk(inkAmount,this.driver);
 
         }catch(Exception e){
-            this.driver.restoreInk(10000f);
+            restoreInk(10000f,this.driver);
         }
 
         this.driver.setIsAvailable();

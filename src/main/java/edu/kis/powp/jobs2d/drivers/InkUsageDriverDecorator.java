@@ -43,10 +43,10 @@ public class InkUsageDriverDecorator implements Job2dDriver {
     @Override
     public void setPosition(int x, int y) {
         double wasted = inkCounter(this.x0, x, this.y0, y);
+        totalUsage += wasted;
         driver.setPosition(x, y);
         this.x0 = x;
         this.y0 = y;
-
     }
 
     private double inkCounter(int xStart, int xEnd, int yStart, int yEnd){
