@@ -20,7 +20,7 @@ public class ImmutableComplexCommand implements ICompoundCommand {
      * @param commands - List containing DriverCommands
      */
     public ImmutableComplexCommand(List<DriverCommand> commands) {
-        ArrayList<DriverCommand> list = new ArrayList<>(commands.size());
+        List<DriverCommand> list = new ArrayList<>(commands.size());
         
         for (DriverCommand command : commands) {
             list.add(CommandsFeature.deepCopyDriverCommand(command));

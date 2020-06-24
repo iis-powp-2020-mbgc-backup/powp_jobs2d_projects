@@ -1,14 +1,19 @@
 package edu.kis.powp.jobs2d.drivers.transformation;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import edu.kis.powp.jobs2d.Job2dDriver;
 
 /**
  * Transformation driver
+ * Design pattern: decorator-like
+ * Basically works like decorator pattern,
+ * but has an additional method (addTransformation)
  */
 public class TransformationDriver implements Job2dDriver {
     private final Job2dDriver driver;
-    private final ArrayList<Transformation> allTransformations = new ArrayList<>();
+    private final List<Transformation> allTransformations = new ArrayList<>();
     
     /**
      * Creates transformation driver
