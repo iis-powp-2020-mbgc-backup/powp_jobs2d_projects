@@ -6,7 +6,10 @@ public class Line2d {
 	private int startPosY;
 	private int endPosX;
 	private int endPosY;
-	
+	private boolean isOperateTo;
+
+	public boolean getOperateTo() { return isOperateTo; }
+
 	public int getStartPosX() {
 		return startPosX;
 	}
@@ -44,6 +47,7 @@ public class Line2d {
 		this.startPosY = startPosY;
 		this.endPosX = endPosX;
 		this.endPosY = endPosY;
+		this.isOperateTo = true;
 	}
 	
 	public Line2d(int startPosX, int startPosY) {
@@ -51,20 +55,7 @@ public class Line2d {
 		this.startPosY = startPosY;
 		this.endPosX = startPosX;
 		this.endPosY = startPosY;
-	}
-	
-	public void setEndCoordinates(int endPosX, int endPosY) {
-		this.endPosX = endPosX;
-		this.endPosY = endPosY;
-	}
-	
-	public boolean checkIfSameCoordinates() {
-		return this.startPosX == this.endPosX && this.startPosY == this.endPosY;
-	}
-	
-	public static boolean checkIfConnected(Line2d line1, Line2d line2) {
-		return line1.getEndPosX() == line2.getStartPosX()
-				&& line1.getEndPosY() == line2.getStartPosY();
+		this.isOperateTo = false;
 	}
 	
 }

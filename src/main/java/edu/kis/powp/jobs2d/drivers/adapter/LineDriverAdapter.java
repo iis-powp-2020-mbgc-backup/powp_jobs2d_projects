@@ -36,6 +36,11 @@ public class LineDriverAdapter implements Job2dDriver {
 		drawController.drawLine(line);
 	}
 
+	public ILine getLine() {
+		return line;
+	}
+
+
 	@Override
 	public String toString() {
 		return "2d device simulator - " + name;

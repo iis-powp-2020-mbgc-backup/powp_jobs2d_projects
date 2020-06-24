@@ -213,15 +213,19 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		}
 	}
 
-
 	public void updateViewToCurrentCommand() {
 		currentCommand = (ICompoundCommand) CommandsFeature.getDriverCommandManager().getCurrentCommand();
 
-		if(currentCommand!= null) {
+		if(currentCommand != null) {
 			updateCommandStatistics(currentCommand);
 			complexCommandEditor = new ComplexCommandEditor(currentCommand);
 			updateJList(complexCommandEditor.getEditedComplexCommand());
 			commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
+		} else {
+			commandNameValue.setText("No command selected");
+			commandLengthValue.setText("N/A");
+			numberOfCommandsValue.setText("N/A");
+			listModel.clear();
 		}
 
 		paramXInput.setText("");
