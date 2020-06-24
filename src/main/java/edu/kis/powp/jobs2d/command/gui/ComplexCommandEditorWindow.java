@@ -2,14 +2,15 @@ package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.*;
-import edu.kis.powp.jobs2d.command.line.Line2d;
+import edu.kis.powp.jobs2d.command.complexCommandEditor.ComplexCommandEditor;
+import edu.kis.powp.jobs2d.command.complexCommandEditor.IComplexCommandEditor;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
 
 public class ComplexCommandEditorWindow extends JFrame implements WindowComponent {
 
@@ -21,6 +22,7 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 	private final JLabel numberOfCommandsValue;
 	private final JLabel commandLengthValue;
 
+	private IComplexCommandEditor complexCommandEditor;
 	private ICompoundCommand currentCommand;
 
 	public ComplexCommandEditorWindow() {
@@ -29,7 +31,6 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		content.setLayout(new BorderLayout());
 		this.setTitle("Complex command editor");
 		this.setSize(640, 480);
-
 
 		// Layout
 		JPanel topPanel = new JPanel();
@@ -100,6 +101,10 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		paramYInput = new JTextField(5);
 		mainRightParametersPanel.add(paramYInput);
 
+		JButton changeCoordinates = new JButton("Change coordinates");
+		changeCoordinates.addActionListener(this::handleChangeCoordinatesButtonClicked);
+		mainRightParametersPanel.add(changeCoordinates);
+
 		JButton changeOrderUpButton = new JButton("Up");
 		changeOrderUpButton.addActionListener(this::handleButtonUpClickedEvent);
 		mainRightOrderPanel.add(changeOrderUpButton);
@@ -112,85 +117,125 @@ public class ComplexCommandEditorWindow extends JFrame implements WindowComponen
 		confirmButton.addActionListener(this::handleConfirmButton);
 		mainRightBottomPanel.add(confirmButton);
 
+		JButton newOperateToCommandButton = new JButton("New operate to command");
+		newOperateToCommandButton.addActionListener(this::addOperateToCommand);
+		mainRightBottomPanel.add(newOperateToCommandButton);
+
+		JButton newSetToCommandButton = new JButton("New set to command");
+		newSetToCommandButton.addActionListener(this::addNewSetToCommand);
+		mainRightBottomPanel.add(newSetToCommandButton);
+
+		JButton deleteCommandButton = new JButton("Delete");
+		deleteCommandButton.addActionListener(this::deleteCommand);
+		mainRightBottomPanel.add(deleteCommandButton);
+
 		updateViewToCurrentCommand();
 
 		content.setVisible(true);
 	}
 
+	private void handleChangeCoordinatesButtonClicked(ActionEvent actionEvent) {
+		complexCommandEditor.modifyCoordinates(
+				commandList.getSelectedIndex(),
+				Integer.parseInt(paramXInput.getText()),
+				Integer.parseInt(paramYInput.getText()));
+	}
+
 	private void handleConfirmButton(ActionEvent actionEvent) {
+		java.util.List<DriverCommand> driverCommandList = new ArrayList<>();
+		if(complexCommandEditor != null) {
+			complexCommandEditor.getEditedComplexCommand().iterator().forEachRemaining(driverCommandList::add);
+		}
+		CommandsFeature.getDriverCommandManager().setCurrentCommand(driverCommandList, "Command made in Complex Command Editor");
+	}
+
+	private void deleteCommand(ActionEvent actionEvent) {
+		int index = commandList.getSelectedIndex();
+		complexCommandEditor.deleteCommand(commandList.getSelectedIndex());
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index);
+	}
+
+	private void addNewSetToCommand(ActionEvent actionEvent) {
+		SetPositionCommand setPositionCommand = new SetPositionCommand(Integer.parseInt(paramXInput.getText()),
+			Integer.parseInt(paramYInput.getText()));
+
+		complexCommandEditor.addCommand(setPositionCommand);
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(listModel.size()-1);
+	}
+
+	private void addOperateToCommand(ActionEvent actionEvent) {
+		OperateToCommand operateToCommand = new OperateToCommand(Integer.parseInt(paramXInput.getText()),
+			Integer.parseInt(paramYInput.getText()));
+
+		complexCommandEditor.addCommand(operateToCommand);
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		updateCommandStatistics(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(listModel.size()-1);
 	}
 
 	private void handleButtonDownClickedEvent(ActionEvent actionEvent) {
+		complexCommandEditor.moveCommandDown(commandList.getSelectedIndex());
 		int index = commandList.getSelectedIndex();
-		if (index < listModel.getSize() - 1) {
-			swap(index, index + 1);
-			commandList.setSelectedIndex(index + 1);
-			commandList.ensureIndexIsVisible(index + 1);
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index + 1);
+	}
+
+	private void updateJList(ICompoundCommand editedComplexCommand) {
+		listModel.clear();
+		if(editedComplexCommand != null) {
+			editedComplexCommand.iterator().forEachRemaining(listModel::addElement);
 		}
+
 	}
 
 	private void handleButtonUpClickedEvent(ActionEvent actionEvent) {
+		complexCommandEditor.moveCommandUp(commandList.getSelectedIndex());
 		int index = commandList.getSelectedIndex();
-		if (index > 0) {
-			swap(index, index - 1);
-			commandList.setSelectedIndex(index - 1);
-			commandList.ensureIndexIsVisible(index - 1);
-		}
+		updateJList(complexCommandEditor.getEditedComplexCommand());
+		commandList.setSelectedIndex(index - 1);
 	}
 
 	private void handleListSelectionEvent(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 			int index = commandList.getSelectedIndex();
-			DriverCommand driverCommand = listModel.getElementAt(index);
-			if(driverCommand instanceof HasCoordinates) {
-				HasCoordinates command = (HasCoordinates) driverCommand;
-				paramXInput.setText(String.valueOf(command.getX()));
-				paramYInput.setText(String.valueOf(command.getY()));
+			if(index > -1) {
+				DriverCommand driverCommand = listModel.getElementAt(index);
+				if (driverCommand instanceof HasCoordinates) {
+					HasCoordinates command = (HasCoordinates) driverCommand;
+					paramXInput.setText(String.valueOf(command.getX()));
+					paramYInput.setText(String.valueOf(command.getY()));
+				}
 			}
-
 		}
 	}
 
-	private void swap(int a, int b) {
-		DriverCommand aObject = listModel.getElementAt(a);
-		DriverCommand bObject = listModel.getElementAt(b);
-		listModel.set(a, bObject);
-		listModel.set(b, aObject);
-	}
 
 	public void updateViewToCurrentCommand() {
 		currentCommand = (ICompoundCommand) CommandsFeature.getDriverCommandManager().getCurrentCommand();
-		int numberOfCommands = updateCommandList();
-		numberOfCommandsValue.setText(String.valueOf(numberOfCommands));
-		commandLengthValue.setText(String.valueOf(getCommandLength(currentCommand)));
+
+		if(currentCommand!= null) {
+			updateCommandStatistics(currentCommand);
+			complexCommandEditor = new ComplexCommandEditor(currentCommand);
+			updateJList(complexCommandEditor.getEditedComplexCommand());
+			commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
+		}
+
 		paramXInput.setText("");
 		paramYInput.setText("");
-		commandNameValue.setText(CommandsFeature.getDriverCommandManager().getCurrentCommandString());
 	}
 
-	private double getCommandLength(ICompoundCommand currentCommand) {
-		if(currentCommand != null) {
-			CommandLengthVisitor lengthVisitor = new CommandLengthVisitor();
-			lengthVisitor.visit(currentCommand);
-			return lengthVisitor.getLength();
-		} else {
-			return 0;
-		}
-	}
+	private void updateCommandStatistics(ICompoundCommand iCompoundCommand) {
+		CommandCounterVisitor commandCounterVisitor = new CommandCounterVisitor();
+		CommandLengthVisitor commandLengthVisitor = new CommandLengthVisitor();
+		commandCounterVisitor.visit(iCompoundCommand);
+		commandLengthVisitor.visit(iCompoundCommand);
 
-	private int updateCommandList() {
-		listModel.clear();
-		int numberOfCommands = 0;
-		if(currentCommand != null) {
-			Iterator<DriverCommand> iterator = currentCommand.iterator();
-			while (iterator.hasNext()) {
-				DriverCommand driverCommand = iterator.next();
-				listModel.addElement(driverCommand);
-				numberOfCommands++;
-			}
-		}
-
-		return numberOfCommands;
+		numberOfCommandsValue.setText(String.valueOf(commandCounterVisitor.getAllCommandsCounter()));
+		commandLengthValue.setText(String.valueOf(commandLengthVisitor.getLength()));
 	}
 
 	@Override
