@@ -44,4 +44,9 @@ public class OperateToCommand implements DriverCommand {
     public void accept(CommandVisitorInterface visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "OperateTo(" + posX + ", " + posY + ")";
+    }
 }

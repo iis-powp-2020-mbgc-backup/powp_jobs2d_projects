@@ -13,7 +13,7 @@ public class CommandEditor implements CommandVisitorInterface {
     private int x;
     private int y;
 
-    CommandEditor(DriverCommand command) {
+    public CommandEditor(DriverCommand command) {
         this.command = command;
     }
 
