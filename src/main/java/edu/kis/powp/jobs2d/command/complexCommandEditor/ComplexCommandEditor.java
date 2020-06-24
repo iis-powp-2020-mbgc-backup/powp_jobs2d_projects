@@ -63,9 +63,8 @@ public class ComplexCommandEditor implements IComplexCommandEditor {
 	public void modifyCoordinates(int commandIndex, int x, int y) {
 		try {
 			complexCommandBuilder.modifyCoordinates(commandIndex, x, y);
-		} catch (InvalidCommandIndex | NoSuchMethodException | IllegalAccessException | InvocationTargetException |
-				InstantiationException invalidCommandIndex) {
-			logger.info(invalidCommandIndex.toString());
+		} catch (InvalidCommandIndex | ReflectiveOperationException exception) {
+			logger.info(exception.toString());
 		}
 	}
 

@@ -2,11 +2,8 @@ package edu.kis.powp.jobs2d.command.builders;
 
 import edu.kis.powp.jobs2d.command.ComplexCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.exceptions.InvalidCommandIndex;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +44,8 @@ public class ComplexCommandBuilder implements CommandBuilder {
 	}
 
 	public void modifyCoordinates(int commandIndex, int x, int y) throws InvalidCommandIndex,
-			NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		if(commands.isEmpty() ){
+			ReflectiveOperationException {
+		if (commands.isEmpty()) {
 			throw new InvalidCommandIndex("commands is empty");
 		}
 		if (commandIndex >= commands.size() || commandIndex < 0) {
