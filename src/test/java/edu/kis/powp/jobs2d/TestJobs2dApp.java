@@ -10,6 +10,9 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.historyComponent.HistoryFeature;
+import edu.kis.powp.jobs2d.drivers.Job2dDriverDecorator;
+import edu.kis.powp.jobs2d.drivers.UsageMonitorObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
@@ -48,6 +51,17 @@ public class TestJobs2dApp {
 
         application.addTest("Make a command deep copy", new CopyCommandListener());
 
+        application.addTest("Rotate: 36 degrees", new SelectCommandTransformationRotateOptionListener(36));
+        application.addTest("Rotate: -15 degrees", new SelectCommandTransformationRotateOptionListener(-15));
+
+        application.addTest("Scale: 2.5", new SelectCommandTransformationScaleOptionListener(2.5, 2.5));
+        application.addTest("Scale: 0.3", new SelectCommandTransformationScaleOptionListener(0.3, 0.3));
+        application.addTest("Scale: 1.2, 0.8", new SelectCommandTransformationScaleOptionListener(1.2, 0.8));
+
+        application.addTest("Flip: horizontal", new SelectCommandTransformationFlipOptionListener(true));
+        application.addTest("Flip: vertical", new SelectCommandTransformationFlipOptionListener(false));
+
+        application.addTest("test VisitorCommandPattern", new SelectCommandUsageCounterVisitorTestListener());
     }
 
     /**
@@ -62,7 +76,7 @@ public class TestJobs2dApp {
         DrawPanelController drawerController = DrawerFeature.getDrawerController();
         Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
         DriverFeature.addDriver("Line Simulator", driver);
-        DriverFeature.getDriverManager().setCurrentDriver(driver);
+        DriverFeature.getDriverManager().setCurrentDriver(new Job2dDriverDecorator(driver));
 
         driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
         DriverFeature.addDriver("Special line Simulator", driver);
@@ -72,6 +86,9 @@ public class TestJobs2dApp {
         transformationDriver.addTransformation(new Scale(-1, 1));
         DriverFeature.addDriver("Transformation Driver (V Flip)", transformationDriver);
         DriverFeature.updateDriverInfo();
+
+        UsageMonitorObserver usageMonitorObserver = new UsageMonitorObserver();
+        DriverFeature.getDriverManager().getChangePublisher().addSubscriber(usageMonitorObserver);
     }
 
     private static void setupWindows(Application application) {
@@ -114,6 +131,7 @@ public class TestJobs2dApp {
                 CommandsFeature.setupCommandManager();
 
                 DriverFeature.setupDriverPlugin(app);
+                HistoryFeature.setupHistoryFeature(app);
                 setupDrivers(app);
                 setupPresetTests(app);
                 setupCommandTests(app);
