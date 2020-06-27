@@ -4,14 +4,14 @@ import edu.kis.powp.observer.Subscriber;
 
 public class HistoryWindowCommandChangeObserver implements Subscriber {
 
-    private HistoryManagerWindow backLogManagerWindow;
-    public HistoryWindowCommandChangeObserver(HistoryManagerWindow commandManagerWindow) {
+    private HistoryManager backLogManager;
+    public HistoryWindowCommandChangeObserver(HistoryManager commandManager) {
         super();
-        this.backLogManagerWindow = commandManagerWindow;
+        this.backLogManager = commandManager;
     }
 
     @Override
     public void update() {
-        backLogManagerWindow.updateCommandListField();
+        backLogManager.updateCommandListField();
     }
 }
