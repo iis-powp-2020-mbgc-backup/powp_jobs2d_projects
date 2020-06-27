@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.CommandCoordinatesVisitor;
+import edu.kis.powp.jobs2d.command.visitor.CommandCoordinatesVisitor;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;

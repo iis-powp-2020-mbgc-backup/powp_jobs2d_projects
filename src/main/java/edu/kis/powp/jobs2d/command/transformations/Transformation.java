@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command.transformations;
 
+import edu.kis.powp.jobs2d.command.visitor.CommandCoordinatesVisitor;
 import java.util.ArrayList;
 import java.util.List;
 

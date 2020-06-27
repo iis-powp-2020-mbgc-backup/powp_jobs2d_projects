@@ -1,5 +1,9 @@
-package edu.kis.powp.jobs2d.command;
-
+package edu.kis.powp.jobs2d.command.visitor;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.OperateToCommand;
+import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.Visitor;
 import java.util.Iterator;
 
 
@@ -7,14 +11,6 @@ public class CommandCounterVisitor implements Visitor {
 
 	private int operateToCommandCounter = 0;
 	private int setPositionCommandCounter = 0;
-
-	public int getOperateToCommandCounter() {
-		return operateToCommandCounter;
-	}
-
-	public int getSetPositionCommandCounter() {
-		return setPositionCommandCounter;
-	}
 
 	public int getAllCommandsCounter() {
 		return setPositionCommandCounter + operateToCommandCounter;

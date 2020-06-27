@@ -4,9 +4,9 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.command.ComplexCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ImmutableCommandCreationException;
 import edu.kis.powp.jobs2d.command.ImmutableComplexCommand;
 import edu.kis.powp.jobs2d.command.gui.CommandManager;
+import edu.kis.powp.jobs2d.command.ImmutableCommandCreationException;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
@@ -57,6 +57,7 @@ public class DriverCommandManager implements CommandManager {
 	@Override 
 	public synchronized void clearCurrentCommand() {
 		currentCommand = null;
+		commandChangePublisher.notifyObservers();
 	}
 
 	@Override

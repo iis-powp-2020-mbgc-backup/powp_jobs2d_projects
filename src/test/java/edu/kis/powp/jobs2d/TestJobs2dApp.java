@@ -4,7 +4,6 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 
-import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.command.history.CommandHistory;
 import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
 import edu.kis.powp.jobs2d.command.history.HistoryViewer;
@@ -52,15 +51,14 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("Draw triangle and count operations", new CommandCounterVisitorTest_drawTriangle());
-		application.addTest("Draw lock and count operations", new ICompoundCommandVisitorTest_drawLock());
-
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
 
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 		application.addTest("Clear History", new SelectClearHistoryListener());
 		application.addTest("Run custom command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Calculate statistics of current command", new CalculateStatisticListener());
 	}
 
 	/**
@@ -116,8 +114,15 @@ public class TestJobs2dApp {
     	CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Transformation", commandTransformationWindow);
 
+		ComplexCommandEditorWindow complexCommandEditorWindow =
+				new ComplexCommandEditorWindow();
+		application.addWindowComponent("Complex command editor", complexCommandEditorWindow);
 
-    windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
+		ComplexCommandEditorWindowCommandChangeObserver editorWindowCommandChangeObserver =
+				new ComplexCommandEditorWindowCommandChangeObserver(complexCommandEditorWindow);
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(editorWindowCommandChangeObserver);
+
+		windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);
 	}
 
