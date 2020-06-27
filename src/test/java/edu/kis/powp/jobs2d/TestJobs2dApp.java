@@ -18,6 +18,7 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MacroFeature;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -60,6 +61,9 @@ public class TestJobs2dApp {
         application.addTest("Flip: vertical", new SelectCommandTransformationFlipOptionListener(false));
 
         application.addTest("test VisitorCommandPattern", new SelectCommandUsageCounterVisitorTestListener());
+
+        application.addTest("Load MACRO command", new SelectLoadMacroListener());
+        application.addTest("Clear Macro command", new SelectClearMacroListener());
     }
 
     /**
@@ -75,7 +79,8 @@ public class TestJobs2dApp {
         Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
         DriverFeature.addDriver("Line Simulator", driver);
         DriverFeature.getDriverManager().setCurrentDriver(new Job2dDriverDecorator(driver));
-
+        DriverFeature.addDriver("Macro Driver (special line)", MacroFeature.getMacroAdapter());
+        MacroFeature.getMacroAdapter().setDriver(driver);
         driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
         DriverFeature.addDriver("Special line Simulator", driver);
         DriverFeature.updateDriverInfo();
@@ -122,7 +127,7 @@ public class TestJobs2dApp {
                 Application app = new Application("Jobs 2D");
                 DrawerFeature.setupDrawerPlugin(app);
                 CommandsFeature.setupCommandManager();
-
+                MacroFeature.setMacroAdapter();
                 DriverFeature.setupDriverPlugin(app);
                 HistoryFeature.setupHistoryFeature(app);
                 setupDrivers(app);
