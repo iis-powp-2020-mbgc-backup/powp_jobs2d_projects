@@ -21,6 +21,10 @@ public class DriverComposite implements Job2dDriver {
         job2dDriverList.add(job2dDriver);
     }
 
+    public List<Job2dDriver> getDrivers(){
+        return job2dDriverList;
+    }
+
     @Override
     public void setPosition(int x, int y) {
         for (Job2dDriver job2dDriver : job2dDriverList) {

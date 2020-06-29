@@ -56,6 +56,8 @@ public class TestJobs2dApp {
 
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
 
+		application.addTest("Start Macro", new SelectStartMacroListener());
+		application.addTest("Stop Macro", new SelectStopMacroListener());
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
 	}
@@ -79,8 +81,6 @@ public class TestJobs2dApp {
 
 		Job2dDriver dottedLineDriver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
-
-		DriverFeature.addDriver("Start Macro Driver", MacroFeature.getMacroDriver());
 
         DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
@@ -140,6 +140,7 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
 				MacroFeature.setupMacroDriver();
 				DriverFeature.setupDriverPlugin(app);
+				DriverCompositeFeature.setupDriverComposite();
 
 				setupDrivers(app);
 				setupPresetTests(app);
