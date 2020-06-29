@@ -3,10 +3,11 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.CommandImportWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowObserverChangeObserver;
+
+import edu.kis.powp.jobs2d.command.history.CommandHistory;
+import edu.kis.powp.jobs2d.command.history.CommandHistoryObserver;
+import edu.kis.powp.jobs2d.command.history.HistoryViewer;
+import edu.kis.powp.jobs2d.command.gui.*;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.*;
@@ -50,16 +51,16 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("DriverCommandVisitor test1", new DriverCommandVisitorTest1());
-		application.addTest("DriverCommandVisitor test2", new DriverCommandVisitorTest2());
-		application.addTest("ICompoundCommandVisitor test3", new ICompoundCommandVisitorTest());
-
 		application.addTest("Mouse figure", new SelectMouseFigureOptionListener(application.getFreePanel(), DriverFeature.getDriverManager()));
 
 		application.addTest("Start Macro", new SelectStartMacroListener());
 		application.addTest("Stop Macro", new SelectStopMacroListener());
 		application.addTest("Load Macro",new SelectLoadMacroDriverListener());
 		application.addTest("Clear Macro",new SelectClearMacroListener());
+		application.addTest("Clear History", new SelectClearHistoryListener());
+		application.addTest("Run custom command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Calculate statistics of current command", new CalculateStatisticListener());
 	}
 
 	/**
@@ -82,10 +83,16 @@ public class TestJobs2dApp {
 		Job2dDriver dottedLineDriver = new LineDriverAdapter(drawerController, LineFactory.getDottedLine(), "dotted");
 		DriverFeature.addDriver("Dotted line Simulator", dottedLineDriver);
 
-        DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+
+    DriverInfoChangeObserver driverInfoChangeObserver = new DriverInfoChangeObserver();
+
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(driverInfoChangeObserver);
 
 		DriverFeature.getDriverManager().getPublisher().addSubscriber(new DriverChangeObserver());
+
+		TransformationChangeObserver transformationChangeObserver = new TransformationChangeObserver();
+		DriverFeature.getDriverManager().getPublisher().addSubscriber(transformationChangeObserver);
+
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -101,8 +108,23 @@ public class TestJobs2dApp {
 		CommandImportWindow commandImportWindow = new CommandImportWindow(CommandsFeature.getDriverCommandManager(), reader);
 		application.addWindowComponent("Editor", commandImportWindow);
 
+		HistoryViewer historyViewer = new HistoryViewer(CommandHistory.getEntryHistoryList(), CommandsFeature.getDriverCommandManager());
+		application.addWindowComponent("History", historyViewer);
+		CommandHistoryObserver commandHistoryObserver = new CommandHistoryObserver(CommandsFeature.getDriverCommandManager());
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(commandHistoryObserver);
 
-    windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
+    	CommandTransformationWindow commandTransformationWindow = new CommandTransformationWindow(CommandsFeature.getDriverCommandManager());
+		application.addWindowComponent("Transformation", commandTransformationWindow);
+
+		ComplexCommandEditorWindow complexCommandEditorWindow =
+				new ComplexCommandEditorWindow();
+		application.addWindowComponent("Complex command editor", complexCommandEditorWindow);
+
+		ComplexCommandEditorWindowCommandChangeObserver editorWindowCommandChangeObserver =
+				new ComplexCommandEditorWindowCommandChangeObserver(complexCommandEditorWindow);
+		CommandsFeature.getDriverCommandManager().addChangeSubscriber(editorWindowCommandChangeObserver);
+
+		windowObserver = new CommandManagerWindowCommandChangeObserver(commandManager);
 		CommandsFeature.getDriverCommandManager().addChangeSubscriber(windowObserver);
 	}
 
@@ -140,7 +162,7 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
 				MacroFeature.setupMacroDriver();
 				DriverFeature.setupDriverPlugin(app);
-				DriverCompositeFeature.setupDriverComposite();
+			  DriverCompositeFeature.setupDriverComposite();
 
 				setupDrivers(app);
 				setupPresetTests(app);
