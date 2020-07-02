@@ -7,15 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class RefuelInkWindow extends JFrame implements WindowComponent, InkOperator
+public class RefuelInkWindow extends JFrame implements WindowComponent
 {
-    private InkUsageDriverDecorator driver;
-    public RefuelInkWindow(InkUsageDriverDecorator driver)
+    private InkOperator operator;
+    public RefuelInkWindow(InkUsageDriverDecorator operator)
     {
         this.setTitle("Refuel Ink Window");
         this.setSize(250, 140);
-        this.driver = driver;
-
+        this.operator = operator;
         Container content = this.getContentPane();
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
         this.setResizable(false);
@@ -23,7 +22,7 @@ public class RefuelInkWindow extends JFrame implements WindowComponent, InkOpera
         btnClearCommand.setBounds(100,100,140, 40);
 
         JLabel label1 = new JLabel();
-        label1.setText("Currently: "+ String.format("%.2f", this.driver.getInkLimit())+"/10000units");
+        label1.setText("Currently: "+ String.format("%.2f", operator.getInkLimit())+"/10000units");
         label1.setBounds(10, 10, 10, 20);
         content.add(label1);
 
@@ -49,21 +48,15 @@ public class RefuelInkWindow extends JFrame implements WindowComponent, InkOpera
     private void RefuelInk(String amount){
         try{
             int inkAmount = Integer.parseInt(amount);
-            restoreInk(inkAmount,this.driver);
+            operator.restoreInk(inkAmount);
+
 
         }catch(Exception e){
-            restoreInk(10000f,this.driver);
+            operator.restoreInk(10000f);
         }
 
-        this.driver.setIsAvailable();
+        operator.setIsAvailable();
         HideIfVisibleAndShowIfHidden();
     }
 
-    @Override
-    public void restoreInk(double amount, InkUsageDriverDecorator driver) {
-        if(amount > driver.getMaxInkLimit() || amount < driver.getInkLimit())
-            driver.setInkLimit(driver.getMaxInkLimit());
-        else
-            driver.setInkLimit(amount);
-    }
 }

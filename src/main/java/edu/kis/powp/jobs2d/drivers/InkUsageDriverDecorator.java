@@ -5,7 +5,7 @@ import edu.kis.powp.observer.Publisher;
 
 import java.util.logging.Logger;
 
-public class InkUsageDriverDecorator implements Job2dDriver {
+public class InkUsageDriverDecorator implements Job2dDriver, InkOperator {
     private int x0, y0;
     private double inkLimit;
     private double totalUsage;
@@ -36,8 +36,6 @@ public class InkUsageDriverDecorator implements Job2dDriver {
 
     @Override
     public void setPosition(int x, int y) {
-        double wasted = inkCounter(this.x0, x, this.y0, y);
-        totalUsage += wasted;
         driver.setPosition(x, y);
         this.x0 = x;
         this.y0 = y;
@@ -49,9 +47,11 @@ public class InkUsageDriverDecorator implements Job2dDriver {
         return count;
     }
 
+    @Override
     public void setIsAvailable(){
         this.isUnAvailable = false;
     }
+
 
     @Override
     public void operateTo(int x1, int y1) {
@@ -79,6 +79,15 @@ public class InkUsageDriverDecorator implements Job2dDriver {
         }
     }
 
+    @Override
+    public void restoreInk(double amount) {
+        if(amount > this.getMaxInkLimit() || amount < this.getInkLimit())
+            this.setInkLimit(this.getMaxInkLimit());
+        else
+            this.setInkLimit(amount);
+    }
+
+    @Override
     public double getInkLimit()
     {
         return this.inkLimit;
