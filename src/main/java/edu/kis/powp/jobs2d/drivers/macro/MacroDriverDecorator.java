@@ -10,22 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MacroAdapter implements Job2dDriver {
+public class MacroDriverDecorator implements Job2dDriver {
     private List<DriverCommand> driverCommandList;
-
     private Job2dDriver driver;
 
-    public MacroAdapter() {
+    public MacroDriverDecorator() {
         this.driverCommandList = new ArrayList<>();
     }
 
-    public MacroAdapter(List<DriverCommand> driverCommandList) {
-        this.driverCommandList = driverCommandList;
+    public void setDriver() {
+        this.driver = DriverFeature.getDriverManager().getCurrentDriver();
     }
 
-    public void setDriver(Job2dDriver driver) {
-        this.driver = driver;
-    }
     public Job2dDriver getDriver() {
         return driver;
     }
@@ -38,22 +34,21 @@ public class MacroAdapter implements Job2dDriver {
         return driverCommandList;
     }
 
-    public void setDriverFeatureCurrentDriver() {
-        DriverFeature.getDriverManager().setCurrentDriver(driver);
-    }
 
     @Override
     public void setPosition(int i, int i1) {
+        driver.setPosition(i,i1);
         driverCommandList.add(new SetPositionCommand(i, i1));
     }
 
     @Override
     public void operateTo(int i, int i1) {
+        driver.operateTo(i,i1);
         driverCommandList.add(new OperateToCommand(i, i1));
     }
 
     @Override
     public String toString() {
-        return "MacroAdapter";
+        return "MacroDriverDecorator";
     }
 }
