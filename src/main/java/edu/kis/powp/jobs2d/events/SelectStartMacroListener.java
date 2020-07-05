@@ -12,6 +12,7 @@ public class SelectStartMacroListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
+        driver.clearCommandSet();
         driver.setDriver();
         DriverFeature.getDriverManager().setCurrentDriver(driver);
 
