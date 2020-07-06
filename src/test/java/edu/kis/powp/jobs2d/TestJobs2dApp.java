@@ -3,6 +3,8 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.gui.CommandEditorWindow;
+import edu.kis.powp.jobs2d.command.gui.CommandEditorWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -27,7 +29,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test concerning preset figures in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
@@ -42,7 +44,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
@@ -66,7 +68,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
@@ -91,9 +93,15 @@ public class TestJobs2dApp {
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
-		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
+		CommandEditorWindow commandEditorWindow = new CommandEditorWindow(CommandsFeature.getDriverCommandManager());
+		application.addWindowComponent("Command Editor", commandEditorWindow);
+
+		CommandManagerWindowCommandChangeObserver commandManagerWindowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
-		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		CommandEditorWindowCommandChangeObserver commandEditorWindowObserver = new CommandEditorWindowCommandChangeObserver(commandEditorWindow);
+
+		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(commandManagerWindowObserver);
+		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(commandEditorWindowObserver);
 	}
 
 	private static void setupTransformations(Application application) {
@@ -107,7 +115,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup menu for adjusting logging settings.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
