@@ -7,8 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 public class ImmutableComplexCommand implements ICompoundCommand {
+    private static final long serialVersionUID = -3608935176558279035L;
+    
     private final List<DriverCommand> driverCommands;
     
     /**
@@ -17,7 +20,13 @@ public class ImmutableComplexCommand implements ICompoundCommand {
      * @param commands - List containing DriverCommands
      */
     public ImmutableComplexCommand(List<DriverCommand> commands) {
-        driverCommands = Collections.unmodifiableList(new ArrayList<DriverCommand>(commands));
+        List<DriverCommand> list = new ArrayList<>(commands.size());
+        
+        for (DriverCommand command : commands) {
+            list.add(CommandsFeature.deepCopyDriverCommand(command));
+        }
+        
+        driverCommands = Collections.unmodifiableList(list);
     }
     
     /**
