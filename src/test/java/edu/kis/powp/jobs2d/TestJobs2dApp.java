@@ -17,10 +17,7 @@ import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.MacroFeature;
+import edu.kis.powp.jobs2d.features.*;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -133,6 +130,7 @@ public class TestJobs2dApp {
                 Application app = new Application("Jobs 2D");
                 DrawerFeature.setupDrawerPlugin(app);
                 CommandsFeature.setupCommandManager();
+                LoadedCommandStatisticFeature.setupStatsFeature(app);
                 MacroFeature.setupMacroDriverDecorator();
                 DriverFeature.setupDriverPlugin(app);
                 HistoryFeature.setupHistoryFeature(app);
