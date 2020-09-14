@@ -2,17 +2,13 @@ package edu.kis.powp.jobs2d.features;
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class CommandFactory {
+public class CommandFactory implements Serializable {
     private Map<String, DriverCommand> commands = new HashMap<>();
-    private static CommandFactory commandFactory;
-    public static CommandFactory getInstance() {
-        commandFactory = new CommandFactory();
-        return commandFactory;
-    }
 
     public void addCommand(DriverCommand command) throws CloneNotSupportedException {
         commands.put(command.toString(), command.clone());
