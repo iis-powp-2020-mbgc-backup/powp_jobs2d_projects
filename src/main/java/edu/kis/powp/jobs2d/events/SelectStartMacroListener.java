@@ -14,6 +14,8 @@ public class SelectStartMacroListener implements ActionListener {
         MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
         driver.clearCommandSet();
         driver.setDriver();
+        driver.getDriver().setPosition(0,0);
+        driver.setFlagActive(true);
         DriverFeature.getDriverManager().setCurrentDriver(driver);
 
     }

@@ -13,6 +13,7 @@ import java.util.List;
 public class MacroDriverDecorator implements Job2dDriver {
     private List<DriverCommand> driverCommandList;
     private Job2dDriver driver;
+    private boolean flagActive = false;
 
     public MacroDriverDecorator() {
         this.driverCommandList = new ArrayList<>();
@@ -34,7 +35,6 @@ public class MacroDriverDecorator implements Job2dDriver {
         return driverCommandList;
     }
 
-
     @Override
     public void setPosition(int i, int i1) {
         driver.setPosition(i,i1);
@@ -50,5 +50,14 @@ public class MacroDriverDecorator implements Job2dDriver {
     @Override
     public String toString() {
         return "MacroDriverDecorator";
+    }
+
+
+    public boolean isFlagActive() {
+        return flagActive;
+    }
+
+    public void setFlagActive(boolean flagActive) {
+        this.flagActive = flagActive;
     }
 }
