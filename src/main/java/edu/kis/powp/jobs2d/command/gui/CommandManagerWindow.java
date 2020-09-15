@@ -6,37 +6,44 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.parsers.InputDataModel;
 import edu.kis.powp.jobs2d.command.manager.parsers.JSONCommandParser;
+import edu.kis.powp.jobs2d.features.CommandFactory;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.List;
+import java.util.Vector;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
     private DriverCommandManager commandManager;
+    Container content;
+    private GridBagConstraints c;
 
     private JTextArea currentCommandField;
-
     private String observerListString;
     private JTextArea observerListField;
     private JTextArea InputCommandsTextArea;
 
+    private CommandFactory commandFactory;
+    private DefaultListModel<DriverCommand> commandFactoryModel;
+    private Vector<DriverCommand> commands;
+    private JList<DriverCommand> commandFactoryList;
+    private JComboBox<DriverCommand> lastCommands;
+    private JButton btnAddSelectedCommand;
+    private JButton btnDeleteSelectedCommand;
+    private JButton btnSetSelectedCommand;
+    private JButton btnRunSelectedCommand;
     private JSONCommandParser jsonCommandParser = new JSONCommandParser();
-
     private List<Subscriber> observers;
     private boolean isDeleted = false;
-
     /**
      *
      */
@@ -44,67 +51,51 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     public CommandManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Manager");
-        this.setSize(400, 400);
-        Container content = this.getContentPane();
+        this.setSize(600, 800);
+        content = this.getContentPane();
         content.setLayout(new GridBagLayout());
-
+        commandFactory = new CommandFactory();
         this.commandManager = commandManager;
-
-        GridBagConstraints c = new GridBagConstraints();
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 2;
 
         observerListField = new JTextArea("");
         observerListField.setEditable(false);
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(observerListField, c);
-        updateObserverListField();
+        addToWindow(observerListField);
 
+        updateObserverListField();
         currentCommandField = new JTextArea("");
         currentCommandField.setEditable(false);
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(currentCommandField, c);
-        updateCurrentCommandField();
+        addToWindow(currentCommandField);
 
+        updateCurrentCommandField();
         InputCommandsTextArea = new JTextArea("");
         InputCommandsTextArea.setEditable(true);
         InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         InputCommandsTextArea.setLineWrap(true);
-
         JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
-        content.add(InputCommandsField,c);
+        addToWindow(InputCommandsField);
 
         JButton jsonLoadCommands = new JButton("Load commands");
         jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
-        content.add(jsonLoadCommands,c);
+        addToWindow(jsonLoadCommands);
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(btnClearCommand, c);
+        addToWindow(btnClearCommand);
 
         JButton btnRunCommand = new JButton("Run command");
         btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(btnRunCommand, c);
+        addToWindow(btnRunCommand);
 
         JButton btnHandleObservers = new JButton("Delete observers");
         btnHandleObservers.addActionListener((ActionEvent e) -> this.handleObservers(btnHandleObservers));
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(btnHandleObservers, c);
+        addToWindow(btnHandleObservers);
+
+        addCommandFactoryToWindow();
     }
 
     public void handleObservers(JButton button) {
@@ -115,14 +106,16 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             this.deleteObservers();
             button.setText("Reset observers");
         }
-
         this.updateObserverListField();
         this.isDeleted = !this.isDeleted;
     }
 
+    private void addToWindow(JComponent component) {
+        content.add(component, c);
+    }
+
     private void loadCommandsFromJSON(String jsonInput) {
         InputDataModel inputDataModel = jsonCommandParser.parse(jsonInput);
-
         commandManager.setCurrentCommand(
                 inputDataModel.getDriverCommand(),
                 inputDataModel.getDriverCommandName()
@@ -156,7 +149,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         }
         if (commandChangeSubscribers.isEmpty())
             observerListString = "No observers loaded";
-
         observerListField.setText(observerListString);
     }
 
@@ -174,6 +166,78 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             }
         }
     }
+    private void addOnDriverChange() {
+        DriverCommand currentCommand = commandManager.getCurrentCommand();
+        commands.add(currentCommand);
+
+        lastCommands.setSelectedItem(currentCommand);
+    }
+    private void addSelectedCommand() {
+        try {
+            DriverCommand selectedCommand = (DriverCommand)lastCommands.getSelectedItem();
+            assert selectedCommand != null;
+            if(!commandFactoryModel.contains(selectedCommand))
+                commandFactoryModel.add(commandFactoryModel.getSize(), selectedCommand);
+            commandFactory.addCommand(selectedCommand);
+        } catch (CloneNotSupportedException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    private void deleteSelectedCommand() {
+        commandFactory.removeCommand(commandFactoryList.getSelectedValue().toString());
+        commandFactoryModel.remove(commandFactoryList.getSelectedIndex());
+    }
+
+    private void setSelectedCommand() {
+        {
+            try {
+                if (commandFactoryList.getSelectedIndex() != -1) {
+                    DriverCommand command = commandFactory.getCommand(commandFactoryList.getSelectedValue().toString());
+                    commandManager.setCurrentCommand(command);
+                }
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void addCommandFactoryToWindow() {
+        JLabel factoryLabel = new JLabel("Command Factory");
+        addToWindow(factoryLabel);
+
+        commandFactoryModel = new DefaultListModel<>();
+        commandFactoryList = new JList<>(commandFactoryModel);
+        JScrollPane scrollPane = new JScrollPane(commandFactoryList);
+        commandFactoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        addToWindow(scrollPane);
+        JLabel lastCommandsLabel = new JLabel("Last commands");
+        addToWindow(lastCommandsLabel);
+
+        commands = new Vector<>();
+        lastCommands = new JComboBox<>(commands);
+        this.commandManager.getChangePublisher().addSubscriber(this::addOnDriverChange);
+        addToWindow(lastCommands);
+
+        btnAddSelectedCommand = new JButton("Add command to factory");
+        btnAddSelectedCommand.addActionListener((ActionEvent e) -> this.addSelectedCommand());
+        addToWindow(btnAddSelectedCommand);
+
+        btnDeleteSelectedCommand = new JButton("Delete command from factory");
+        btnDeleteSelectedCommand.addActionListener((ActionEvent e) ->
+                this.deleteSelectedCommand());
+        addToWindow(btnDeleteSelectedCommand);
+
+        btnSetSelectedCommand = new JButton("Set selected command");
+        btnSetSelectedCommand.addActionListener((ActionEvent e) ->
+                this.setSelectedCommand());
+        addToWindow(btnSetSelectedCommand);
+
+        btnRunSelectedCommand = new JButton("Run selected command");
+        btnRunSelectedCommand.addActionListener((ActionEvent e) ->
+                commandManager.runCurrentCommand());
+        addToWindow(btnRunSelectedCommand);
+    }
 
     @Override
     public void HideIfVisibleAndShowIfHidden() {
@@ -184,5 +248,5 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             this.setVisible(true);
         }
     }
-    
+
 }
