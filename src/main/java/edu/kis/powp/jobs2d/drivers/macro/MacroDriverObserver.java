@@ -5,8 +5,6 @@ import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
 import edu.kis.powp.observer.Subscriber;
 
-import java.util.List;
-
 public class MacroDriverObserver implements Subscriber {
 
     @Override
@@ -14,10 +12,9 @@ public class MacroDriverObserver implements Subscriber {
         Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
         if (!(currentDriver instanceof MacroDriverDecorator) && MacroFeature.getMacroDriverDecorator().isFlagActive()) {
             MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
-            driver.setDriver();
+            driver.setDriver(currentDriver);
             DriverFeature.getDriverManager().setCurrentDriver(driver);
             driver.setPosition(0,0);
         }
-
     }
 }

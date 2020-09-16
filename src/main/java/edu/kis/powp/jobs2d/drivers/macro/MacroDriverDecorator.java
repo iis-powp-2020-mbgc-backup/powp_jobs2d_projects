@@ -19,8 +19,8 @@ public class MacroDriverDecorator implements Job2dDriver {
         this.driverCommandList = new ArrayList<>();
     }
 
-    public void setDriver() {
-        this.driver = DriverFeature.getDriverManager().getCurrentDriver();
+    public void setDriver(Job2dDriver driver) {
+        this.driver = driver;
     }
 
     public Job2dDriver getDriver() {
