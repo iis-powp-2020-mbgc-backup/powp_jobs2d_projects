@@ -108,11 +108,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void setupCommandFactoryView(Container content) {
 		List<Component> components = new ArrayList<>();
-
 		factoryModel = new DefaultListModel();
 		JList commandFactoryList = new JList(factoryModel);
 		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
 		components.add(scrollPane);
+		for (String item : (CommandFactory.getInstance()).getCommandNames()) {
+			addCommandToFactoryList(item);
+		}
 		components.add(createActionButton("Add current command to factory", (ActionEvent event) -> {
 			try {
 				CommandFactory.getInstance().addCommand(commandManager.getCurrentCommand());
@@ -141,6 +143,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			content.add(component, constrains);
 			constrains.weighty++;
 		}
+	}
+
+	private void initializeCommandFactory() {
+
 	}
 
 	private JButton createActionButton(String text, ActionListener action) {
@@ -195,7 +201,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void clearCommand() {
 		commandManager.clearCurrentCommand();
-		updateCurrentCommandField();
 	}
 
 	private void runCommand() {
@@ -209,8 +214,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public void deleteObservers(JButton deleteButton) {
 		if (observersDeleted) {
 			resetObservers(deleteButton);
-		} else {
-			this.observerList = this.commandManager.getChangePublisher().getSubscribers();
+		}
+		else {
+			observerList = new ArrayList<>();
+			observerList.addAll(commandManager.getChangePublisher().getSubscribers());
 			commandManager.getChangePublisher().clearObservers();
 			this.updateObserverListField();
 			observersDeleted = true;
