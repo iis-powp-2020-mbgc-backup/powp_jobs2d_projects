@@ -108,7 +108,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void setupCommandFactoryView(Container content) {
 		List<Component> components = new ArrayList<>();
-		
+
 		factoryModel = new DefaultListModel();
 		JList commandFactoryList = new JList(factoryModel);
 		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
