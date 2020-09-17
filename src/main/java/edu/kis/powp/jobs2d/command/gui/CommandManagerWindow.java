@@ -145,10 +145,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		}
 	}
 
-	private void initializeCommandFactory() {
-
-	}
-
 	private JButton createActionButton(String text, ActionListener action) {
 		JButton result = new JButton(text);
 		result.addActionListener(action);
