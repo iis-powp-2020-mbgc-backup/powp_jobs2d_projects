@@ -113,6 +113,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		JList commandFactoryList = new JList(factoryModel);
 		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
 		components.add(scrollPane);
+		for (String item : (CommandFactory.getInstance()).getCommandNames()) {
+			addCommandToFactoryList(item);
+		}
 		components.add(createActionButton("Add current command to factory", (ActionEvent event) -> {
 			try {
 				CommandFactory.getInstance().addCommand(commandManager.getCurrentCommand());
