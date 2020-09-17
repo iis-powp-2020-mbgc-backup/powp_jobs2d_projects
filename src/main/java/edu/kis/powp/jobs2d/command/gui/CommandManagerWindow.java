@@ -108,6 +108,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void setupCommandFactoryView(Container content) {
 		List<Component> components = new ArrayList<>();
+		
 		factoryModel = new DefaultListModel();
 		JList commandFactoryList = new JList(factoryModel);
 		JScrollPane scrollPane = new JScrollPane(commandFactoryList);
@@ -197,6 +198,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void clearCommand() {
 		commandManager.clearCurrentCommand();
+		updateCurrentCommandField();
 	}
 
 	private void runCommand() {
@@ -210,10 +212,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	public void deleteObservers(JButton deleteButton) {
 		if (observersDeleted) {
 			resetObservers(deleteButton);
-		}
-		else {
-			observerList = new ArrayList<>();
-			observerList.addAll(commandManager.getChangePublisher().getSubscribers());
+		} else {
+			this.observerList = this.commandManager.getChangePublisher().getSubscribers();
 			commandManager.getChangePublisher().clearObservers();
 			this.updateObserverListField();
 			observersDeleted = true;
