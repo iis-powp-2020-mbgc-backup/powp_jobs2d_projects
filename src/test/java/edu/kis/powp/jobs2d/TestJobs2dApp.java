@@ -11,16 +11,12 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.historyComponent.HistoryFeature;
-import edu.kis.powp.jobs2d.drivers.Job2dDriverDecorator;
-import edu.kis.powp.jobs2d.drivers.UsageMonitorObserver;
+import edu.kis.powp.jobs2d.drivers.extensions.UsageMonitorExtension;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.MacroFeature;
+import edu.kis.powp.jobs2d.features.*;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -65,8 +61,8 @@ public class TestJobs2dApp {
         application.addTest("test VisitorCommandPattern", new SelectCommandUsageCounterVisitorTestListener());
 
         application.addTest("Load MACRO command", new SelectLoadMacroListener());
-        application.addTest("Start Macro command", new SelectStartMacroListener());
-        application.addTest("Stop Macro command", new SelectStopMacroListener());
+//        application.addTest("Start Macro command", new SelectStartMacroListener());
+//        application.addTest("Stop Macro command", new SelectStopMacroListener());
     }
 
     /**
@@ -75,24 +71,39 @@ public class TestJobs2dApp {
      * @param application Application context.
      */
     private static void setupDrivers(Application application) {
-        Job2dDriver loggerDriver = new LoggerDriver();
-        DriverFeature.addDriver("Logger driver", loggerDriver);
-
         DrawPanelController drawerController = DrawerFeature.getDrawerController();
+
         Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
         DriverFeature.addDriver("Line Simulator", driver);
-        DriverFeature.getDriverManager().setCurrentDriver(new Job2dDriverDecorator(driver));
+        DriverFeature.getDriverManager().setCurrentDriver(driver);
+
         driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
         DriverFeature.addDriver("Special line Simulator", driver);
         DriverFeature.updateDriverInfo();
 
-        TransformationDriver transformationDriver = new TransformationDriver(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
-        transformationDriver.addTransformation(new Scale(-1, 1));
-        DriverFeature.addDriver("Transformation Driver (V Flip)", transformationDriver);
-        DriverFeature.updateDriverInfo();
+//        TransformationDriver transformationDriver = new TransformationDriver(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
+//        transformationDriver.addTransformation(new Scale(-1, 1));
+//        DriverFeature.addDriver("Transformation Driver (V Flip)", transformationDriver);
+    }
 
-        UsageMonitorObserver usageMonitorObserver = new UsageMonitorObserver();
-        DriverFeature.getDriverManager().getChangePublisher().addSubscriber(usageMonitorObserver);
+    public static void setupExtensions(Application application) {
+       // DriverManager driverManager = ExtensionFeature.getDriverManager();
+//        Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
+//
+//        TransformationDriver transformationDriver = new TransformationDriver(currentDriver);
+//        transformationDriver.addTransformation(new Scale(-1, 1));
+
+        TransformationDriver transformationDriver = new TransformationDriver();
+        transformationDriver.addTransformation(new Scale(-1, 1));
+
+        UsageMonitorExtension usageMonitorDriver = new UsageMonitorExtension();
+        ExtensionFeature.addExtension("UsageMonitor logger", usageMonitorDriver);
+        ExtensionFeature.addExtension("Transformation Driver (V Flip)", transformationDriver);
+        //ExtensionFeature.getDriverManager().setCurrentDriver(transformationDriver);
+        ExtensionFeature.updateDriverInfo();
+
+        application.addTest("Start Macro command", new SelectStartMacroListener());
+        application.addTest("Stop Macro command", new SelectStopMacroListener());
     }
 
     private static void setupWindows(Application application) {
@@ -136,7 +147,9 @@ public class TestJobs2dApp {
                 MacroFeature.setupMacroDriverDecorator();
                 DriverFeature.setupDriverPlugin(app);
                 HistoryFeature.setupHistoryFeature(app);
+                ExtensionFeature.setupExtension(app);
                 setupDrivers(app);
+                setupExtensions(app);
                 setupPresetTests(app);
                 setupCommandTests(app);
                 setupLogger(app);

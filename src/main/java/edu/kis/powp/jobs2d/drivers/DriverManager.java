@@ -1,7 +1,8 @@
 package edu.kis.powp.jobs2d.drivers;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.LoggerDriver;
+import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriverComposite;
+import edu.kis.powp.jobs2d.drivers.extensions.UsageMonitorExtension;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -9,26 +10,41 @@ import edu.kis.powp.observer.Publisher;
  * components and features of the application to react on configuration changes.
  */
 public class DriverManager {
-
-    private Job2dDriver currentDriver = new LoggerDriver();
+    private Job2dDriver currentDriver;
+    private ExtensionDriverComposite extensionDriver = new ExtensionDriverComposite();
     private Publisher changePublisher = new Publisher();
 
     /**
      * @param driver Set the driver as current.
      */
     public synchronized void setCurrentDriver(Job2dDriver driver) {
+        Job2dDriver temp = currentDriver;
         currentDriver = driver;
-        changePublisher.notifyObservers();
+        extensionDriver.setDriver(currentDriver);
+        if(temp instanceof UsageMonitorExtension) {
+            changePublisher.notifyObservers();
+        }
     }
 
     /**
      * @return Current driver.
      */
+    public synchronized Job2dDriver getDriverToDraw() {
+        if(extensionDriver.getExtensions().size() == 0) {
+            return currentDriver;
+        }
+        return extensionDriver;
+    }
+
     public synchronized Job2dDriver getCurrentDriver() {
         return currentDriver;
     }
 
     public Publisher getChangePublisher() {
         return changePublisher;
+    }
+
+    public synchronized ExtensionDriverComposite getExtensionDriver() {
+        return extensionDriver;
     }
 }

@@ -15,6 +15,5 @@ public class SelectStartMacroListener implements ActionListener {
         driver.clearCommandSet();
         driver.setDriver();
         DriverFeature.getDriverManager().setCurrentDriver(driver);
-
     }
 }

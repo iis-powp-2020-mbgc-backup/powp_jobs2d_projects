@@ -19,7 +19,7 @@ public class MacroDriverDecorator implements Job2dDriver {
     }
 
     public void setDriver() {
-        this.driver = DriverFeature.getDriverManager().getCurrentDriver();
+        this.driver = DriverFeature.getDriverManager().getDriverToDraw();
     }
 
     public Job2dDriver getDriver() {
@@ -33,7 +33,6 @@ public class MacroDriverDecorator implements Job2dDriver {
     public List<DriverCommand> getDriverCommandList() {
         return driverCommandList;
     }
-
 
     @Override
     public void setPosition(int i, int i1) {

@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.drivers;
+package edu.kis.powp.jobs2d.drivers.extensions;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
@@ -11,28 +11,20 @@ public class ExtensionDriverComposite implements ExtensionDriver {
     public ExtensionDriverComposite() {
     }
 
-    public ExtensionDriverComposite(Job2dDriver driver) {
-        this.driver = driver;
-    }
-
     @Override
     public void setPosition(int i, int i1) {
-        if(driver != null) {
-            extensions.forEach((s, extensionDriver) -> {
-                extensionDriver.setDriver(driver);
-                extensionDriver.setPosition(i, i1);
-            });
-        }
+        extensions.forEach((s, extensionDriver) -> {
+            extensionDriver.setDriver(driver);
+            extensionDriver.setPosition(i, i1);
+        });
     }
 
     @Override
     public void operateTo(int i, int i1) {
-        if(driver != null) {
-            extensions.forEach((s, extensionDriver) -> {
-                extensionDriver.setDriver(driver);
-                extensionDriver.operateTo(i, i1);
-            });
-        }
+        extensions.forEach((s, extensionDriver) -> {
+            extensionDriver.setDriver(driver);
+            extensionDriver.operateTo(i, i1);
+        });
     }
 
     public void addOrRemoveExtension(ExtensionDriver extension, String extensionName) {
@@ -43,12 +35,12 @@ public class ExtensionDriverComposite implements ExtensionDriver {
         }
     }
 
+    public Map<String, ExtensionDriver> getExtensions() {
+        return extensions;
+    }
+
     @Override
     public void setDriver(Job2dDriver driver) {
         this.driver = driver;
-    }
-
-    public Map<String, ExtensionDriver> getExtensions() {
-        return extensions;
     }
 }

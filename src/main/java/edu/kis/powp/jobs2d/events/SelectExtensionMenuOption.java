@@ -1,22 +1,22 @@
 package edu.kis.powp.jobs2d.events;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SelectExtensionMenuOption implements ActionListener {
     private DriverManager driverManager;
-    private Job2dDriver driver = null;
+    private ExtensionDriver extensionDriver;
 
-    public SelectExtensionMenuOption(Job2dDriver driver, DriverManager driverManager) {
+    public SelectExtensionMenuOption(DriverManager driverManager, ExtensionDriver extensionDriver) {
         this.driverManager = driverManager;
-        this.driver = driver;
+        this.extensionDriver = extensionDriver;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //driverManager.setCurrentDriver(driver);
+        driverManager.getExtensionDriver().addOrRemoveExtension(extensionDriver, extensionDriver.toString());
     }
 }

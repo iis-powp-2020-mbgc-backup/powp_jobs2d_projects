@@ -1,13 +1,16 @@
 package edu.kis.powp.jobs2d.features;
 
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.drivers.DriverLabelChangeObserver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriver;
+import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriverComposite;
 import edu.kis.powp.jobs2d.events.SelectExtensionMenuOption;
+import edu.kis.powp.jobs2d.events.SelectLoggerEnabled;
 
 public class ExtensionFeature {
-    private static DriverManager driverManager = new DriverManager();
+    private static ExtensionDriverComposite extensionDriverDecorator;
+    private static DriverManager driverManager = DriverFeature.getDriverManager();
     private static Application app;
 
     /**
@@ -18,20 +21,24 @@ public class ExtensionFeature {
     public static void setupExtension(Application application) {
         app = application;
         app.addComponentMenu(ExtensionFeature.class, "Extension");
+        driverManager.getChangePublisher().addSubscriber(new DriverLabelChangeObserver());
+        extensionDriverDecorator = new ExtensionDriverComposite();
     }
 
     /**
      * Add driver to context, create button in driver menu.
      *
      * @param name   Button name.
-     * @param driver Job2dDriver object.
      */
-    public static void addExtension(String name, Job2dDriver driver) {
-        SelectExtensionMenuOption listener = new SelectExtensionMenuOption(driver, driverManager);
-        app.addComponentMenuElement(ExtensionFeature.class, name, listener);
+    public static void addExtension(String name, ExtensionDriver extensionDriver) {
+        SelectExtensionMenuOption listener = new SelectExtensionMenuOption(driverManager, extensionDriver);
+        app.addComponentMenuElementWithCheckBox(ExtensionFeature.class, name, listener, false);
     }
 
-    public static DriverManager getDriverManager() {
-        return driverManager;
+    /**
+     * Update driver info.
+     */
+    public static void updateDriverInfo() {
+        app.updateInfo(driverManager.getDriverToDraw().toString());
     }
 }

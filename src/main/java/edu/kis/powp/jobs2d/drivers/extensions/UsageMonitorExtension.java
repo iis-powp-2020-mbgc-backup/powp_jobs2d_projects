@@ -1,7 +1,9 @@
-package edu.kis.powp.jobs2d.drivers;
+package edu.kis.powp.jobs2d.drivers.extensions;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriver;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
@@ -9,7 +11,7 @@ import java.util.logging.Logger;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class UsageMonitorDriver implements ExtensionDriver {
+public class UsageMonitorExtension implements ExtensionDriver {
 
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private double nonOperationalDistance = 0;
@@ -19,13 +21,6 @@ public class UsageMonitorDriver implements ExtensionDriver {
     private double lastY = 0;
 
     private Job2dDriver driver;
-
-    public UsageMonitorDriver(Job2dDriver driver) {
-        this.driver = driver;
-    }
-
-    public UsageMonitorDriver() {
-    }
 
     @Override
     public void setPosition(int x, int y) {
@@ -59,10 +54,6 @@ public class UsageMonitorDriver implements ExtensionDriver {
 
         logger.info("Non operational distance: " + decimalFormat.format(nonOperationalDistance) +
                     "\n   Operational distance: " + decimalFormat.format(operationalDistance));
-    }
-
-    public Job2dDriver getDriver() {
-        return driver;
     }
 
     @Override

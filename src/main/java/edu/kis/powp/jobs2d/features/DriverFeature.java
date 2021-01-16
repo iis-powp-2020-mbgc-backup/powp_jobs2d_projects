@@ -41,7 +41,7 @@ public class DriverFeature {
      * Update driver info.
      */
     public static void updateDriverInfo() {
-        app.updateInfo(driverManager.getCurrentDriver().toString());
+        app.updateInfo(driverManager.getDriverToDraw().toString());
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.command.DefaultCompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.observer.Publisher;
 
@@ -51,7 +50,7 @@ public class DriverCommandManager {
     }
 
     public synchronized void runCurrentCommand() {
-        currentCommand.execute(driverManager.getCurrentDriver());
+        currentCommand.execute(driverManager.getDriverToDraw());
     }
 
     public synchronized void setDriverManager(DriverManager driverManager) {
