@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriver;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 
 /**
  * Transformation driver
@@ -11,17 +14,11 @@ import edu.kis.powp.jobs2d.Job2dDriver;
  * Basically works like decorator pattern,
  * but has an additional method (addTransformation)
  */
-public class TransformationDriver implements Job2dDriver {
-    private final Job2dDriver driver;
+public class TransformationDriver implements ExtensionDriver {
+    private Job2dDriver driver;
     private final List<Transformation> allTransformations = new ArrayList<>();
-    
-    /**
-     * Creates transformation driver
-     * 
-     * @param job2dDriver - driver to handle transformed points
-     */
-    public TransformationDriver(Job2dDriver job2dDriver) {
-        driver = job2dDriver;
+
+    public TransformationDriver() {
     }
     
     private Point applyAllTransformations(Point point) {
@@ -57,5 +54,10 @@ public class TransformationDriver implements Job2dDriver {
     @Override
     public String toString() {
         return "Transformation Driver";
+    }
+
+    @Override
+    public void setDriver(Job2dDriver driver) {
+        this.driver = driver;
     }
 }
