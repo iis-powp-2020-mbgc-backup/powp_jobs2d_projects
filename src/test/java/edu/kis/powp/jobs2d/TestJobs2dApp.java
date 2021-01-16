@@ -61,8 +61,8 @@ public class TestJobs2dApp {
         application.addTest("test VisitorCommandPattern", new SelectCommandUsageCounterVisitorTestListener());
 
         application.addTest("Load MACRO command", new SelectLoadMacroListener());
-//        application.addTest("Start Macro command", new SelectStartMacroListener());
-//        application.addTest("Stop Macro command", new SelectStopMacroListener());
+        application.addTest("Start Macro command", new SelectStartMacroListener());
+        application.addTest("Stop Macro command", new SelectStopMacroListener());
     }
 
     /**
@@ -80,26 +80,15 @@ public class TestJobs2dApp {
         driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
         DriverFeature.addDriver("Special line Simulator", driver);
         DriverFeature.updateDriverInfo();
-
-//        TransformationDriver transformationDriver = new TransformationDriver(new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic"));
-//        transformationDriver.addTransformation(new Scale(-1, 1));
-//        DriverFeature.addDriver("Transformation Driver (V Flip)", transformationDriver);
     }
 
     public static void setupExtensions(Application application) {
-       // DriverManager driverManager = ExtensionFeature.getDriverManager();
-//        Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
-//
-//        TransformationDriver transformationDriver = new TransformationDriver(currentDriver);
-//        transformationDriver.addTransformation(new Scale(-1, 1));
-
         TransformationDriver transformationDriver = new TransformationDriver();
         transformationDriver.addTransformation(new Scale(-1, 1));
 
         UsageMonitorExtension usageMonitorDriver = new UsageMonitorExtension();
         ExtensionFeature.addExtension("UsageMonitor logger", usageMonitorDriver);
         ExtensionFeature.addExtension("Transformation Driver (V Flip)", transformationDriver);
-        //ExtensionFeature.getDriverManager().setCurrentDriver(transformationDriver);
         ExtensionFeature.updateDriverInfo();
 
         application.addTest("Start Macro command", new SelectStartMacroListener());
