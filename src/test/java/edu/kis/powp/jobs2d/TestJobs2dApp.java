@@ -133,6 +133,7 @@ public class TestJobs2dApp {
                 Application app = new Application("Jobs 2D");
                 DrawerFeature.setupDrawerPlugin(app);
                 CommandsFeature.setupCommandManager();
+                LoadedCommandStatisticFeature.setupStatsFeature(app);
                 MacroFeature.setupMacroDriverDecorator();
                 DriverFeature.setupDriverPlugin(app);
                 HistoryFeature.setupHistoryFeature(app);

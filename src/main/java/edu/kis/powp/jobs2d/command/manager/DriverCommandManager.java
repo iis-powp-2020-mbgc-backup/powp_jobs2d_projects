@@ -13,7 +13,7 @@ import edu.kis.powp.observer.Publisher;
 public class DriverCommandManager {
     private DriverCommand currentCommand = null;
     private DriverManager driverManager = null;
-  
+
     private Publisher changePublisher = new Publisher();
 
     /**
@@ -33,7 +33,7 @@ public class DriverCommandManager {
      * @param name        name of the command.
      */
     public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-        setCurrentCommand(new DefaultCompoundCommand(commandList));
+        setCurrentCommand(new DefaultCompoundCommand(commandList, name));
     }
 
     /**
