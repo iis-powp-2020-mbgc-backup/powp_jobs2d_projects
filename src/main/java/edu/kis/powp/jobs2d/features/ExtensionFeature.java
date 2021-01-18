@@ -6,7 +6,6 @@ import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriver;
 import edu.kis.powp.jobs2d.drivers.extensions.ExtensionDriverComposite;
 import edu.kis.powp.jobs2d.events.SelectExtensionMenuOption;
-import edu.kis.powp.jobs2d.events.SelectLoggerEnabled;
 
 public class ExtensionFeature {
     private static ExtensionDriverComposite extensionDriverDecorator;
@@ -39,6 +38,6 @@ public class ExtensionFeature {
      * Update driver info.
      */
     public static void updateDriverInfo() {
-        app.updateInfo(driverManager.getDriverToDraw().toString());
+        app.updateInfo(driverManager.getExtensionDriver().getCurrentDriver().toString());
     }
 }

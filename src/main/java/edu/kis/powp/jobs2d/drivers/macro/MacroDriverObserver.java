@@ -9,7 +9,7 @@ public class MacroDriverObserver implements Subscriber {
 
     @Override
     public void update() {
-        Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
+        Job2dDriver currentDriver = DriverFeature.getDriverManager().getExtensionDriver().getCurrentDriver();
         if (!(currentDriver instanceof MacroDriverDecorator) && MacroFeature.getMacroDriverDecorator().isFlagActive()) {
             MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
             driver.setDriver(currentDriver);

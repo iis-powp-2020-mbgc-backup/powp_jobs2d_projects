@@ -12,7 +12,7 @@ public class SelectStartMacroListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
+        Job2dDriver job2dDriver = DriverFeature.getDriverManager().getExtensionDriver().getCurrentDriver();
         MacroDriverDecorator driver = MacroFeature.getMacroDriverDecorator();
         driver.clearCommandSet();
         driver.setDriver(job2dDriver);

@@ -39,6 +39,16 @@ public class ExtensionDriverComposite implements ExtensionDriver {
         return extensions;
     }
 
+    /**
+     * @return Current driver.
+     */
+    public synchronized Job2dDriver getCurrentDriver() {
+        if(extensions.size() == 0) {
+            return driver;
+        }
+        return this;
+    }
+
     @Override
     public void setDriver(Job2dDriver driver) {
         this.driver = driver;

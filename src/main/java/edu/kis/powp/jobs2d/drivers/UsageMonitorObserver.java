@@ -8,7 +8,7 @@ import edu.kis.powp.observer.Subscriber;
 public class UsageMonitorObserver implements Subscriber {
 
     @Override public void update() {
-        Job2dDriver currentDriver = DriverFeature.getDriverManager().getCurrentDriver();
+        Job2dDriver currentDriver = DriverFeature.getDriverManager().getExtensionDriver().getCurrentDriver();
         if (!(currentDriver instanceof UsageMonitorExtension)) {
             DriverFeature.getDriverManager().setCurrentDriver(new UsageMonitorExtension());
         }
