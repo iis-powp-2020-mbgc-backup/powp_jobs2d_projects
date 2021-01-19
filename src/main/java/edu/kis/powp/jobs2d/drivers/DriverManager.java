@@ -21,6 +21,14 @@ public class DriverManager {
         changePublisher.notifyObservers();
     }
 
+    public synchronized Job2dDriver getCurrentDriver() {
+        return extensionDriver.getCurrentDriver();
+    }
+
+    public Job2dDriver getDriver() {
+        return extensionDriver.getDriver();
+    }
+
     public Publisher getChangePublisher() {
         return changePublisher;
     }

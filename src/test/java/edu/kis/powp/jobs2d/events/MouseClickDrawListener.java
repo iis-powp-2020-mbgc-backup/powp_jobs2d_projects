@@ -21,7 +21,7 @@ public class MouseClickDrawListener implements MouseListener {
     }
 
     @Override public void mouseClicked(MouseEvent e) {
-        Job2dDriver job2dDriver = DriverFeature.getDriverManager().getExtensionDriver().getCurrentDriver();
+        Job2dDriver job2dDriver = DriverFeature.getDriverManager().getCurrentDriver();
         System.out.println(job2dDriver);
 
         if (e.getButton() == MouseEvent.BUTTON1) {

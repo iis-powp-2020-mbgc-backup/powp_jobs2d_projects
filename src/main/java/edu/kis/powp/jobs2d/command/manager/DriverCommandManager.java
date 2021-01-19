@@ -51,7 +51,7 @@ public class DriverCommandManager {
     }
 
     public synchronized void runCurrentCommand() {
-        currentCommand.execute(driverManager.getExtensionDriver().getCurrentDriver());
+        currentCommand.execute(driverManager.getCurrentDriver());
     }
 
     public synchronized void setDriverManager(DriverManager driverManager) {
